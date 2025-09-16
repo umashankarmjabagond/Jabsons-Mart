@@ -1,12 +1,17 @@
 
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
+import { useAppRouter } from './app/router';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
+
 
 function App() {
+  const router = useAppRouter();
 
   return (
-    <>
-      <p className='text-4xl text-coral-600 font-bold text-green-400'>farmer-mart</p>
-    </>
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
   )
 }
 
