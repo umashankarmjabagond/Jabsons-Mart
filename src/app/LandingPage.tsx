@@ -67,9 +67,9 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            <footer className="text-center p-4 bg-green-100 text-gray-600">
+            {/* <footer className="text-center p-4 bg-green-100 text-gray-600">
                 © {new Date().getFullYear()} FarmerMart. All rights reserved.
-            </footer>
+            </footer> */}
         </div>
     );
 }
