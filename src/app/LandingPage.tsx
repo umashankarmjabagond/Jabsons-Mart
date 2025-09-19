@@ -11,25 +11,12 @@ export default function LandingPage() {
           🌾 FarmerMart
         </h1>
         <div className="space-x-4">
-          {/* <button
-            onClick={() => navigate("/login")}
-            className="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700"
-          >
-            Login
-          </button> */}
-
-          {/* <button
-            onClick={() => navigate("/register")}
-            className="px-4 py-2 rounded-xl bg-yellow-500 text-white hover:bg-yellow-600"
-          >
-            Register
-          </button> */}
           <Button
             type="button"
             onClick={() => navigate("/auth/login")}
             variant="primary"
             size="sm"
-            className="px-4 py-2"
+            className="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700"
           >
             Login
           </Button>
@@ -39,7 +26,7 @@ export default function LandingPage() {
             onClick={() => navigate("/auth/register")}
             variant="primary"
             size="sm"
-            className="px-4 py-2 bg-yellow-500 text-white hover:bg-yellow-600"
+            className="px-4 py-2 rounded-xl bg-yellow-500 text-white hover:bg-yellow-600"
           >
             Register
           </Button>
