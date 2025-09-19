@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/ui/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
@@ -10,18 +11,38 @@ export default function LandingPage() {
           🌾 FarmerMart
         </h1>
         <div className="space-x-4">
-          <button
+          {/* <button
             onClick={() => navigate("/login")}
             className="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700"
           >
             Login
-          </button>
-          <button
+          </button> */}
+
+          {/* <button
             onClick={() => navigate("/register")}
             className="px-4 py-2 rounded-xl bg-yellow-500 text-white hover:bg-yellow-600"
           >
             Register
-          </button>
+          </button> */}
+          <Button
+            type="button"
+            onClick={() => navigate("/auth/login")}
+            variant="primary"
+            size="sm"
+            className="px-4 py-2"
+          >
+            Login
+          </Button>
+
+          <Button
+            type="button"
+            onClick={() => navigate("/auth/register")}
+            variant="primary"
+            size="sm"
+            className="px-4 py-2 bg-yellow-500 text-white hover:bg-yellow-600"
+          >
+            Register
+          </Button>
         </div>
       </header>
 
@@ -68,6 +89,10 @@ export default function LandingPage() {
           </p>
         </div>
       </section>
+
+      <footer className="text-center p-4 bg-green-100 text-gray-600">
+        © {new Date().getFullYear()} FarmerMart. All rights reserved.
+      </footer>
     </div>
   );
 }
