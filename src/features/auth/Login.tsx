@@ -5,7 +5,7 @@ import { AUTH_TEXT } from "@/constants/textConstants";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const text = AUTH_TEXT.LOGIN;
+  const text = AUTH_TEXT;
     const navigate = useNavigate();
 
 
@@ -37,6 +37,7 @@ const Login = () => {
               id="email"
               placeholder="you@example.com"
               required
+              className="p-2"
             />
 
             {/* Password */}
@@ -45,7 +46,8 @@ const Login = () => {
               type="password"
               id="password"
               placeholder="••••••••"
-              required
+              required 
+              className="p-2"
             />
 
             {/* Remember + Forgot password */}
