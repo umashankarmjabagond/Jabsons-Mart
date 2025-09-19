@@ -1,6 +1,5 @@
 import { Button } from "@/components/common/ui/Button";
 import { Input } from "@/components/common/ui/Input";
-import React from "react";
 import { AUTH_TEXT } from "@/constants/textConstants";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
@@ -22,25 +21,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between md:flex-row h-[100vh]">
-      {/* Left side bg image */}
-      <div className="hidden md:flex w-1/2 items-center justify-start text-white p-10 bg-sky-300">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">
-            background image on this side!
-          </h1>
-          <p className="text-lg">{text.SUBTITLE}</p>
-        </div>
-      </div>
-
-      {/* Right side (login form) */}
-      <div className="flex w-full md:w-1/2 items-center justify-center p-6">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-center mb-6">
-            {text.TITLE}
-          </h2>
-
-          {/* Formik Wrapper */}
+   <>
           <Formik
             initialValues={initialValues}
             validationSchema={LoginSchema}
@@ -145,10 +126,9 @@ const Login = () => {
               {text.FOOTER_LINK}
             </a>
           </p>
-        </div>
-      </div>
-    </div>
+      </>
   );
 };
 
 export default Login;
+

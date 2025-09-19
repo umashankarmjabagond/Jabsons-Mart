@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "social";
@@ -15,4 +17,10 @@ export interface InputProps
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
+}
+
+
+export interface AuthLayoutProps {
+  children: ReactNode;
+  title?: string;
 }
