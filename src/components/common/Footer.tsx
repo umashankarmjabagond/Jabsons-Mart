@@ -6,7 +6,7 @@ import {
   Smartphone,
   Twitter,
 } from "lucide-react";
-import { footer_data } from "../../utils/json_util";
+import { footer_data } from "@utils/json_util";
 
 const Footer = () => {
   const {

@@ -1,15 +1,4 @@
-interface FooterData {
-  footerHeaderText?: string;
-  goMobile?: string;
-  followUsOn?: string;
-  aboutUs: string[];
-  jobCareers: string[];
-  buyToolkit: string[];
-  accountingSolutions: string[];
-  supplierToolkit: string[];
-  copyRight?: string;
-  termsUse?: string;
-}
+import { FooterData } from "@/types/footerType";
 
 export const footer_data: FooterData = {
   footerHeaderText: "We are here to help you!",
