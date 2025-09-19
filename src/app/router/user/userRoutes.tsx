@@ -1,4 +1,4 @@
-import FilterSlideBar from "@/features/productlist/filterSlideBar";
+import FilterSlideBar from "@/features/productlist/FilterSlideBar";
 
 const UserRoutes = [
     { path: "/dashboard", element: <h1>Dashboard Page</h1> },
