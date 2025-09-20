@@ -1,51 +1,12 @@
-import { Button } from "@/components/common/ui/Button";
 import { useNavigate } from "react-router-dom";
-
+import Header from '@/components/common/Header'
 export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col bg-green-50">
-      <header className="flex justify-between items-center p-4 shadow-md bg-white">
-        <h1 className="text-2xl font-bold text-green-700 text-center">
-          🌾 FarmerMart
-        </h1>
-        <div className="space-x-4">
-          {/* <button
-            onClick={() => navigate("/login")}
-            className="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700"
-          >
-            Login
-          </button> */}
-
-          {/* <button
-            onClick={() => navigate("/register")}
-            className="px-4 py-2 rounded-xl bg-yellow-500 text-white hover:bg-yellow-600"
-          >
-            Register
-          </button> */}
-          <Button
-            type="button"
-            onClick={() => navigate("/auth/login")}
-            variant="primary"
-            size="sm"
-            className="px-4 py-2"
-          >
-            Login
-          </Button>
-
-          <Button
-            type="button"
-            onClick={() => navigate("/auth/register")}
-            variant="primary"
-            size="sm"
-            className="px-4 py-2 bg-yellow-500 text-white hover:bg-yellow-600"
-          >
-            Register
-          </Button>
-        </div>
-      </header>
-
+      <Header></Header>
+      
       <main className="flex flex-col items-center justify-center text-center flex-1 p-8">
         <h2 className="text-4xl font-extrabold text-green-800 mb-4">
           Empowering Farmers to Sell Their Products Online 🚜

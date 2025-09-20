@@ -16,3 +16,5 @@ export interface InputProps
   rightIcon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
 }
+
+
