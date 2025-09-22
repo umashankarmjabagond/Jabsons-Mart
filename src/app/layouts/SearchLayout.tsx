@@ -1,3 +1,4 @@
+import FilterSlideBar from '@/features/productlist/FilterSlideBar'
 import React from 'react'
 
 const SearchLayout:React.FC = () => {
@@ -13,15 +14,9 @@ const SearchLayout:React.FC = () => {
  
       <div className="flex-[8] flex w-full">
 
-        <aside className="w-1/5 border-2 p-4">
-          <ul className="space-y-2">
-            <li className="hover:text-blue-600 cursor-pointer">Dashboard</li>
-            <li className="hover:text-blue-600 cursor-pointer">Products</li>
-            <li className="hover:text-blue-600 cursor-pointer">Orders</li>
-            <li className="hover:text-blue-600 cursor-pointer">Customers</li>
-            <li className="hover:text-blue-600 cursor-pointer">Reports</li>
-          </ul>
-        </aside>
+       
+         <FilterSlideBar/>
+       
  
         <main className="w-4/5 border-2 overflow-y-auto">
           <h2 className="text-2xl font-semibold mb-4">

@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-
-interface FilterSectionProps {
-  title: string;
-  options: string[];
-  limit?: number;
-}
+import { FilterSectionProps } from "@/types/sidebarTypes";
 
 const FilterSection: React.FC<FilterSectionProps> = ({
   title,
@@ -29,8 +24,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const visibleOptions = showAll ? options : options.slice(0, limit);
 
   return (
-    <div className="border border-gray-200 rounded mb-4 m-2 rounded-tl-[6px] rounded-tr-[6px]">
-      <div className="px-4 py-2 bg-gray-100 font-medium bg-[rgb(238,236,236)] rounded-tl-[6px] rounded-tr-[6px]">
+    <div className="border border-gray-200 rounded mb-4 m-[2px] mt-2 rounded-tl-[6px] rounded-tr-[6px]">
+      <div 
+className="w-full flex justify-between border border-gray-300 rounded-tl-[6px] rounded-tr-[6px] items-center px-4 py-2 bg-gray-200"
+      >
         {title}
       </div>
 
@@ -59,5 +56,4 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     </div>
   );
 };
-
 export default FilterSection;

@@ -1,24 +1,17 @@
 import React, { useState } from "react";
 import { Input } from "@/components/common/ui/Input"; 
 import { Button } from "./ui/Button";
+import { TextDropdownProps } from "@/types/sidebarTypes";
 
-interface TextDropdownProps {
-  title: string;
-  options: string[];
-  onSelect?: (value: string) => void;
-  limit?: number;
-  showRange?: boolean; 
-}
 
 const TextDropdown: React.FC<TextDropdownProps> = ({
   title,
   options,
   onSelect,
-  limit,
   showRange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showAll] = useState(false);
+  
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
 
@@ -26,15 +19,15 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
     console.log("Custom Range:", { min, max });
   };
 
-  const visibleOptions = showAll ? options : limit ? options.slice(0, limit) : options;
+  const visibleOptions =  options;
 
     const isGoEnabled = min.trim() !== "" && max.trim() !== "";
 
   return (
-<div className="border border-gray-200 bg-white rounded-tl-[6px] rounded-tr-[6px]  m-2">
+    <div className="border border-gray-200 bg-white rounded-tl-[6px] rounded-tr-[6px] m-1">
       <button
         onClick={() => setIsOpen((o) => !o)}
-        className="w-full flex justify-between border border-grey-300 rounded-tl-[6px] rounded-tr-[6px] items-center px-4 py-2 bg-[rgb(238,236,236)]"
+        className="w-full flex justify-between border border-gray-300 rounded-tl-[6px] rounded-tr-[6px] items-center px-4 py-2 bg-gray-200"
       >
         <span className="font-medium">{title}</span>
         <svg
@@ -56,27 +49,40 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
 
       {isOpen && (
         <div className="px-4 py-2 space-y-2 max-h-60 overflow-y-auto">
-          {visibleOptions.map((opt) => (
+         {visibleOptions.map((opt, idx) => {
+          const isObject = typeof opt === "object" && opt !== null;
+          const label = isObject ? opt.label : opt;
+          const image = isObject ? opt.image : null;
+          return (
             <button
-              key={opt}
-              onClick={() => onSelect?.(opt)}
-              className="w-full text-left hover:underline text-sm"
+              key={idx}
+              onClick={() => onSelect?.(label)}
+              className="w-full flex items-center gap-2 text-left hover:underline text-sm"
             >
-              {opt}
+              {image && (
+                <img
+                  src={image}
+                  alt={label}
+                  className="w-14 h-14 object-cover rounded"
+                />
+              )}
+              {label}
             </button>
-          ))}
+          );
+        })}
+
 
           {showRange && (
             <div className="flex items-center space-x-2 pt-2">
               <Input
-                type="text"
+                type="number"
                 placeholder="₹ min"
                 value={min}
                 onChange={(e) => setMin(e.target.value)}
-                className="w-20 px-4"
+                className="w-22 px-2"
               />
               <Input
-                type="text"
+                type="number"
                 placeholder="₹ max"
                 value={max}
                 onChange={(e) => setMax(e.target.value)}
@@ -86,14 +92,14 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
                 size="sm"
                 disabled={!isGoEnabled}
                 onClick={handleGo}
-                className={`px-3 py-1 rounded text-white  ${
-                    isGoEnabled
-                    ? "bg-[#2AA699] hover:bg-[#249381]"
-                    : "bg-gray-300  hover:bg-[#909191]"
-                }`}
-                >
-                Go
-                </Button>
+               className={`px-3 py-1 rounded text-white ${
+                isGoEnabled
+                  ? "bg-primary hover:bg-primary-hover"
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}>
+
+              Go
+              </Button>
 
             </div>
           )}
