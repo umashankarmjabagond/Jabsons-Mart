@@ -22,6 +22,10 @@ export const AUTH_TEXT = {
   ABOUT_PLACEHOLDER: "Tell us about yourself...",
 } as const;
 
+export const MARKET_CATEGORY_PRODUCT={
+    VIEWALL_BUTTON:"View All"
+}
+
 export const ROLE_OPTIONS = [
   { label: "Admin", value: "admin" },
   { label: "User", value: "user" },
