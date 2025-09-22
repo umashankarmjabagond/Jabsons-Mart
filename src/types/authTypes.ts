@@ -16,3 +16,10 @@ export interface InputProps
   rightIcon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
 }
+
+export interface CartItem {
+  id?: number;
+  textTop?: string;
+  textBottom?: string;
+  Btn?: string;
+}
