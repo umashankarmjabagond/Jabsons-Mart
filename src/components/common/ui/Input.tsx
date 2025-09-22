@@ -14,6 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       leftIcon,
       rightIcon,
       size = "md",
+      requiredIndicator = true,
       id,
       ...props
     },
@@ -38,16 +39,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             htmlFor={inputId}
             className="block text-sm text-left font-normal text-gray-500 md:text-gray-800"
           >
-            <span className="text-red-500 inline md:hidden pl-3">*</span>{" "}
+            {requiredIndicator && (
+              <span className="text-red-500 inline">*</span>
+            )}{" "}
             {label}
           </label>
         )}
+
         <div className="relative">
           {leftIcon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
               {leftIcon}
             </div>
           )}
+
           <input
             id={inputId}
             type={inputType}
@@ -63,6 +68,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             {...props}
           />
+
           {isPassword && (
             <button
               type="button"
@@ -77,17 +83,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               )}
             </button>
           )}
+
           {rightIcon && !isPassword && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2 ">
               {rightIcon}
             </div>
           )}
         </div>
+
         {error && (
           <p className="text-sm text-red-500 text-left" role="alert">
             {error}
           </p>
         )}
+
         {helperText && !error && (
           <p className="text-sm text-gray-600">{helperText}</p>
         )}

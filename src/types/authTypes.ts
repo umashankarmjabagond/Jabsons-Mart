@@ -17,9 +17,25 @@ export interface InputProps
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
+  requiredIndicator?: boolean;
 }
 
 export interface AuthLayoutProps {
   children: ReactNode;
   title?: string;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  name: string;
+  options: readonly Option[];
+  error?: string;
+  requiredIndicator: boolean;
+  helperText?: string;
 }
