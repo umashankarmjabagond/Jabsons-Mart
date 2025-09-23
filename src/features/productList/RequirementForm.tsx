@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "../../components/common/ui/Button";
-import { Input } from "../../components/common/ui/Input";
-import { REQUIREMENTFORM_TEXT } from "../../constants/textConstants";
+import { Button } from "@/components/common/ui/Button";
+import { Input } from "@/components/common/ui/Input";
+import { REQUIREMENTFORM_TEXT } from "@/constants/textConstants";
 
 const RequirementForm: React.FC = () => {
   const [query, setQuery] = React.useState("");
@@ -31,7 +31,7 @@ const RequirementForm: React.FC = () => {
             id="requirement"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Enter amount"
+            placeholder="Enter product name"
             className="w-full border px-4 py-2 rounded-none"
           />
         </div>
