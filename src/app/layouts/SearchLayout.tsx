@@ -9,7 +9,7 @@ const SearchLayout:React.FC = () => {
       </header>
  
       <nav className="flex-[1] border-2 text-black flex items-center px-6 font-medium">
-        📍 Location: Bangalore, India
+        📍 Location:Bangalore, India
       </nav>
  
       <div className="flex-[8] flex w-full">
