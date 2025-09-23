@@ -14,7 +14,6 @@ import { menuItem } from "@/types/sideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "@/redux/dashBoardSlice";
 
-
 const HomeLayout: React.FC = () => {
   const toggle = useSelector(state => state);
   const dispatch = useDispatch();
@@ -28,18 +27,17 @@ const HomeLayout: React.FC = () => {
     <div className="h-screen">
       <div className="flex relative">
         <button
-          className="sm:hidden absolute top-2 left-2 z-10"
+          className="sm:hidden absolute top-2 left-2 z-20"
           onClick={() => dispatch(toggleSideBar())}
         >
           {toggle ? <X /> : <TextAlignJustify />}
         </button>
 
-
         <div
-          className={`absolute sm:relative transition-all duration-500 ease-in-out 
+          className={`absolute sm:relative transition-all duration-500 ease-in-out
             ${
               toggle
-                ? "translate-x-0 opacity-100"
+                ? "translate-x-0 opacity-100 z-10"
                 : "-translate-x-full opacity-0 sm:opacity-100 sm:translate-x-0"
             }
           `}
