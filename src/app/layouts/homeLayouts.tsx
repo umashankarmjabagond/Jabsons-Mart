@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet,  } from "react-router-dom";
+import { Outlet,} from "react-router-dom";
 import Sidebar from "../../components/common/Sidebar";
 import Footer from "@/components/common/Footer";
 

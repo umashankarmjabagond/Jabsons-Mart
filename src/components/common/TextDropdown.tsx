@@ -16,7 +16,6 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
   const [max, setMax] = useState("");
 
   const handleGo = () => {
-    console.log("Custom Range:", { min, max });
   };
 
   const visibleOptions =  options;
