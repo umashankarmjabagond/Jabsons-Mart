@@ -1,4 +1,4 @@
-import Testimonials from '@/components/Dash/Testimonials'
+import Testimonials from '@/components/common/Testimonials'
 
 function Dashboard() {
   return (
