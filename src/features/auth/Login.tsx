@@ -28,14 +28,13 @@ const Login = () => {
             onSubmit={handleSubmit}>
             {({ values, errors, touched, handleChange, handleBlur, isSubmitting }) => (
               <Form className="space-y-4">
-                {/* Email */}
                 <div>
                   <Input
                     label={text.EMAIL_LABEL}
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="you@example.com"
+                    placeholder={text.EMAIL_PLACEHOLDER}
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -45,15 +44,13 @@ const Login = () => {
                     <p className="text-red-500 text-sm mt-1">{errors.email}</p>
                   )}
                 </div>
-
-                {/* Password */}
                 <div>
                   <Input
                     label={text.PASSWORD_LABEL}
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="••••••••"
+                    placeholder={text.PASSWORD_PLACEHOLDER}
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -63,8 +60,6 @@ const Login = () => {
                     <p className="text-red-500 text-sm mt-1">{errors.password}</p>
                   )}
                 </div>
-
-                {/* Remember + Forgot password */}
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center">
                     <input type="checkbox" className="mr-2" />
@@ -74,8 +69,6 @@ const Login = () => {
                     {text.FORGOT_PASSWORD}
                   </a>
                 </div>
-
-                {/* Submit button */}
                 <Button
                   type="submit"
                   variant="primary"
@@ -83,20 +76,16 @@ const Login = () => {
                   className="w-full"
                   disabled={isSubmitting}
                 >
-                  {text.BUTTON}
+                  {text.TITLE}
                 </Button>
               </Form>
             )}
           </Formik>
-
-          {/* Divider Lines */}
           <div className="my-6 flex items-center">
             <hr className="flex-grow border-gray-300" />
             <span className="px-2 text-gray-500 text-sm">{text.SOCIAL}</span>
             <hr className="flex-grow border-gray-300" />
           </div>
-
-          {/* Social logins */}
           <div className="flex justify-center items-center gap-2">
             <Button
               variant="social"
@@ -107,7 +96,7 @@ const Login = () => {
                 alt="Google"
                 className="w-10 h-5 inline"
               />
-              Continue with Google
+             {text.CONTINUE_WITH_GOOGLE}
             </Button>
 
             <Button
@@ -115,11 +104,9 @@ const Login = () => {
               className="w-full flex items-center justify-center gap-2 text-sm p-1"
             >
              <AiOutlineApple size={27} className="inline mr-1"/>
-              Continue with Apple
+              {text.CONTINUE_WITH_APPLE}
             </Button>
           </div>
-
-          {/* Footer */}
           <p className="text-center text-sm text-gray-600 mt-6">
             {text.FOOTER}
             <a href="#" className="text-green-600 hover:underline">
