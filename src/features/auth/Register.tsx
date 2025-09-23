@@ -24,8 +24,8 @@ const Register: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={registerSchema}
-        onSubmit={(values) => {
-          console.log("Form Submitted:", values);
+        onSubmit={() => {
+          alert("Register Successfully!");
         }}
       >
         {({
@@ -101,7 +101,7 @@ const Register: React.FC = () => {
               }
             />
 
-            {values.role && (
+            {values.role === "vendor" && (
               <Input
                 label={AUTH_TEXT.GST_LABEL}
                 placeholder={AUTH_TEXT.GST_PLACEHOLDER}

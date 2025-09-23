@@ -20,11 +20,17 @@ export const AUTH_TEXT = {
   CONFIRM_PASSWORD_PLACEHOLDER: "Re-enter your password",
   ABOUT_LABEL: "About",
   ABOUT_PLACEHOLDER: "Tell us about yourself...",
+  AUTH_HEADER: "Empower Your Farm With",
+  AUTH_SUBHEADING: "Essential Supplies",
+  AUTH_ENDING: " Management.",
+  AUTH_FOOTER: `Find everything you need 
+  seeds, fertilizers. tools, and aid more – to 
+  grow other to successful harvest.`,
 } as const;
 
-export const MARKET_CATEGORY_PRODUCT={
-    VIEWALL_BUTTON:"View All"
-}
+export const MARKET_CATEGORY_PRODUCT = {
+  VIEWALL_BUTTON: "View All",
+};
 
 export const ROLE_OPTIONS = [
   { label: "Admin", value: "admin" },
