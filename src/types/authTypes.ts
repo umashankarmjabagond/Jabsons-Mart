@@ -16,3 +16,9 @@ export interface InputProps
   rightIcon?: React.ReactNode;
   size?: "sm" | "md" | "lg";
 }
+export interface Product {
+  id: number;
+  name: string;
+  image: string;
+  price: string;
+}
