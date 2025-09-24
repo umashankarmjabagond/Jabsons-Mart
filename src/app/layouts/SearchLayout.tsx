@@ -3,6 +3,9 @@ import ProductList from "@/features/productlist/ProductList";
 import RequirementForm from "@/features/productlist/RequirementForm";
 import { SidebarSection } from "@/types/sidebarTypes";
 import React, { useRef, useState, useEffect } from "react";
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/Navbar";
+
 const sidebarData: SidebarSection[] = [
   {
     type: "text",
@@ -96,14 +99,16 @@ const SearchLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col">
-      <header className="flex-[1] border-2 text-black flex items-center px-6 font-bold text-lg">
-        Farmer Mart
-      </header>
+    <div>
+      <Navbar />
+      <div className="h-screen flex flex-col">
+        <header className="flex-[1] border-2 text-black flex items-center px-6 font-bold text-lg">
+          Farmer Mart
+        </header>
 
-      <nav className="flex-[1] border-2 text-black flex items-center px-6 font-medium">
-        📍 Location:Bangalore, India
-      </nav>
+        <nav className="flex-[1] border-2 text-black flex items-center px-6 font-medium">
+          📍 Location: Bangalore, India
+        </nav>
 
       <div className="flex-[8] flex w-full overflow-hidden">
         <aside className="w-1/5 border-2 p-1">
@@ -115,10 +120,15 @@ const SearchLayout: React.FC = () => {
         >
           <ProductList />
 
-          <div ref={productListEndRef} className="h-4" />
 
-          {showForm && <RequirementForm />}
-        </main>
+            <div ref={productListEndRef} className="h-4" />
+
+            {showForm && <RequirementForm />}
+          </main>
+        </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
