@@ -21,7 +21,7 @@ const Header = () => {
     <header className="px-4 sm:px-6 py-3 shadow bg-white flex flex-col sm:flex-row items-center justify-between">
       <div className="flex items-center justify-between w-full sm:w-auto">
         <div className="w-[8rem]">
-           <img src={logo} alt="logo"  />
+          <img src={logo} alt="logo" />
         </div>
 
         <button
@@ -58,9 +58,8 @@ const Header = () => {
       </div>
 
       <div
-        className={`flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-2 sm:mt-0 w-full sm:w-auto ${
-          menuOpen ? "flex" : "hidden sm:flex"
-        }`}
+        className={`flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-2 sm:mt-0 w-full sm:w-auto ${menuOpen ? "flex" : "hidden sm:flex"
+          }`}
       >
         <Button
           type="button"
