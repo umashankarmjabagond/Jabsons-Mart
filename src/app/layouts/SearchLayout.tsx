@@ -1,6 +1,8 @@
+import FilterSlideBar from '@/features/productlist/FilterSlideBar'
+import ProductList from '@/features/productlist/ProductList';
+import RequirementForm from '@/features/productlist/RequirementForm';
 import React, { useRef, useState, useEffect } from "react";
-import ProductList from "@/features/productList/ProductList";
-import RequirementForm from "@/features/productList/RequirementForm";
+
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 
@@ -39,22 +41,15 @@ const SearchLayout: React.FC = () => {
           📍 Location: Bangalore, India
         </nav>
 
-        <div className="flex-[8] flex w-full overflow-hidden">
-          <aside className="w-1/5 border-2 p-4">
-            <ul className="space-y-2">
-              <li className="hover:text-blue-600 cursor-pointer">Dashboard</li>
-              <li className="hover:text-blue-600 cursor-pointer">Products</li>
-              <li className="hover:text-blue-600 cursor-pointer">Orders</li>
-              <li className="hover:text-blue-600 cursor-pointer">Customers</li>
-              <li className="hover:text-blue-600 cursor-pointer">Reports</li>
-            </ul>
-          </aside>
-
-          <main
-            ref={mainRef}
-            className="w-4/5 border-2 h-full overflow-y-auto flex flex-col"
-          >
-            <ProductList />
+      <div className="flex-[8] flex w-full overflow-hidden">
+        <aside className="w-1/5 border-2 p-4">
+           <FilterSlideBar/>
+        </aside>
+        <main
+          ref={mainRef}
+          className="w-4/5 border-2 h-full overflow-y-auto flex flex-col"
+        >
+          <ProductList />
 
             <div ref={productListEndRef} className="h-4" />
 
