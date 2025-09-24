@@ -140,3 +140,6 @@ export const ROLE_OPTIONS = [
   { label: "Vendor/Farmer", value: "vendor" },
   { label: "Consultant", value: "consultant" },
 ] as const;
+
+export const GO_BUTTON_TEXT = "Go";
+

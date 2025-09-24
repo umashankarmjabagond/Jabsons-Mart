@@ -49,7 +49,6 @@ className="w-full flex justify-between border border-gray-300 rounded-tl-[6px] r
             onClick={() => setShowAll((a) => !a)}
             className="text-sm text-blue-600 hover:underline "
           >
-            {showAll ? "Show Less" : `Show More (${options.length - limit})`}
           </button>
         )}
       </div>

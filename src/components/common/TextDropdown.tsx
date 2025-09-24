@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/common/ui/Input"; 
 import { Button } from "./ui/Button";
 import { TextDropdownProps } from "@/types/sidebarTypes";
+import { GO_BUTTON_TEXT } from "@/constants/textConstants";
 
 
 const TextDropdown: React.FC<TextDropdownProps> = ({
@@ -23,7 +24,7 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
   return (
     <div className="border border-gray-200 bg-white rounded-tl-[6px] rounded-tr-[6px] m-1">
       <button
-        onClick={() => setIsOpen((o) => !o)}
+        onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between border border-gray-300 rounded-tl-[6px] rounded-tr-[6px] items-center px-4 py-2 bg-gray-200"
       >
         <span className="font-medium">{title}</span>
@@ -95,7 +96,7 @@ const TextDropdown: React.FC<TextDropdownProps> = ({
       : "bg-gray-300 hover:bg-gray-350"
   }`}
 >
-  Go
+ {GO_BUTTON_TEXT}
 </Button>
 
 
