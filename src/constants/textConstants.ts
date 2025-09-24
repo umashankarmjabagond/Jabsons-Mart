@@ -129,7 +129,7 @@ export const MARKET_TEXT = {
   TITLE_ICON1: "Trusted Platform",
   TITLE_ICON2: "Safe & Secure",
   TITLE_ICON3: "Quick Assistance",
-};
+    SUBMIT_BUTTON: "Submit Your Requirement"};
 
 export const REQUIREMENTFORM_TEXT = {
   TITLE1: "Tell us what you need, and we'll help you get quotes",
