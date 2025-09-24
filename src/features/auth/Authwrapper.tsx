@@ -26,7 +26,7 @@ export const AuthWrapper: React.FC<AuthLayoutProps> = ({ children, title }) => {
 
         <div className="absolute inset-0 z-30 flex flex-col justify-between pl-6 lg:px-12 py-8 text-white">
           <div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-left space-x-3">
               <img
                 src={farmerLogo}
                 alt="Farmer Mart Logo"

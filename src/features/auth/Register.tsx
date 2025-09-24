@@ -6,6 +6,8 @@ import { SelectInput } from "@/components/common/ui/SelectInput";
 import { Textarea } from "@/components/common/ui/Textarea";
 import registerSchema from "@/schemas/registerSchema";
 import { AUTH_TEXT, ROLE_OPTIONS } from "@/constants/textConstants";
+import { ROUTES } from "@/constants/routeConstants";
+import { Link } from "react-router-dom";
 
 const Register: React.FC = () => {
   const initialValues = {
@@ -174,6 +176,15 @@ const Register: React.FC = () => {
           </Form>
         )}
       </Formik>
+      <p className="text-center text-sm text-gray-600 mt-6">
+        {AUTH_TEXT.ALREADY_HAVE_ACCOUNT}
+        <Link
+          to={`${ROUTES.AUTH}${ROUTES.LOGIN}`}
+          className="text-green-600 hover:underline"
+        >
+          {AUTH_TEXT.TITLE}
+        </Link>
+      </p>
     </>
   );
 };

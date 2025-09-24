@@ -38,6 +38,7 @@ export const AUTH_TEXT = {
   AUTH_FOOTER: `Find everything you need 
   seeds, fertilizers. tools, and aid more – to 
   grow other to successful harvest.`,
+  ALREADY_HAVE_ACCOUNT: "Already have an account? ",
 } as const;
 
 export const DASHBOARD_TEXT = {
@@ -76,8 +77,6 @@ export const MORE_FOR_YOU_TEXT = {
     },
   ],
 } as const;
-
-
 
 export const LANDING_TEXT = {
   HERO_TITLE: "Accounting Software",
@@ -129,7 +128,8 @@ export const MARKET_TEXT = {
   TITLE_ICON1: "Trusted Platform",
   TITLE_ICON2: "Safe & Secure",
   TITLE_ICON3: "Quick Assistance",
-    SUBMIT_BUTTON: "Submit Your Requirement"};
+  SUBMIT_BUTTON: "Submit Your Requirement",
+};
 
 export const REQUIREMENTFORM_TEXT = {
   TITLE1: "Tell us what you need, and we'll help you get quotes",
