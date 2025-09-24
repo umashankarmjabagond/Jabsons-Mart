@@ -2,9 +2,13 @@ import FilterSlideBar from '@/features/productlist/FilterSlideBar'
 import ProductList from '@/features/productlist/ProductList';
 import RequirementForm from '@/features/productlist/RequirementForm';
 import React, { useRef, useState, useEffect } from "react";
-
+import ProductList from "@/features/productList/ProductList";
+import RequirementForm from "@/features/productList/RequirementForm";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+=========
+
+>>>>>>>>> Temporary merge branch 2
 
 const SearchLayout: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
@@ -50,6 +54,7 @@ const SearchLayout: React.FC = () => {
           className="w-4/5 border-2 h-full overflow-y-auto flex flex-col"
         >
           <ProductList />
+>>>>>>>>> Temporary merge branch 2
 
             <div ref={productListEndRef} className="h-4" />
 
