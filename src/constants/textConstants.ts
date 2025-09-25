@@ -77,8 +77,6 @@ export const MORE_FOR_YOU_TEXT = {
   ],
 } as const;
 
-
-
 export const LANDING_TEXT = {
   HERO_TITLE: "Accounting Software",
   HERO_SUBTITLE:
@@ -129,7 +127,7 @@ export const MARKET_TEXT = {
   TITLE_ICON1: "Trusted Platform",
   TITLE_ICON2: "Safe & Secure",
   TITLE_ICON3: "Quick Assistance",
-  SUBMIT_BUTTON: "Submit Your Requirement"
+  SUBMIT_BUTTON: "Submit Your Requirement",
 };
 
 export const REQUIREMENTFORM_TEXT = {
@@ -159,4 +157,3 @@ export const NAVBAR_TEXT = {
     { label: "Help", value: "help" },
   ] as const,
 } as const;
-
