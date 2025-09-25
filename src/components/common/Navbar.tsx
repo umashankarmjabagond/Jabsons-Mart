@@ -20,6 +20,7 @@ import {
   StateOption,
   NavOption,
 } from "@/types/navbarTypes";
+import { useTranslation } from "react-i18next";
 
 // NavIconButton component
 const NavIconButton: FC<NavIconButtonProps> = ({
@@ -50,6 +51,7 @@ const Navbar: FC<NavbarProps> = ({
   ],
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [signinOpen, setSigninOpen] = useState(false);
@@ -138,7 +140,7 @@ const Navbar: FC<NavbarProps> = ({
             <div className="flex-1 relative">
               <input
                 type="text"
-                placeholder={NAVBAR_TEXT.searchPlaceholder}
+                placeholder={t("NAVBAR.SEARCH_PLACEHOLDER")}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-full outline-none text-sm sm:text-base"
@@ -148,7 +150,7 @@ const Navbar: FC<NavbarProps> = ({
 
             {/* Get Best Price Button */}
             <Button className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full">
-              {NAVBAR_TEXT.getBestPrice}
+              {t("NAVBAR.GET_BEST_PRICE")}
             </Button>
           </div>
         </div>
@@ -177,7 +179,7 @@ const Navbar: FC<NavbarProps> = ({
               <div className="text-lg">
                 <FaUser />
               </div>
-              <span className="text-sm">{NAVBAR_TEXT.signIn}</span>
+              <span className="text-sm">{t("NAVBAR.SIGN_IN")}</span>
             </button>
 
             {signinOpen && (
@@ -186,7 +188,7 @@ const Navbar: FC<NavbarProps> = ({
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => navigate("/auth/login")}
                 >
-                  {NAVBAR_TEXT.login}
+                  {t("NAVBAR.LOGIN")}
                 </li>
               </ul>
             )}
@@ -225,7 +227,7 @@ const Navbar: FC<NavbarProps> = ({
               <div className="text-lg">
                 <FaUser />
               </div>
-              <span className="text-sm">{NAVBAR_TEXT.signIn}</span>
+              <span className="text-sm">{t("NAVBAR.SIGN_IN")}</span>
             </button>
 
             {signinOpen && (
@@ -238,7 +240,7 @@ const Navbar: FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                   }}
                 >
-                  {NAVBAR_TEXT.login}
+                  {t("NAVBAR.LOGIN")}
                 </li>
               </ul>
             )}

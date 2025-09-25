@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Formik, Form } from "formik";
 import { Input } from "@/components/common/ui/Input";
 import { Button } from "@/components/common/ui/Button";
 import { SelectInput } from "@/components/common/ui/SelectInput";
 import { Textarea } from "@/components/common/ui/Textarea";
-import registerSchema from "@/schemas/registerSchema";
-import { AUTH_TEXT, ROLE_OPTIONS } from "@/constants/textConstants";
 import { ROUTES } from "@/constants/routeConstants";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { ROLE_VALUES } from "@/constants/textConstants";
+import { getRegisterSchema } from "@/schemas/registerSchema";
 
 const Register: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
+  const registerSchema = useMemo(() => getRegisterSchema(t), [i18n.language]);
+
   const initialValues = {
     name: "",
     phone: "",
@@ -21,13 +26,22 @@ const Register: React.FC = () => {
     about: "",
   };
 
+  const ROLE_OPTIONS = useMemo(
+    () =>
+      ROLE_VALUES.map((r) => ({
+        value: r.value,
+        label: t(`roles.${r.value}`, r.value),
+      })),
+    [i18n.language]
+  );
+
   return (
     <>
       <Formik
         initialValues={initialValues}
         validationSchema={registerSchema}
         onSubmit={() => {
-          alert("Register Successfully!");
+          alert(t("AUTH.SIGNUP_BUTTON") || "Register Successfully!");
         }}
       >
         {({
@@ -41,8 +55,8 @@ const Register: React.FC = () => {
           <Form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
-                label={AUTH_TEXT.NAME_LABEL}
-                placeholder={AUTH_TEXT.NAME_PLACEHOLDER}
+                label={t("AUTH.NAME_LABEL")}
+                placeholder={t("AUTH.NAME_PLACEHOLDER")}
                 name="name"
                 value={values.name}
                 className="px-4 py-2"
@@ -50,14 +64,14 @@ const Register: React.FC = () => {
                 onBlur={handleBlur}
                 error={
                   (touched.name || submitCount > 0) && errors.name
-                    ? errors.name
+                    ? (errors.name as string)
                     : ""
                 }
               />
 
               <Input
-                label={AUTH_TEXT.PHONE_LABEL}
-                placeholder={AUTH_TEXT.PHONE_PLACEHOLDER}
+                label={t("AUTH.PHONE_LABEL")}
+                placeholder={t("AUTH.PHONE_PLACEHOLDER")}
                 name="phone"
                 value={values.phone}
                 className="px-4 py-2"
@@ -65,15 +79,15 @@ const Register: React.FC = () => {
                 onBlur={handleBlur}
                 error={
                   (touched.phone || submitCount > 0) && errors.phone
-                    ? errors.phone
+                    ? (errors.phone as string)
                     : ""
                 }
               />
             </div>
 
             <Input
-              label={AUTH_TEXT.EMAIL_LABEL}
-              placeholder={AUTH_TEXT.EMAIL_PLACEHOLDER}
+              label={t("AUTH.EMAIL_LABEL")}
+              placeholder={t("AUTH.EMAIL_PLACEHOLDER")}
               name="email"
               type="email"
               value={values.email}
@@ -82,40 +96,39 @@ const Register: React.FC = () => {
               onBlur={handleBlur}
               error={
                 (touched.email || submitCount > 0) && errors.email
-                  ? errors.email
+                  ? (errors.email as string)
                   : ""
               }
             />
 
             <SelectInput
-              label={AUTH_TEXT.ROLE_LABEL}
+              label={t("AUTH.ROLE_LABEL")}
               name="role"
               value={values.role}
               className="px-4 py-2"
               onChange={handleChange}
-              requiredIndicator={true}
               onBlur={handleBlur}
+              requiredIndicator={true}
               options={ROLE_OPTIONS}
               error={
                 (touched.role || submitCount > 0) && errors.role
-                  ? errors.role
+                  ? (errors.role as string)
                   : ""
               }
             />
 
             {values.role === "vendor" && (
               <Input
-                label={AUTH_TEXT.GST_LABEL}
-                placeholder={AUTH_TEXT.GST_PLACEHOLDER}
+                label={t("AUTH.GST_LABEL")}
+                placeholder={t("AUTH.GST_PLACEHOLDER")}
                 name="gstNumber"
-                requiredIndicator={false}
                 value={values.gstNumber}
                 className="px-4 py-2"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={
                   (touched.gstNumber || submitCount > 0) && errors.gstNumber
-                    ? errors.gstNumber
+                    ? (errors.gstNumber as string)
                     : ""
                 }
               />
@@ -123,8 +136,8 @@ const Register: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
-                label={AUTH_TEXT.PASSWORD_LABEL}
-                placeholder={AUTH_TEXT.PASSWORD_PLACEHOLDER}
+                label={t("AUTH.PASSWORD_LABEL")}
+                placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
                 name="password"
                 type="password"
                 value={values.password}
@@ -133,14 +146,14 @@ const Register: React.FC = () => {
                 onBlur={handleBlur}
                 error={
                   (touched.password || submitCount > 0) && errors.password
-                    ? errors.password
+                    ? (errors.password as string)
                     : ""
                 }
               />
 
               <Input
-                label={AUTH_TEXT.CONFIRM_PASSWORD_LABEL}
-                placeholder={AUTH_TEXT.CONFIRM_PASSWORD_PLACEHOLDER}
+                label={t("AUTH.CONFIRM_PASSWORD_LABEL")}
+                placeholder={t("AUTH.CONFIRM_PASSWORD_PLACEHOLDER")}
                 name="confirmPassword"
                 type="password"
                 value={values.confirmPassword}
@@ -150,39 +163,41 @@ const Register: React.FC = () => {
                 error={
                   (touched.confirmPassword || submitCount > 0) &&
                   errors.confirmPassword
-                    ? errors.confirmPassword
+                    ? (errors.confirmPassword as string)
                     : ""
                 }
               />
             </div>
 
             <Textarea
-              label={AUTH_TEXT.ABOUT_LABEL}
-              placeholder={AUTH_TEXT.ABOUT_PLACEHOLDER}
+              label={t("AUTH.ABOUT_LABEL")}
+              placeholder={t("AUTH.ABOUT_PLACEHOLDER")}
               name="about"
               value={values.about}
+              className="px-4 py-2"
               onChange={handleChange}
               onBlur={handleBlur}
               error={
                 (touched.about || submitCount > 0) && errors.about
-                  ? errors.about
+                  ? (errors.about as string)
                   : ""
               }
             />
 
             <Button type="submit" variant="primary" className="w-full">
-              {AUTH_TEXT.SIGNUP_BUTTON}
+              {t("AUTH.SIGNUP_BUTTON")}
             </Button>
           </Form>
         )}
       </Formik>
+
       <p className="text-center text-sm text-gray-600 mt-6">
-        {AUTH_TEXT.ALREADY_HAVE_ACCOUNT}
+        {t("AUTH.ALREADY_HAVE_ACCOUNT")}{" "}
         <Link
           to={`${ROUTES.AUTH}${ROUTES.LOGIN}`}
           className="text-green-600 hover:underline"
         >
-          {AUTH_TEXT.TITLE}
+          {t("AUTH.LOGIN_BUTTON")}
         </Link>
       </p>
     </>

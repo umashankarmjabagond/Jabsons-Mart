@@ -1,36 +1,35 @@
 import * as Yup from "yup";
 
-const registerSchema = Yup.object().shape({
-  name: Yup.string().required("Full name is required"),
+export const getRegisterSchema = (t: (key: string) => string) =>
+  Yup.object().shape({
+    name: Yup.string().required(() => t("auth.validation.nameRequired")),
 
-  phone: Yup.string()
-    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
-    .required("Phone number is required"),
+    phone: Yup.string()
+      .matches(/^[0-9]{10}$/, () => t("auth.validation.phoneInvalid"))
+      .required(() => t("auth.validation.phoneRequired")),
 
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
+    email: Yup.string()
+      .email(() => t("auth.validation.emailInvalid"))
+      .required(() => t("auth.validation.emailRequired")),
 
-  role: Yup.string().required("Role is required"),
+    role: Yup.string().required(() => t("auth.validation.roleRequired")),
 
-  gstNumber: Yup.string().when("role", {
-    is: (role: string) => !!role,
-    then: (schema) =>
-      schema.matches(/^[0-9]{15}$/, "GST number must be 15 digits"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
+    gstNumber: Yup.string().when("role", {
+      is: (role: string) => !!role,
+      then: (schema) =>
+        schema.matches(/^[0-9]{15}$/, () => t("auth.validation.gstInvalid")),
+      otherwise: (schema) => schema.notRequired(),
+    }),
 
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    password: Yup.string()
+      .min(6, () => t("auth.validation.passwordMin"))
+      .required(() => t("auth.validation.passwordRequired")),
 
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], () => t("auth.validation.passwordMatch"))
+      .required(() => t("auth.validation.confirmPasswordRequired")),
 
-  about: Yup.string()
-    .max(300, "About section must not exceed 300 characters")
-    .notRequired(),
-});
-
-export default registerSchema;
+    about: Yup.string()
+      .max(300, () => t("auth.validation.aboutMax"))
+      .notRequired(),
+  });

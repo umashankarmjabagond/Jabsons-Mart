@@ -1,45 +1,45 @@
 export const APP_NAME = "FarmerMart";
 
-export const AUTH_TEXT = {
-  LOGIN_TITLE: "Login to your account",
-  REGISTER_TITLE: "Create your account",
-  TITLE: "Login",
-  SUBTITLE: "Log in to continue to your dashboard",
-  EMAIL: "Email",
-  PASSWORD: "Password",
-  REMEMBER_ME: "Remember me",
-  FORGOT_PASSWORD: "Forgot password?",
-  CONTINUE_WITH_GOOGLE: "Continue with Google",
-  CONTINUE_WITH_APPLE: "Continue with Apple",
-  SOCIAL: "OR Login with",
-  FOOTER: "Don’t have an account?",
-  FOOTER_LINK: "Sign up",
-  LOGIN: "Login to your account",
-  SIGNUP_BUTTON: "Sign Up",
-  NAME_LABEL: "Full Name",
-  NAME_PLACEHOLDER: "Enter your full name",
-  PHONE_LABEL: "Phone Number",
-  PHONE_PLACEHOLDER: "Enter your phone number",
-  EMAIL_LABEL: "Email Address",
-  EMAIL_PLACEHOLDER: "Enter your email",
-  ROLE_LABEL: "Role",
-  ROLE_PLACEHOLDER: "Select your role",
-  GST_LABEL: "GST Number",
-  GST_PLACEHOLDER: "Enter your GST number",
-  PASSWORD_LABEL: "Password",
-  PASSWORD_PLACEHOLDER: "Enter your password",
-  CONFIRM_PASSWORD_LABEL: "Confirm Password",
-  CONFIRM_PASSWORD_PLACEHOLDER: "Re-enter your password",
-  ABOUT_LABEL: "About",
-  ABOUT_PLACEHOLDER: "Tell us about yourself...",
-  AUTH_HEADER: "Empower Your Farm With",
-  AUTH_SUBHEADING: "Essential Supplies",
-  AUTH_ENDING: " Management.",
-  AUTH_FOOTER: `Find everything you need 
-  seeds, fertilizers. tools, and aid more – to 
-  grow other to successful harvest.`,
-  ALREADY_HAVE_ACCOUNT: "Already have an account? ",
-} as const;
+// export const AUTH_TEXT = {
+//   LOGIN_TITLE: "Login to your account",
+//   REGISTER_TITLE: "Create your account",
+//   TITLE: "Login",
+//   SUBTITLE: "Log in to continue to your dashboard",
+//   EMAIL: "Email",
+//   PASSWORD: "Password",
+//   REMEMBER_ME: "Remember me",
+//   FORGOT_PASSWORD: "Forgot password?",
+//   CONTINUE_WITH_GOOGLE: "Continue with Google",
+//   CONTINUE_WITH_APPLE: "Continue with Apple",
+//   SOCIAL: "OR Login with",
+//   FOOTER: "Don’t have an account?",
+//   FOOTER_LINK: "Sign up",
+//   LOGIN: "Login to your account",
+//   SIGNUP_BUTTON: "Sign Up",
+//   NAME_LABEL: "Full Name",
+//   NAME_PLACEHOLDER: "Enter your full name",
+//   PHONE_LABEL: "Phone Number",
+//   PHONE_PLACEHOLDER: "Enter your phone number",
+//   EMAIL_LABEL: "Email Address",
+//   EMAIL_PLACEHOLDER: "Enter your email",
+//   ROLE_LABEL: "Role",
+//   ROLE_PLACEHOLDER: "Select your role",
+//   GST_LABEL: "GST Number",
+//   GST_PLACEHOLDER: "Enter your GST number",
+//   PASSWORD_LABEL: "Password",
+//   PASSWORD_PLACEHOLDER: "Enter your password",
+//   CONFIRM_PASSWORD_LABEL: "Confirm Password",
+//   CONFIRM_PASSWORD_PLACEHOLDER: "Re-enter your password",
+//   ABOUT_LABEL: "About",
+//   ABOUT_PLACEHOLDER: "Tell us about yourself...",
+//   AUTH_HEADER: "Empower Your Farm With",
+//   AUTH_SUBHEADING: "Essential Supplies",
+//   AUTH_ENDING: " Management.",
+//   AUTH_FOOTER: `Find everything you need 
+//   seeds, fertilizers. tools, and aid more – to 
+//   grow other to successful harvest.`,
+//   ALREADY_HAVE_ACCOUNT: "Already have an account? ",
+// } as const;
 
 export const DASHBOARD_TEXT = {
   DASHBOARD_CAROUSEL: "Categories You May Like",
@@ -50,33 +50,33 @@ export const DASHBOARD_TEXT = {
 export const MARKET_CATEGORY_PRODUCT = {
   VIEWALL_BUTTON: "View All",
 };
-export const MORE_FOR_YOU_TEXT = {
-  HEADING: "More for You",
-  SERVICES: [
-    {
-      TITLE: "Connect with verified sellers",
-      DESCRIPTION:
-        "Tell us your requirement & let our experts find verified sellers for you",
-      BUTTON: "Get Verified Sellers",
-    },
-    {
-      TITLE: "Sell on FarmMart for free",
-      DESCRIPTION: "Reach out to more than 21+ crore buyers. Sell with us.",
-      BUTTON: "Start Selling",
-    },
-    {
-      TITLE: "Download our App",
-      DESCRIPTION: "Get instant notifications on the go. Download our App Now",
-      BUTTON: "Download Now",
-    },
-    {
-      TITLE: "Tally on Mobile",
-      DESCRIPTION:
-        "With Live Keeping, SME's can now connect their Tally offline data to mobile app",
-      BUTTON: "Know More",
-    },
-  ],
-} as const;
+// export const MORE_FOR_YOU_TEXT = {
+//   HEADING: "More for You",
+//   SERVICES: [
+//     {
+//       TITLE: "Connect with verified sellers",
+//       DESCRIPTION:
+//         "Tell us your requirement & let our experts find verified sellers for you",
+//       BUTTON: "Get Verified Sellers",
+//     },
+//     {
+//       TITLE: "Sell on FarmMart for free",
+//       DESCRIPTION: "Reach out to more than 21+ crore buyers. Sell with us.",
+//       BUTTON: "Start Selling",
+//     },
+//     {
+//       TITLE: "Download our App",
+//       DESCRIPTION: "Get instant notifications on the go. Download our App Now",
+//       BUTTON: "Download Now",
+//     },
+//     {
+//       TITLE: "Tally on Mobile",
+//       DESCRIPTION:
+//         "With Live Keeping, SME's can now connect their Tally offline data to mobile app",
+//       BUTTON: "Know More",
+//     },
+//   ],
+// } as const;
 
 export const LANDING_TEXT = {
   HERO_TITLE: "Accounting Software",
@@ -136,19 +136,19 @@ export const REQUIREMENTFORM_TEXT = {
   TITLE2: "I want quotes for",
   BUTTON_TEXT: "Submit Requirement",
 };
-export const ROLE_OPTIONS = [
-  { label: "Admin", value: "admin" },
-  { label: "User", value: "user" },
-  { label: "Vendor/Farmer", value: "vendor" },
-  { label: "Consultant", value: "consultant" },
+export const ROLE_VALUES = [
+  { value: "admin" },
+  { value: "user" },
+  { value: "vendor" },
+  { value: "consultant" },
 ] as const;
 
 export const NAVBAR_TEXT = {
-  searchPlaceholder: "Search for product or service",
+  // searchPlaceholder: "Search for product or service",
   defaultLocation: "Bengaluru",
-  getBestPrice: "Get Best Price",
-  signIn: "Sign In",
-  login: "Login",
+  // getBestPrice: "Get Best Price",
+  // signIn: "Sign In",
+  // login: "Login",
   navOptions: [
     { label: "Export", value: "export" },
     { label: "Sell", value: "sell" },

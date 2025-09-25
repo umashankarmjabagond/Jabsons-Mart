@@ -1,0 +1,120 @@
+{
+  "AUTH": {
+    "LOGIN_TITLE": "अपने अकाउंट में लॉगिन करो",
+    "REGISTER_TITLE": "अपना अकाउंट बनाओ",
+    "TITLE": "लॉगिन",
+    "SUBTITLE": "अपने डैशबोर्ड में जारी रखने के लिए लॉगिन करें",
+    "EMAIL_LABEL": "ईमेल पता",
+    "EMAIL_PLACEHOLDER": "अपना ईमेल डालो",
+    "PASSWORD_LABEL": "पासवर्ड",
+    "PASSWORD_PLACEHOLDER": "अपना पासवर्ड डालो",
+    "REMEMBER_ME": "मुझे याद रखें",
+    "FORGOT_PASSWORD": "पासवर्ड भूल गए?",
+    "CONTINUE_WITH_GOOGLE": "Google के साथ जारी रखें",
+    "CONTINUE_WITH_APPLE": "Apple के साथ जारी रखें",
+    "SOCIAL": "या लॉगिन करें",
+    "FOOTER": "अकाउंट नहीं है?",
+    "FOOTER_LINK": "साइन अप करें",
+    "LOGIN_BUTTON": "लॉगिन",
+    "SIGNUP_BUTTON": "साइन अप करें",
+    "NAME_LABEL": "पूरा नाम",
+    "NAME_PLACEHOLDER": "अपना पूरा नाम डालो",
+    "PHONE_LABEL": "फोन नंबर",
+    "PHONE_PLACEHOLDER": "अपना फोन नंबर डालो",
+    "ROLE_LABEL": "सेलेक्ट रोल",
+    "ROLE_PLACEHOLDER": "अपना रोल चुनो",
+    "GST_LABEL": "GST नंबर",
+    "GST_PLACEHOLDER": "अपना GST नंबर डालो",
+    "CONFIRM_PASSWORD_LABEL": "पासवर्ड कन्फर्म करो",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "पासवर्ड फिर से डालो",
+    "ABOUT_LABEL": "बारे में",
+    "ABOUT_PLACEHOLDER": "अपने बारे में लिखो...",
+    "ALREADY_HAVE_ACCOUNT": "पहले से अकाउंट है?",
+    "AUTH_HEADER": "अपने खेत को सशक्त बनाएं",
+    "AUTH_SUBHEADING": "आवश्यक आपूर्ति",
+    "AUTH_ENDING": " प्रबंधन।",
+    "AUTH_FOOTER": "सब कुछ खोजें जो आपको चाहिए  \nबीज, उर्वरक, उपकरण और अधिक –  \nएक सफल फसल उगाने के लिए।",
+    "FARMER_BG_ALT": "किसान पृष्ठभूमि",
+    "LOGO_ALT": "फार्मर मार्ट लोगो",
+    "BRAND_NAME": "फार्मर मार्ट"
+  },
+  "ROLES": {
+    "ADMIN": "एडमिन",
+    "USER": "यूजर",
+    "VENDOR": "वेंडर/फार्मर",
+    "CONSULTANT": "कंसल्टेंट"
+  },
+  "NAVBAR": {
+    "SEARCH_PLACEHOLDER": "उत्पाद या सेवा खोजें",
+    "DEFAULT_LOCATION": "बेंगलुरु",
+    "GET_BEST_PRICE": "सर्वोत्तम मूल्य प्राप्त करें",
+    "SIGN_IN": "साइन इन करें",
+    "LOGIN": "लॉगिन",
+    "NAV_OPTIONS": [
+      { "LABEL": "निर्यात", "VALUE": "export" },
+      { "LABEL": "बेचें", "VALUE": "sell" },
+      { "LABEL": "सहायता", "VALUE": "help" }
+    ]
+  },
+  "MORE_FOR_YOU_TEXT": {
+    "HEADING": "आपके लिए और भी",
+    "SERVICES": [
+      {
+        "TITLE": "सत्यापित विक्रेताओं से जुड़ें",
+        "DESCRIPTION": "अपनी आवश्यकता बताएं और हमारे विशेषज्ञ आपके लिए सत्यापित विक्रेता ढूंढें",
+        "BUTTON": "सत्यापित विक्रेता पाएं"
+      },
+      {
+        "TITLE": "FarmMart पर मुफ्त में बेचें",
+        "DESCRIPTION": "21+ करोड़ से अधिक खरीदारों तक पहुंचें। हमारे साथ बेचें।",
+        "BUTTON": "बेचना शुरू करें"
+      },
+      {
+        "TITLE": "हमारा ऐप डाउनलोड करें",
+        "DESCRIPTION": "जहाँ चाहें तुरंत सूचनाएँ प्राप्त करें। अभी हमारा ऐप डाउनलोड करें",
+        "BUTTON": "अब डाउनलोड करें"
+      },
+      {
+        "TITLE": "मोबाइल पर टैली",
+        "DESCRIPTION": "Live Keeping के साथ, SMEs अब अपने Tally ऑफ़लाइन डेटा को मोबाइल ऐप से कनेक्ट कर सकते हैं",
+        "BUTTON": "और जानें"
+      }
+    ]
+  },
+  "LANDING_TEXT": {
+    "HERO_TITLE": "लेखांकन सॉफ़्टवेयर",
+    "HERO_SUBTITLE": "विभिन्न क्षेत्रों में 3,60,000+ छोटे व्यवसायों द्वारा भरोसा किया गया",
+    "FEATURES": [
+      "GST लेखांकन सॉफ़्टवेयर",
+      "ई-इनवॉइस सॉफ़्टवेयर",
+      "इन्वेंटरी प्रबंधन सॉफ़्टवेयर",
+      "ई-वे बिलिंग सॉफ़्टवेयर"
+    ],
+    "GET_APP_TITLE": "FarmerMART ऐप प्राप्त करें",
+    "GET_APP_SUBTITLE": "प्रोडक्ट/सर्विस खोजें और प्रमाणित विक्रेताओं से तुरंत जुड़ें!",
+    "DOWNLOAD_INFO": "हम आपको लिंक भेजेंगे, इसे अपने फोन पर खोलें और ऐप डाउनलोड करें",
+    "COMPANY_BADGE": {
+      "BUSY_LABEL": "व्यस्त",
+      "BUSINESS": "व्यवसाय",
+      "ACCOUNTING": "लेखांकन",
+      "SOFTWARE": "सॉफ़्टवेयर",
+      "COMPANY_SUFFIX": "कंपनी",
+      "TRUSTED_BY": "भरोसा किया गया",
+      "COUNT": "3,60,000+",
+      "SMALL_BUSINESS": "विभिन्न क्षेत्रों में छोटे व्यवसायों द्वारा"
+    },
+    "STORE_LABELS": {
+      "APP_STORE_TOP": "डाउनलोड करें",
+      "APP_STORE_BOTTOM": "ऐप स्टोर पर",
+      "PLAY_STORE_TOP": "प्राप्त करें",
+      "PLAY_STORE_BOTTOM": "Google Play पर"
+    },
+    "PLACEHOLDERS": {
+      "MOBILE_NUMBER": "मोबाइल नंबर दर्ज करें"
+    },
+    "BUTTONS": {
+      "SEND_LINK": "मुझे लिंक भेजें"
+    },
+    "ALERT_PREFIX": "लिंक +91 पर भेजा जाएगा"
+  }
+}
