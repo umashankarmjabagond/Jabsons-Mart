@@ -1,15 +1,10 @@
 import React from "react";
-import { CategoryGroup } from "@/types/dashboardType";
+import {ProductCategoryProps } from "@/types/dashboardType";
 import { Button } from "./Button";
 import { MARKET_CATEGORY_PRODUCT } from "@/constants/textConstants";
 import { truncateText } from "@/utils/helpers";
 
-interface ProductCategoryProps {
-  title: string;
-  description: string;
-  image: string;
-  categories: CategoryGroup[];
-}
+
 
 const ProductCategory: React.FC<ProductCategoryProps> = ({
   title,

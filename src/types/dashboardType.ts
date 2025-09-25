@@ -27,3 +27,17 @@ export interface CategorySection {
 export interface CategoryData {
   categories: CategorySection[];
 }
+
+export interface ProductCategoryProps {
+  title: string;
+  description: string;
+  image: string;
+  categories: CategoryGroup[];
+}
+
+export interface ProductCardProps {
+  productId: string;
+  productName: string;
+  img: string;
+  subProducts: string[];
+}

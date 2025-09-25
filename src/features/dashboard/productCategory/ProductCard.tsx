@@ -1,13 +1,9 @@
 import React from "react";
 
 import { truncateText } from "@/utils/helpers";
+import { ProductCardProps } from "@/types/dashboardType";
 
-interface ProductCardProps {
-  productId: string;
-  productName: string;
-  img: string;
-  subProducts: string[];
-}
+
 
 const ProductCard: React.FC<ProductCardProps> = ({
   productId,
