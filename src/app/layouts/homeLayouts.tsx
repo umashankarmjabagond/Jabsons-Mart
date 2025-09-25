@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "@/redux/dashBoardSlice";
 
 const HomeLayout: React.FC = () => {
-  const toggle = useSelector(state => state);
+  const toggle = useSelector((state) => state);
   const dispatch = useDispatch();
   const menuItems: menuItem[] = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/dashboard" },
