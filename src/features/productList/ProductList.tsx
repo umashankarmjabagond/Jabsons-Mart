@@ -17,7 +17,7 @@ function ProductList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:7002/products");
+        const response = await fetch("http://localhost:7000/products");
         if (!response.ok) throw new Error("Failed to fetch products");
 
         const payload: Record<string, { list?: ApiProduct[] }> =
