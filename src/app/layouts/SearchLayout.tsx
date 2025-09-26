@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import ProductList from "@/features/productlist/ProductList";
 import RequirementForm from "@/features/productlist/RequirementForm";
 import Footer from "@/components/common/Footer";
-import FilterSlideBar from "@/features/productlist/FilterSlideBar";
 import Navbar from "@/components/common/Navbar";
 import { SidebarSection } from "@/types/sidebarTypes";
+import FilterSlideBar from "@/features/productlist/filterSlideBar";
 
 const sidebarData: SidebarSection[] = [
   {
@@ -50,8 +50,7 @@ const sidebarData: SidebarSection[] = [
       {
         label: "Organic Fertilizers and Manure",
         image:
-          "https://3.imimg.com/data3/CS/YS/GLADMIN-156355/vesicular-arbuscular-mycorrhiza-125x125.jpg"
-
+          "https://3.imimg.com/data3/CS/YS/GLADMIN-156355/vesicular-arbuscular-mycorrhiza-125x125.jpg",
       },
       {
         label: "Agricultural Pesticides",
