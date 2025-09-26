@@ -32,10 +32,10 @@ const Navbar: FC<NavbarProps> = ({
   state: controlledState,
   setStatets,
   stateOptions = [
-    { value: "blr", label: "Bengaluru" },
-    { value: "del", label: "Delhi" },
-    { value: "mum", label: "Mumbai" },
-    { value: "chn", label: "Chennai" },
+    { value: "Bengalore", label: "Bengalore" },
+    { value: "delhi", label: "Delhi" },
+    { value: "mumbai", label: "Mumbai" },
+    { value: "chennai", label: "Chennai" },
   ],
 }) => {
   const navigate = useNavigate();
