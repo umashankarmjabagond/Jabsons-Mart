@@ -32,7 +32,7 @@ const Navbar: FC<NavbarProps> = ({
   state: controlledState,
   setStatets,
   stateOptions = [
-    { value: "Bengalore", label: "Bengalore" },
+    { value: "bengalore", label: "Bengalore" },
     { value: "delhi", label: "Delhi" },
     { value: "mumbai", label: "Mumbai" },
     { value: "chennai", label: "Chennai" },
