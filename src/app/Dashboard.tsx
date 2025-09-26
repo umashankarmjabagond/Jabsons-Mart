@@ -17,7 +17,6 @@ function Dashboard() {
         centerSlidePercentage={25}
         title={DASHBOARD_TEXT.DASHBOARD_CAROUSEL}
         buttonText={DASHBOARD_TEXT.CAROUSEL_BUTTON}
-        onButtonClick={(slide) => console.log("Clicked", slide.name)}
       />
       <div className="w-full mt-10 ">
         <UseCategory/>
