@@ -1,10 +1,11 @@
 import CommonCarousel from "@/components/common/CommonCarousel";
 import { products } from "../utils/json_util";
-import { DASHBOARD_TEXT } from "@constants/textConstants";
+import { DASHBOARD_TEXT, HEADING, SERVICES } from "@constants/textConstants";
 import { SlideItem } from "@/types/carouselTypes";
 import Testimonials from "@/components/common/Testimonials";
 import UseCategory from "@/features/dashboard/productCategory/UseCategory";
 import Footer from "@/components/common/Footer";
+import MoreForYouCard from "@/components/common/ui/MoreForYouCard";
 function Dashboard() {
   return (
     <>
@@ -18,10 +19,11 @@ function Dashboard() {
         buttonText={DASHBOARD_TEXT.CAROUSEL_BUTTON}
         onButtonClick={(slide) => console.log("Clicked", slide.name)}
       />
-      <div className="w-full px-2 sm:px-4 md:px-6 py-4">
+      <div className="w-full mt-10 ">
         {/* Testimonials Section */}
         <UseCategory/>
         <Testimonials />
+         <MoreForYouCard heading={HEADING.heading} services={SERVICES} />
         <Footer/>
       </div>
       </div>
