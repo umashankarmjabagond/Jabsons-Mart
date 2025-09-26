@@ -5,7 +5,7 @@ import FarmerLogo from "@assets/images/logo_farmer_mart_final.png";
 import SmallFarmerLogo from '@assets/images/FarmerSmall.png'
 export const AuthWrapper: React.FC<AuthLayoutProps> = ({ children, title }) => {
   return (
-    <div className="relative min-h-screen w-full flex bg-green-900 md:bg-inherit">
+    <div className="flex flex-col items-center justify-center md:relative min-h-screen w-full flex bg-green-900 md:bg-inherit">
       <div className="hidden md:block">
         <img
           src={farmerBg}
@@ -22,7 +22,7 @@ export const AuthWrapper: React.FC<AuthLayoutProps> = ({ children, title }) => {
         />
       </div>
 
-      <div className="md:hidden absolute top-5 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="md:hidden z-10">
         <img
           src={SmallFarmerLogo}
           alt="Product Logo"
@@ -30,10 +30,10 @@ export const AuthWrapper: React.FC<AuthLayoutProps> = ({ children, title }) => {
         />
       </div>
 
-      <div className="z-20 flex w-full md:justify-end items-center px-3 lg:px-12 mt-24 md:mt-0">
-        <div className="w-full md:w-1/2 max-w-lg md:m-5 bg-white rounded-lg py-12 md:p-8 lg:p-12 px-3 mb-3">
+      <div className="z-20 flex mt-2 w-full md:justify-end items-center px-3 lg:px-12 md:mt-0">
+        <div className="w-full md:w-1/2 max-w-lg md:m-5 bg-white rounded-lg md:px-8 md:pt-1 px-3 mb-3">
           {title && (
-            <h2 className="text-2xl sm:text-3xl font-bold text-black mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-black mb-2">
               {title}
             </h2>
           )}

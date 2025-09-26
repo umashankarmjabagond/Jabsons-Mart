@@ -149,7 +149,7 @@ const Register: React.FC = () => {
                 onBlur={handleBlur}
                 error={
                   (touched.confirmPassword || submitCount > 0) &&
-                  errors.confirmPassword
+                    errors.confirmPassword
                     ? errors.confirmPassword
                     : ""
                 }
@@ -177,7 +177,7 @@ const Register: React.FC = () => {
               {AUTH_TEXT.ALREADY_HAVE_ACCOUNT}
               <button
                 type="button"
-                onClick={() =>  navigate(`${ROUTES.AUTH}${ROUTES.LOGIN}`)}
+                onClick={() => navigate(`${ROUTES.AUTH}${ROUTES.LOGIN}`)}
                 className="text-green-600 font-semibold hover:underline"
               >
                 {AUTH_TEXT.TITLE}
