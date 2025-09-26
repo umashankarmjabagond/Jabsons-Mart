@@ -5,7 +5,7 @@ import { SlideItem } from "@/types/carouselTypes";
 import Testimonials from "@/components/common/Testimonials";
 import UseCategory from "@/features/dashboard/productCategory/UseCategory";
 import Footer from "@/components/common/Footer";
-import MoreForYouCard from "@/components/common/ui/MoreForYouCard";
+import MoreForYouCard from "@/components/common/MoreForYouCard";
 function Dashboard() {
   return (
     <>
@@ -20,7 +20,6 @@ function Dashboard() {
         onButtonClick={(slide) => console.log("Clicked", slide.name)}
       />
       <div className="w-full mt-10 ">
-        {/* Testimonials Section */}
         <UseCategory/>
         <Testimonials />
          <MoreForYouCard heading={HEADING.heading} services={SERVICES} />
