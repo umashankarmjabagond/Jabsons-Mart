@@ -173,7 +173,7 @@ const Register: React.FC = () => {
             <Button type="submit" variant="primary" className="w-full">
               {AUTH_TEXT.SIGNUP_BUTTON}
             </Button>
-            <p className="text-center text-sm text-gray-600 mt-4">
+            <p className="text-center text-sm text-gray-600 m-0 py-2">
               {AUTH_TEXT.ALREADY_HAVE_ACCOUNT}
               <button
                 type="button"

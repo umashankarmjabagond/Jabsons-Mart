@@ -83,7 +83,7 @@ const Login = () => {
           </Form>
         )}
       </Formik>
-      <div className="my-6 flex items-center">
+      <div className="py-2 flex items-center">
         <hr className="flex-grow border-gray-300" />
         <span className="px-2 text-gray-500 text-sm">{text.SOCIAL}</span>
         <hr className="flex-grow border-gray-300" />
@@ -109,7 +109,7 @@ const Login = () => {
           {text.CONTINUE_WITH_APPLE}
         </Button>
       </div>
-      <p className="text-center text-sm text-gray-600 mt-6">
+      <p className="text-center text-sm text-gray-600 my-2">
         {text.FOOTER}
         <a onClick={() => {
           navigate(`${ROUTES.AUTH}${ROUTES.REGISTER}`)
