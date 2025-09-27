@@ -19,8 +19,8 @@ const MoreForYou: React.FC = () => {
   return (
     <div className="mt-2 bg-gray-100">
       <div className="max-w-full mx-auto p-8 rounded-md shadow-sm">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-left">
-          {t("MORE_FOR_YOU_TEXT.HEADING")}
+        <h2 className="text-3xl font-bold text-black-500 mb-8 text-left">
+          {MORE_FOR_YOU_TEXT.HEADING}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -61,7 +61,7 @@ const MoreForYou: React.FC = () => {
                   variant="outline"
                   size="sm"
                   className="
-                    !rounded-lg
+                    !rounded-lg           
                     border-blue-600 text-blue-600
                     px-6 py-2 font-medium
                     hover:bg-blue-800 hover:text-white hover:border-blue-800

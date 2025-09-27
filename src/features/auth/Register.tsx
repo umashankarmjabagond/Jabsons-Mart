@@ -4,12 +4,10 @@ import { Input } from "@/components/common/ui/Input";
 import { Button } from "@/components/common/ui/Button";
 import { SelectInput } from "@/components/common/ui/SelectInput";
 import { Textarea } from "@/components/common/ui/Textarea";
+import registerSchema from "@/schemas/registerSchema";
+import { AUTH_TEXT, ROLE_OPTIONS } from "@/constants/textConstants";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routeConstants";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { ROLE_VALUES } from "@/constants/textConstants";
-import { getRegisterSchema } from "@/schemas/registerSchema";
-
 const Register: React.FC = () => {
   const { t, i18n } = useTranslation();
 
@@ -25,15 +23,7 @@ const Register: React.FC = () => {
     confirmPassword: "",
     about: "",
   };
-
-  const ROLE_OPTIONS = useMemo(
-    () =>
-      ROLE_VALUES.map((r) => ({
-        value: r.value,
-        label: t(`roles.${r.value}`, r.value),
-      })),
-    [i18n.language]
-  );
+  const navigate = useNavigate();
 
   return (
     <>
@@ -52,7 +42,7 @@ const Register: React.FC = () => {
           handleBlur,
           submitCount,
         }) => (
-          <Form className="space-y-4">
+          <Form className="space-y-4 ">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label={t("AUTH.NAME_LABEL")}
@@ -162,8 +152,8 @@ const Register: React.FC = () => {
                 onBlur={handleBlur}
                 error={
                   (touched.confirmPassword || submitCount > 0) &&
-                  errors.confirmPassword
-                    ? (errors.confirmPassword as string)
+                    errors.confirmPassword
+                    ? errors.confirmPassword
                     : ""
                 }
               />
@@ -187,6 +177,16 @@ const Register: React.FC = () => {
             <Button type="submit" variant="primary" className="w-full">
               {t("AUTH.SIGNUP_BUTTON")}
             </Button>
+            <p className="text-center text-sm text-gray-600 m-0 py-2">
+              {AUTH_TEXT.ALREADY_HAVE_ACCOUNT}
+              <button
+                type="button"
+                onClick={() => navigate(`${ROUTES.AUTH}${ROUTES.LOGIN}`)}
+                className="text-green-600 font-semibold hover:underline"
+              >
+                {AUTH_TEXT.TITLE}
+              </button>
+            </p>
           </Form>
         )}
       </Formik>
