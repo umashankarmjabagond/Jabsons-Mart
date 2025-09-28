@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const users = require("../../models/auth/auth.js");
+const bcrypt = require("bcryptjs");
 
 const SECRET_KEY =
   "signINSecretKeyForJWTsignINSecretKeyForJWTsignINSecretKeyForJWTsignINSecretKeyForJWT";
