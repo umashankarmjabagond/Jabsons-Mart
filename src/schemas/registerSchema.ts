@@ -14,15 +14,18 @@ const registerSchema = Yup.object().shape({
   role: Yup.string().required("Role is required"),
 
   gstNumber: Yup.string().when("role", {
-    is: (role: string) => !!role,
+    is: (role: string) => role === "vendor",
     then: (schema) =>
       schema.matches(/^[0-9]{15}$/, "GST number must be 15 digits"),
     otherwise: (schema) => schema.notRequired(),
   }),
 
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[a-z]/, "Must contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Must contain at least one special character"),
 
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
