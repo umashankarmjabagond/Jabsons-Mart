@@ -8,7 +8,6 @@ const RequirementForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Requirement submitted:", query);
   };
 
   const { t } = useTranslation();

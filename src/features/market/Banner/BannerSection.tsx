@@ -7,6 +7,7 @@ import { Carousel } from "react-responsive-carousel";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next"; // import i18n
+import { Button } from "@/components/common/ui/Button";
 
 const countryCodes = [
   { code: "+91", label: "India" },
@@ -39,19 +40,25 @@ const BannerSection = () => {
             <span className="bg-red-100 p-2 rounded-full mb-1">
               <CircleStar className="text-red-500" size={28} />
             </span>
-            <p className="text-sm font-medium">{t("MARKET_TEXT.TITLE_ICON1")}</p>
+            <p className="text-sm font-medium">
+              {t("MARKET_TEXT.TITLE_ICON1")}
+            </p>
           </div>
           <div className="flex flex-col items-center text-center gap-1">
             <span className="bg-green-100 p-2 rounded-full mb-1">
               <ShieldCheck className="text-green-500" size={28} />
             </span>
-            <p className="text-sm font-medium">{t("MARKET_TEXT.TITLE_ICON2")}</p>
+            <p className="text-sm font-medium">
+              {t("MARKET_TEXT.TITLE_ICON2")}
+            </p>
           </div>
           <div className="flex flex-col items-center text-center gap-1">
             <span className="bg-blue-100 p-2 rounded-full mb-1">
               <MessageSquareText className="text-blue-500" size={28} />
             </span>
-            <p className="text-sm font-medium">{t("MARKET_TEXT.TITLE_ICON3")}</p>
+            <p className="text-sm font-medium">
+              {t("MARKET_TEXT.TITLE_ICON3")}
+            </p>
           </div>
         </div>
       </div>
@@ -130,12 +137,12 @@ const BannerSection = () => {
                     >
                       {(msg) => t(msg)}
                     </ErrorMessage>
-                    <button
+                    <Button
                       type="submit"
                       className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600"
                     >
                       {t("MARKET_TEXT.SUBMIT_BUTTON")}
-                    </button>
+                    </Button>
                   </Form>
                 )}
               </Formik>

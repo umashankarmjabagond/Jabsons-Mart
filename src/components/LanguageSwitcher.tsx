@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectInput } from "./common/ui/SelectInput";
 
@@ -11,16 +11,16 @@ const LanguageSwitcher: React.FC = () => {
     { value: "kn", label: "Kannada" },
   ];
 
+  const [selectedLang, setSelectedLang] = useState<string>("en");
+
   useEffect(() => {
-    const storedLang = localStorage.getItem("i18nextLng");
-    if (!storedLang) {
-      i18n.changeLanguage("en");
-      localStorage.setItem("i18nextLng", "en");
-    }
+    i18n.changeLanguage("en");
+    localStorage.setItem("i18nextLng", "en");
   }, [i18n]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lng = e.target.value;
+    setSelectedLang(lng);
     i18n.changeLanguage(lng);
     localStorage.setItem("i18nextLng", lng);
   };
@@ -29,7 +29,7 @@ const LanguageSwitcher: React.FC = () => {
     <div className="flex items-center space-x-3">
       <SelectInput
         name="language"
-        value={i18n.language}
+        value={selectedLang}
         onChange={handleChange}
         onBlur={() => {}}
         options={languages}
