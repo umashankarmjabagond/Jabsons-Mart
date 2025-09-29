@@ -33,7 +33,7 @@ const TopCities: React.FC = () => {
   return (
     <section className="w-full px-4 py-8 bg-gray-100 mt-4">
       <h2 className="text-left text-2xl md:text-3xl font-semibold text-black-500 mb-8">
-        {TOP_CITIES.HEADING}
+        {t("TOP_CITIES.HEADING")}
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-8 gap-x-6 bg-white p-5 rounded-xl">

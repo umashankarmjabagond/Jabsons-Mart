@@ -1,7 +1,3 @@
-
-import { AuthWrapper } from './Authwrapper'
-import Login from './Login'
-import React from "react";
 import { AuthWrapper } from "./Authwrapper";
 import Login from "./Login";
 import { useTranslation } from "react-i18next";

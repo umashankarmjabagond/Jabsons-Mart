@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SelectInput } from "./common/ui/SelectInput";
 
@@ -11,8 +11,18 @@ const LanguageSwitcher: React.FC = () => {
     { value: "kn", label: "Kannada" },
   ];
 
+  useEffect(() => {
+    const storedLang = localStorage.getItem("i18nextLng");
+    if (!storedLang) {
+      i18n.changeLanguage("en");
+      localStorage.setItem("i18nextLng", "en");
+    }
+  }, [i18n]);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(e.target.value);
+    const lng = e.target.value;
+    i18n.changeLanguage(lng);
+    localStorage.setItem("i18nextLng", lng);
   };
 
   return (
@@ -26,7 +36,6 @@ const LanguageSwitcher: React.FC = () => {
         className="px-2 py-1 w-40"
         requiredIndicator={false}
       />
-      <span className="text-sm font-medium text-gray-700">Language</span>
     </div>
   );
 };

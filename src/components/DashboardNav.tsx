@@ -2,14 +2,16 @@ import { CiLocationOn } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Input } from "@/components/common/ui/Input";
 import { Button } from "./common/ui/Button";
-import { DASHBOARD_NAV_TXT } from "@/constants/textConstants";
 import { IoIosSearch } from "react-icons/io";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 function DashboardNav() {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
   const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  const { t } = useTranslation();
 
   const openPopover = () => {
     if (triggerRef.current) {
@@ -45,14 +47,14 @@ function DashboardNav() {
         >
           <CiLocationOn />
           <span className="text-gray-800 text-sm sm:text-base font-medium">
-            {DASHBOARD_NAV_TXT.LOCATION}
+            {t("DASHBOARD_NAV_TXT.LOCATION")}
           </span>
           <MdOutlineKeyboardArrowDown />
         </div>
 
         <div className="w-full sm:flex-1 sm:mx-4">
           <Input
-            placeholder={DASHBOARD_NAV_TXT.SEARCH_PLACEHOLDER}
+            placeholder={t("DASHBOARD_NAV_TXT.SEARCH_PLACEHOLDER")}
             className="w-full px-3 py-2 text-sm sm:text-base"
           />
         </div>
@@ -67,7 +69,7 @@ function DashboardNav() {
           w-full sm:w-auto
         "
         >
-          <span className="font-bold">{DASHBOARD_NAV_TXT.BTN_TEXT}</span>
+          <span className="font-bold">{t("DASHBOARD_NAV_TXT.BTN_TEXT")}</span>
         </Button>
       </div>
 
@@ -92,7 +94,7 @@ function DashboardNav() {
           >
             <input
               type="text"
-              placeholder={DASHBOARD_NAV_TXT.POPOVER_TEXT}
+              placeholder={t("DASHBOARD_NAV_TXT.POPOVER_TEXT")}
               className="
        w-full bg-transparent focus:bg-transparent outline-none
        text-gray-800 placeholder-gray-400

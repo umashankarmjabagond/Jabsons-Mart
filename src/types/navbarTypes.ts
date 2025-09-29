@@ -10,10 +10,7 @@ export interface NavOption {
   label: string;
 }
 
-export interface TranslationNavOption {
-  LABEL: string;
-  VALUE: NavOption["value"];
-}
+
 
 // Props for individual nav icon buttons
 export interface NavIconButtonProps {

@@ -20,7 +20,7 @@ const MoreForYou: React.FC = () => {
     <div className="mt-2 bg-gray-100">
       <div className="max-w-full mx-auto p-8 rounded-md shadow-sm">
         <h2 className="text-3xl font-bold text-black-500 mb-8 text-left">
-          {MORE_FOR_YOU_TEXT.HEADING}
+          {t("MORE_FOR_YOU_TEXT.HEADING")}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">

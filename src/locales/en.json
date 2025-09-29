@@ -36,21 +36,7 @@
     "AUTH_FOOTER": "Find everything you need \nseeds, fertilizers, tools, and more – \nto grow a successful harvest.",
     "FARMER_BG_ALT": "Farmer Background",
     "LOGO_ALT": "Farmer Mart Logo",
-    "BRAND_NAME": "Farmer Mart",
-    "VALIDATION": {
-      "NAME_REQUIRED": "Full name is required",
-      "PHONE_REQUIRED": "Phone number is required",
-      "PHONE_INVALID": "Phone number must be 10 digits",
-      "EMAIL_REQUIRED": "Email is required",
-      "EMAIL_INVALID": "Invalid email address",
-      "ROLE_REQUIRED": "Role is required",
-      "GST_INVALID": "GST number must be 15 digits",
-      "PASSWORD_REQUIRED": "Password is required",
-      "PASSWORD_MIN": "Password must be at least 6 characters",
-      "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required",
-      "PASSWORD_MATCH": "Passwords must match",
-      "ABOUT_MAX": "About section must not exceed 300 characters"
-    }
+    "BRAND_NAME": "Farmer Mart"
   },
   "ROLES": {
     "ADMIN": "Admin",
@@ -65,9 +51,9 @@
     "SIGN_IN": "Sign In",
     "LOGIN": "Login",
     "NAV_OPTIONS": [
-      { "LABEL": "Export", "VALUE": "export" },
-      { "LABEL": "Sell", "VALUE": "sell" },
-      { "LABEL": "Help", "VALUE": "help" }
+      { "label": "Export", "value": "export" },
+      { "label": "Sell", "value": "sell" },
+      { "label": "Help", "value": "help" }
     ]
   },
   "MORE_FOR_YOU_TEXT": {
@@ -211,5 +197,18 @@
       "Jaipur",
       "Hyderabad"
     ]
-  }
+  },
+  "HEADING": { "heading": "More for you" },
+  "DASHBOARD_NAV_TXT": {
+    "LOCATION": "All India",
+    "SEARCH_PLACEHOLDER": "Enter product / service",
+    "BTN_TEXT": "Search",
+    "POPOVER_TEXT": "Enter city"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "LOGOUT": "Logout"
 }
