@@ -26,7 +26,13 @@ const nearbyLocations = [
 
 const LocationSearch: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector((state: RootState) => state.products.items);
+
+  // ✅ Updated state selectors
+  const products = useSelector(
+    (state: RootState) => state.products.allProducts
+  );
+  const loading = useSelector((state: RootState) => state.products.loading);
+  const error = useSelector((state: RootState) => state.products.error);
 
   const [activeCity, setActiveCity] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,7 +42,7 @@ const LocationSearch: React.FC = () => {
   const pillContainerRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -63,7 +69,6 @@ const LocationSearch: React.FC = () => {
       nearbyLocations.filter((loc) =>
         loc.toLowerCase().includes(searchTerm.toLowerCase())
       ),
-
     [searchTerm]
   );
 
@@ -81,7 +86,10 @@ const LocationSearch: React.FC = () => {
     const el = pillContainerRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
+    setCanScrollRight(
+      el.scrollWidth > el.clientWidth &&
+        el.scrollLeft + el.clientWidth < el.scrollWidth
+    );
   }, []);
 
   useEffect(() => {
@@ -211,17 +219,23 @@ const LocationSearch: React.FC = () => {
 
           <div
             ref={pillContainerRef}
-            className="flex gap-2 overflow-x-auto max-w-full sm:max-w-3xl hide-scrollbar"
+            className="flex gap-2 overflow-x-auto max-w-full sm:max-w-3xl no-scrollbar"
             style={{ scrollBehavior: "smooth" }}
           >
-            {cities.map((city) => (
-              <Chip
-                key={city}
-                label={city}
-                isActive={activeCity === city}
-                onClick={() => setActiveCity(city)}
-              />
-            ))}
+            {loading ? (
+              <div className="text-gray-400 px-4 py-2">Loading cities...</div>
+            ) : error ? (
+              <div className="text-red-500 px-4 py-2">{error}</div>
+            ) : (
+              cities.map((city) => (
+                <Chip
+                  key={city}
+                  label={city}
+                  isActive={activeCity === city}
+                  onClick={() => setActiveCity(city)}
+                />
+              ))
+            )}
           </div>
 
           <Button
