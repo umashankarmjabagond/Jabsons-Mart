@@ -4,11 +4,11 @@ import RequirementForm from "@/features/productlist/RequirementForm";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import { SidebarSection } from "@/types/sidebarTypes";
-import FilterSlideBar from "@/features/productlist/filterSlideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/productSlice";
 import { RootState } from "@/redux/store";
-import LocationSearch from "@/features/productList/LocationSearch";
+import LocationSearch from "@/features/productlist/LocationSearch";
+import FilterSlideBar from "@/features/productlist/FilterSlideBar";
 
 const sidebarData: SidebarSection[] = [
   {
