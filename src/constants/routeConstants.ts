@@ -7,4 +7,5 @@ export const ROUTES = {
   PROFILE: "/profile",
   NOT_FOUND: "*",
   SEARCH_PAGE: "/products",
+  PRODUCT_DETAILS_PAGE:"/product/:id"
 } as const;

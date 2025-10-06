@@ -9,11 +9,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { currencyFormatter } from "@/utils/helpers";
-
+import { useNavigate } from "react-router-dom";
 function ProductList() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [activeBySupplier, setActiveBySupplier] = useState<number[]>([]);
-
+const navigate = useNavigate();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -88,6 +88,9 @@ function ProductList() {
           return (
             <div
               key={`${supplier.sellerName}-${index}`}
+               onClick={() =>
+    navigate(`/product/${index}`, { state: { supplier } }) 
+  }
               className="bg-white shadow rounded-lg overflow-hidden border border-gray-200 flex flex-col h-full"
             >
               <div className="relative h-44 md:h-48 w-full bg-gray-100 flex-shrink-0">

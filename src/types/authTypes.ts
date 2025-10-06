@@ -8,7 +8,9 @@ export interface ButtonProps
     | "outline"
     | "ghost"
     | "social"
-    | "viewAll";
+    | "viewAll"
+    | "addToCart"
+    |"buyNow";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
