@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { ProductListProps, Product } from "@/types/productTypes";
 import { MapPin, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/helpers";
+import type { ProductListProps, Product } from "@/types/productTypes";
 
 const ProductList: React.FC<ProductListProps> = ({
   products,
