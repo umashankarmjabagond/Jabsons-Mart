@@ -10,7 +10,11 @@ export interface ButtonProps
     | "social"
     | "viewAll"
     | "addToCart"
-    |"buyNow";
+    | "buyNow"
+    | "pillScroll"
+    | "activeCity"
+    | "inactiveCity";
+
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -65,7 +69,6 @@ export interface Service {
   description: string;
   buttonText: string;
 }
-
 
 export interface MoreForYouCardProps {
   heading: string;

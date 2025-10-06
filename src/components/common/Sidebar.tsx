@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { SidebarData } from "@/types/sideBar";
 import { Button } from "./ui/Button";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
   ({ name, mobile, address, menuItem, help, imageIcon, ...props }, ref) => {
@@ -14,6 +15,8 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
 
     const handleLogout = () => {
       localStorage.removeItem("user");
+      localStorage.removeItem("i18nextLng");
+      i18n.changeLanguage("en");
       navigate("/");
     };
 

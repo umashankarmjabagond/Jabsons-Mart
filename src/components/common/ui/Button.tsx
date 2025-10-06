@@ -17,7 +17,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium rounded-full  md:rounded-lg  transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ";
+      "inline-flex items-center justify-center font-small rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
     const variants = {
       primary:
@@ -30,11 +30,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       social: "bg-white  hover:bg-gray-50 text-gray-700 focus:ring-gray-500",
       viewAll:
         "mt-4 bg-green-300 text-white px-8 ml-6 py-2 rounded hover:underline transition text-sm md:text-base",
-          addToCart:
-"flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 text-xs md:text-sm md:rounded rounded-md p-1  font-semibold flex items-center justify-center md:gap-2 gap-1",
-  buyNow:
-   "flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded font-semibold flex items-center text-xs md:text-sm md:rounded rounded-md p-1  justify-center gap-2",
-  
+      addToCart:
+        "flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 text-xs md:text-sm md:rounded rounded-md p-1  font-semibold flex items-center justify-center md:gap-2 gap-1",
+      buyNow:
+        "flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded font-semibold flex items-center text-xs md:text-sm md:rounded rounded-md p-1  justify-center gap-2",
+
+      pillScroll: "px-4 py-2  text-xl transition text-center ",
+      activeCity: "bg-white border-red-500 text-red-600",
+      inactiveCity: "bg-white hover:bg-gray-100 border-gray-300 text-gray-700",
     };
 
     const sizes = {
@@ -47,7 +50,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           baseStyles,
           variants[variant],
-          sizes[size],
+          variant !== "pillScroll" && sizes[size],
+
           isLoading && "cursor-wait",
           className
         )}

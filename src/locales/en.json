@@ -210,31 +210,5 @@
     "profile": "Profile",
     "settings": "Settings"
   },
-  "LOGOUT": "Logout",
-  "PRODUCT_LIST_VIEW":
-  {
-  "NO_PRODUCT": "No product details found",
-  "ADD_TO_CART": "ADD TO CART",
-  "BUY_NOW": "BUY NOW",
-  "VERIFIED": "Verified:",
-  "YES": "Yes ✅",
-  "NO": "No ❌",
-  "SECURE_DELIVERY": "Secure delivery by 4 Oct, Saturday",
-  "PAY_EXTRA": "Or Pay",
-  "AVAILABLE_OFFERS": "Available Offers",
-  "SHOW_LESS": "Show less",
-  "OFFERS": [
-    "10% Bank Offer on UPI",
-    "5% Cashback on Credit Card",
-    "Special Price: Save ₹500",
-    "Extra ₹200 off on first order",
-    "Free delivery on orders above ₹999",
-    "Exchange Offer: Get up to ₹1500 off",
-    "No Cost EMI on select cards",
-    "Flat ₹100 cashback on Wallet payment"
-  ]
+  "LOGOUT": "Logout"
 }
-
-}
-
-
