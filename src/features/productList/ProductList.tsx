@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ProductListProps, Product } from "@/types/productTypes";
 import { MapPin, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/helpers";
@@ -10,6 +10,10 @@ const ProductList: React.FC<ProductListProps> = ({
   error,
 }) => {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [products]);
+
   if (loading) return <div className="p-6">Loading products...</div>;
   if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
   if (!products || products.length === 0)
@@ -21,7 +25,7 @@ const ProductList: React.FC<ProductListProps> = ({
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         style={{ gridAutoRows: "1fr" }}
       >
-        {products.map((product: Product) => {
+        {products.map((product: Product, index) => {
           const ratingNumber = product.rating ? Number(product.rating) : 0;
 
           return (
