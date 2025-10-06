@@ -1,22 +1,21 @@
 import { Input } from "@/components/common/ui/Input";
 import { Button } from "./common/ui/Button";
+import { DASHBOARD_NAV_TXT } from "@/constants/textConstants";
 import { IoIosSearch } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 function DashboardNav() {
-  const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [notFoundMessage, setNotFoundMessage] = useState("");
   const [selectedLabel, setSelectedLabel] = useState(
-    t("DASHBOARD_NAV_TXT.LOCATION")
+    DASHBOARD_NAV_TXT.LOCATION
   );
-  const [product, setProduct] = useState("");
   const desktopDropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const [product, setProduct] = useState("");
 
   const stateOptions = [
     { value: "blr", label: "Bengaluru" },
@@ -40,7 +39,7 @@ function DashboardNav() {
   }, []);
 
   function handleSelect(value: string) {
-    const opt = stateOptions.find((option) => option.value === value);
+    const opt = stateOptions.find(option => option.value === value);
     if (opt) {
       setSelectedLabel(opt.label);
       setDropdownOpen(false);
@@ -48,13 +47,11 @@ function DashboardNav() {
   }
 
   function handleSearch() {
-    const match = stateOptions.find((option) =>
+    const match = stateOptions.find(option =>
       option.label.toLowerCase().includes(searchText.toLowerCase())
     );
     if (!match) {
-      setNotFoundMessage(
-        t("DASHBOARD_NAV_TXT.NO_LOCATION_FOUND") || "No location found"
-      );
+      setNotFoundMessage("No location found");
     } else {
       handleSelect(match.value);
     }
@@ -84,7 +81,7 @@ function DashboardNav() {
           <button
             type="button"
             onClick={() => {
-              setDropdownOpen((s) => !s);
+              setDropdownOpen(s => !s);
               setSearchText("");
               setNotFoundMessage("");
             }}
@@ -120,13 +117,13 @@ function DashboardNav() {
               <div className="flex items-center space-x-2">
                 <Input
                   type="text"
-                  placeholder={t("DASHBOARD_NAV_TXT.POPOVER_TEXT")}
+                  placeholder="Type location..."
                   value={searchText}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSearchText(e.target.value);
                     setNotFoundMessage("");
                   }}
-                  onKeyDown={(e) => {
+                  onKeyDown={e => {
                     if (e.key === "Enter") handleSearch();
                   }}
                   className="w-full px-2 py-1 border border-gray-300 rounded outline-none text-sm"
@@ -142,10 +139,10 @@ function DashboardNav() {
 
               <ul className="mt-2 max-h-44 overflow-y-auto">
                 {stateOptions
-                  .filter((opt) =>
+                  .filter(opt =>
                     opt.label.toLowerCase().includes(searchText.toLowerCase())
                   )
-                  .map((opt) => (
+                  .map(opt => (
                     <li
                       key={opt.value}
                       className="px-2 py-1 hover:bg-gray-100 cursor-pointer rounded"
@@ -167,10 +164,10 @@ function DashboardNav() {
 
         <div className="flex-1 w-full sm:mx-0">
           <Input
-            placeholder={t("DASHBOARD_NAV_TXT.SEARCH_PLACEHOLDER")}
+            placeholder={DASHBOARD_NAV_TXT.SEARCH_PLACEHOLDER}
             className="w-full px-4 py-2 text-sm sm:text-base"
             value={product}
-            onChange={(e) => setProduct(e.target.value)}
+            onChange={e => setProduct(e.target.value)}
           />
         </div>
 
@@ -185,7 +182,7 @@ function DashboardNav() {
           w-full sm:w-auto
         "
         >
-          <span className="font-bold">{t("DASHBOARD_NAV_TXT.BTN_TEXT")}</span>
+          <span className="font-bold">{DASHBOARD_NAV_TXT.BTN_TEXT}</span>
         </Button>
       </div>
     </>

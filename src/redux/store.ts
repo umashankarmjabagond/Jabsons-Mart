@@ -4,11 +4,11 @@ import productReducer from "./productSlice";
 
 const store = configureStore({
   reducer: {
-    dashboard:dashBoardSlice,
+    toggle: dashBoardSlice,
     products: productReducer,
   },
 });
-export default store;
 
+export default store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

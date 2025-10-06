@@ -174,7 +174,7 @@ const LocationSearch: React.FC = () => {
                 setShowDropdown(true);
               }}
               onFocus={() => setShowDropdown(true)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-full outline-none text-sm"
+              className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-full outline-none text-sm"
             />
 
             {showDropdown && filteredNearby.length > 0 && (
@@ -197,7 +197,7 @@ const LocationSearch: React.FC = () => {
             onClick={handleNearbyBtnClick}
             variant="ghost"
             size="sm"
-            className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-full hover:bg-gray-100 text-sm"
+            className="w-[70%] sm:w-auto mt-1 px-4 py-2 border border-gray-300 rounded-full hover:bg-gray-100 text-sm"
           >
             {LOCATION_SEARCH.NEARME}
           </Button>
