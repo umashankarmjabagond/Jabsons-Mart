@@ -222,7 +222,7 @@ const Navbar: FC<NavbarProps> = ({
           </div>
 
           {/* Search + Location + Buttons */}
-          <div className="flex items-center space-x-6 flex-1 justify-end">
+          <div className="flex items-center space-x-6 flex-1 justify-between">
             {/* Location Dropdown */}
             <div className="relative" ref={desktopDropdownRef}>
               <button
