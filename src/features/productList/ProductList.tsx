@@ -25,7 +25,7 @@ const ProductList: React.FC<ProductListProps> = ({
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         style={{ gridAutoRows: "1fr" }}
       >
-        {products.map((product: Product, index) => {
+        {products.map((product: Product) => {
           const ratingNumber = product.rating ? Number(product.rating) : 0;
 
           return (
@@ -33,15 +33,15 @@ const ProductList: React.FC<ProductListProps> = ({
               key={`${product.itemName ?? "no-name"}-${
                 product.sellerName ?? "no-seller"
               }`}
-              onClick={() =>
-                navigate(`/product/${index}`, { state: { supplier } })
-              }
+           onClick={() => navigate(`/product/${product.id}`, { state: { supplier: product } })}
+
+             
               className="bg-white shadow rounded-lg overflow-hidden border border-gray-200 flex flex-col h-full"
             >
               <div className="relative h-44 md:h-48 w-full bg-gray-100 flex-shrink-0">
                 {product.imageUrl ? (
                   <img
-                    src={product.imageUrl}
+                    src={product.imageUrl[0]}
                     alt={product.itemName ?? "Product"}
                     className="w-full h-full object-cover"
                   />

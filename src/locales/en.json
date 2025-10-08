@@ -210,5 +210,29 @@
     "profile": "Profile",
     "settings": "Settings"
   },
-  "LOGOUT": "Logout"
+  "LOGOUT": "Logout",
+
+
+  "PRODUCT_LIST_VIEW": {
+    "NO_PRODUCT": "No product details found.",
+    "ADD_TO_CART": "ADD TO CART",
+    "BUY_NOW": "BUY NOW",
+    "VERIFIED": "Verified:",
+    "YES": "Yes",
+    "NO": "No",
+    "SECURE_DELIVERY": "100% Secure delivery guaranteed.",
+    "PAY_EXTRA": "Pay extra ₹100 for express delivery.",
+    "AVAILABLE_OFFERS": "Available Offers",
+    "SHOW_LESS": "Show less",
+    "OFFERS": [
+      "10% off on Bank of Baroda Credit Card, up to ₹750 on orders above ₹2,000",
+      "5% Cashback on Flipkart Axis Bank Card",
+      "₹100 Off on first order above ₹500",
+      "Buy 2 items, get 5% off",
+      "Special PriceGet extra 20% off (price inclusive of cashback/coupon)",
+      "No Cost EMI available on select cards",
+      "Exchange offer available — get up to ₹500 off"
+    ]
+  }
 }
+
