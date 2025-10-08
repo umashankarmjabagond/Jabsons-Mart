@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({
     const footerArray = React.Children.toArray(footer);
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#00000099] flex items-center justify-center z-50">
             <div className="bg-white rounded-2xl shadow-lg w-[90%] max-w-md relative overflow-hidden">
                 {showClose && (
                     <button
@@ -66,17 +66,32 @@ const Modal: React.FC<ModalProps> = ({
                 {footer && (
                     <div className="px-4 py-6 flex gap-3 w-full">
                         {footerArray.length === 1
-                            ? React.cloneElement(footerArray[0] as React.ReactElement, {
-                                className: `${(footerArray[0] as React.ReactElement).props.className || ""
-                                    } w-full text-center`,
-                            })
-                            : footerArray.map((child, i) =>
-                                React.cloneElement(child as React.ReactElement, {
-                                    key: i,
-                                    className: `${(child as React.ReactElement).props.className || ""
-                                        } flex-1`,
-                                })
-                            )}
+                            ? (() => {
+                                const child = footerArray[0];
+                                if (!React.isValidElement(child)) return child;
+
+                                return React.cloneElement(
+                                    child as React.ReactElement<React.HTMLAttributes<HTMLElement>>,
+                                    {
+                                        className: `${(child as React.ReactElement<React.HTMLAttributes<HTMLElement>>).props
+                                            .className || ""
+                                            } w-full text-center`,
+                                    }
+                                );
+                            })()
+                            : footerArray.map((child, i) => {
+                                if (!React.isValidElement(child)) return child;
+
+                                return React.cloneElement(
+                                    child as React.ReactElement<React.HTMLAttributes<HTMLElement>>,
+                                    {
+                                        key: i,
+                                        className: `${(child as React.ReactElement<React.HTMLAttributes<HTMLElement>>).props
+                                            .className || ""
+                                            } flex-1`,
+                                    }
+                                );
+                            })}
                     </div>
                 )}
             </div>

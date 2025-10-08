@@ -3,7 +3,7 @@ import { IoNewspaperOutline, IoPersonCircleSharp } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import { LuCalendarCheck, LuPanelTop } from "react-icons/lu";
 import { RiStarSmileLine } from "react-icons/ri";
-import { MdEdit, MdLanguage, MdOutlineAccountBox, MdSwitchAccount} from "react-icons/md";
+import { MdEdit, MdLanguage, MdOutlineAccountBox, MdSwitchAccount } from "react-icons/md";
 import { ProfileCardProps } from "@/types/profileTypes";
 import { PROFILE_PAGE_TXT } from "@constants/textConstants";
 
@@ -65,6 +65,7 @@ export const ContactInfoCard: React.FC<ContactInfoProps> = ({
   altEmail,
   onEdit,
 }) => {
+
   return (
     <div className="relative bg-white rounded-lg shadow-md  px-3 py-4 mt-4">
       <div className="flex justify-between items-center border-b pb-3 mb-4">
@@ -172,6 +173,7 @@ export const CompanyInformationCard: React.FC<CompanyInfoProps> = ({
   ownerName,
   onEdit,
 }) => {
+
   return (
     <div className="relative bg-white rounded-lg shadow-md px-3 py-4 mt-4">
       <div className="flex justify-between items-center border-b pb-3 mb-4">
@@ -281,7 +283,6 @@ import { BsBank2 } from "react-icons/bs";
 
 import { BankAccountDetailsProps } from "@/types/profileTypes";
 import { VscCodeOss } from "react-icons/vsc";
-
 export const BankAccountDetailsCard: React.FC<BankAccountDetailsProps> = ({
   bankName,
   accountNumber,
