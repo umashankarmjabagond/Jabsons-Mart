@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { State, City } from "country-state-city";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { addAddress, selectAddress } from "@/redux/checkoutSlice";
@@ -6,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 interface Props {
-  isActive?: boolean; // defaults to true when used as a standalone route
+  isActive?: boolean; 
   onNext?: () => void;
 }
 
@@ -30,6 +31,10 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     addressType: "home" as "home" | "work",
   });
   const [showAddForm, setShowAddForm] = useState(false);
+  const [stateOptions, setStateOptions] = useState<{ name: string; isoCode: string }[]>([]);
+  const [cityOptions, setCityOptions] = useState<{ name: string }[]>([]);
+  const [selectedStateIso, setSelectedStateIso] = useState<string>("");// used to fetch cities
+  const COUNTRY_CODE = "IN"; 
 
   const AddressSchema = Yup.object({
     name: Yup.string().min(2).max(50).required("Name is required"),
@@ -82,9 +87,34 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
           altPhone: selected.altPhone || "",
           addressType: (selected.addressType as "home" | "work") || "home",
         });
+        // also set iso code for the prefilled state so that city list loads
+        const st = State.getStatesOfCountry(COUNTRY_CODE).find((s) => s.name === (selected.state || ""));
+        setSelectedStateIso(st?.isoCode || "");
       }
     }
   }, [selectedAddressId, addresses]);
+
+  // Load states on mount
+  useEffect(() => {
+    try {
+      const states = State.getStatesOfCountry(COUNTRY_CODE) || [];
+      setStateOptions(states.map((s) => ({ name: s.name, isoCode: s.isoCode })));
+    } catch {}
+  }, []);
+
+  // Update cities whenever selected state changes
+  useEffect(() => {
+    if (selectedStateIso) {
+      try {
+        const cities = City.getCitiesOfState(COUNTRY_CODE, selectedStateIso) || [];
+        setCityOptions(cities.map((c) => ({ name: c.name })));
+      } catch {
+        setCityOptions([]);
+      }
+    } else {
+      setCityOptions([]);
+    }
+  }, [selectedStateIso]);
 
   if (!isActive) return null;
 
@@ -221,7 +251,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
       {/* Add / Edit address (Formik) */}
       {(showAddForm || addresses.length === 0) && (
       <Formik initialValues={form} validationSchema={AddressSchema} enableReinitialize onSubmit={handleSaveAndContinue}>
-        {({ isValid }) => (
+        {({ isValid, setFieldValue, values }) => (
           <Form className="mt-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -245,18 +275,32 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
                 <ErrorMessage component="div" className="text-red-600 text-xs mt-1" name="address" />
               </div>
               <div>
-                <Field className="border rounded px-3 py-2 w-full" name="city" placeholder="City/District/Town" />
-                <ErrorMessage component="div" className="text-red-600 text-xs mt-1" name="city" />
+                <select
+                  className="border rounded px-3 py-2 w-full"
+                  value={stateOptions.find((s) => s.name === values.state)?.isoCode || ""}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const iso = e.target.value;
+                    const st = stateOptions.find((s) => s.isoCode === iso);
+                    setFieldValue("state", st ? st.name : "");
+                    setSelectedStateIso(iso);
+                    setFieldValue("city", "");
+                  }}
+                >
+                  <option value="">--Select State--</option>
+                  {stateOptions.map((s) => (
+                    <option key={s.isoCode} value={s.isoCode}>{s.name}</option>
+                  ))}
+                </select>
+                <ErrorMessage component="div" className="text-red-600 text-xs mt-1" name="state" />
               </div>
               <div>
-                <Field as="select" className="border rounded px-3 py-2 w-full" name="state">
-                  <option value="">--Select State--</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
+                <Field as="select" className="border rounded px-3 py-2 w-full" name="city" disabled={!selectedStateIso || cityOptions.length === 0} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFieldValue("city", e.target.value)}>
+                  <option value="">--Select City--</option>
+                  {cityOptions.map((c) => (
+                    <option key={c.name} value={c.name}>{c.name}</option>
+                  ))}
                 </Field>
-                <ErrorMessage component="div" className="text-red-600 text-xs mt-1" name="state" />
+                <ErrorMessage component="div" className="text-red-600 text-xs mt-1" name="city" />
               </div>
               <div>
                 <Field className="border rounded px-3 py-2 w-full" name="landmark" placeholder="Landmark (Optional)" />

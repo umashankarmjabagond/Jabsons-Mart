@@ -21,7 +21,19 @@ const LoginStep: React.FC<Props> = ({ isActive = true, onNext }) => {
 
   const initialValues: LoginFormValues = { email: "", password: "" };
 
-  const isAuthenticated = Boolean(localStorage.getItem("user"));
+  const getStoredToken = (): string | undefined => {
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const parsed = JSON.parse(userStr);
+        if (parsed?.token && typeof parsed.token === "string") return parsed.token;
+      }
+    } catch {}
+    const token = localStorage.getItem("token");
+    return token || undefined;
+  };
+
+  const isAuthenticated = Boolean(getStoredToken());
 
   return (
     <div className="p-6 bg-white rounded shadow border">
@@ -52,7 +64,13 @@ const LoginStep: React.FC<Props> = ({ isActive = true, onNext }) => {
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           setStatus(undefined);
           try {
-            await loginUser(values);
+            const res: any = await loginUser(values);
+            // Normalize and persist for downstream checks (e.g., ProtectedRoute)
+            if (res?.token) {
+              try {
+                localStorage.setItem("user", JSON.stringify({ message: res.message || "Login successful", token: res.token }));
+              } catch {}
+            }
             if (onNext) onNext();
             else dispatch(goToNextStep());
           } catch (err: any) {
