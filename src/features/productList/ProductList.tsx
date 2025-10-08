@@ -41,7 +41,7 @@ const ProductList: React.FC<ProductListProps> = ({
               <div className="relative h-44 md:h-48 w-full bg-gray-100 flex-shrink-0">
                 {product.imageUrl ? (
                   <img
-                    src={product.imageUrl[0]}
+                    src={product.imageUrl}
                     alt={product.itemName ?? "Product"}
                     className="w-full h-full object-cover"
                   />
