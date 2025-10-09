@@ -6,18 +6,10 @@ import LoginStep from "./Steps/LoginStep";
 import AddressStep from "./Steps/AddressStep";
 import OrderSummaryStep from "./Steps/OrderSummaryStep";
 import PriceDetails from "@/features/Cart/PriceDetails";
+import { PLATFORM_FEE } from "@/constants/priceConstant";
+import { getCartData } from "@/utils/cartUtils";
 
 const steps = ["Login / Signup", "Delivery Address", "Order Summary"];
-
-interface CartItem {
-  cartId: string;
-  itemName: string;
-  sellerName: string;
-  imageUrl: string;
-  price: number;
-  quantity: number;
-  [key: string]: unknown;
-}
 
 const CheckoutFlow: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,31 +17,7 @@ const CheckoutFlow: React.FC = () => {
     (state: RootState) => state.checkout.currentStep
   );
 
-  const reduxItems: CartItem[] = useSelector(
-    (state: RootState) => state.cart?.items ?? []
-  );
-
-  const persistedItems: CartItem[] = (() => {
-    try {
-      const raw = localStorage.getItem("cart");
-      return raw ? (JSON.parse(raw) as CartItem[]) : [];
-    } catch {
-      return [];
-    }
-  })();
-
-  const items: CartItem[] = reduxItems.length > 0 ? reduxItems : persistedItems;
-
-  const itemCount = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
-  const itemsTotal = items.reduce(
-    (sum, i) => sum + (i.price || 0) * (i.quantity || 0),
-    0
-  );
-
-  const PLATFORM_FEE = 7;
-  const DISCOUNT = 25;
-  const COUPONS = 10;
-  const totalAmount = itemsTotal - DISCOUNT - COUPONS + PLATFORM_FEE;
+  const { itemCount, itemsTotal } = getCartData();
 
   const nextStep = () => dispatch(goToNextStep());
   const navigateToStep = (stepNum: number) => {
@@ -92,19 +60,7 @@ const CheckoutFlow: React.FC = () => {
       <div className="w-full md:col-span-6 flex flex-col gap-6 bg-white rounded-lg p-4 shadow-sm">
         {currentStep === 1 && <LoginStep isActive onNext={nextStep} />}
         {currentStep === 2 && <AddressStep isActive onNext={nextStep} />}
-        {currentStep === 3 && (
-          <OrderSummaryStep
-            isActive
-            priceDetails={{
-              items,
-              itemsTotal,
-              discount: DISCOUNT,
-              coupons: COUPONS,
-              platformFee: PLATFORM_FEE,
-              totalAmount,
-            }}
-          />
-        )}
+        {currentStep === 3 && <OrderSummaryStep isActive />}
       </div>
 
       <aside className="md:col-span-3">

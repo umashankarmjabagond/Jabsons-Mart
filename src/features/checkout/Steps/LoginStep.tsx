@@ -6,30 +6,9 @@ import { Input } from "@/components/common/ui/Input";
 import { Button } from "@/components/common/ui/Button";
 import { LoginSchema, LoginFormValues } from "@/schemas/loginSchema";
 import { loginUser } from "@/services/auth";
+import { StepProps, StoredUser, LoginResponse } from "@/types/checkoutTypes";
 
-interface Props {
-  isActive?: boolean;
-  onNext?: () => void;
-}
-
-interface StoredUser {
-  token?: string;
-  message?: string;
-  user?: {
-    email?: string;
-    [key: string]: unknown;
-  };
-  email?: string;
-}
-
-// Type for API response
-interface LoginResponse {
-  token?: string;
-  message?: string;
-  [key: string]: unknown;
-}
-
-const LoginStep: React.FC<Props> = ({ isActive = true, onNext }) => {
+const LoginStep: React.FC<StepProps> = ({ isActive = true, onNext }) => {
   const dispatch = useDispatch();
 
   if (!isActive) return null;

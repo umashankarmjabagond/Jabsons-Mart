@@ -5,42 +5,11 @@ import type { RootState, AppDispatch } from "@/redux/store";
 import { addAddress, selectAddress } from "@/redux/checkoutSlice";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-
-interface Props {
-  isActive?: boolean;
-  onNext?: () => void;
-}
-
-// ✅ Address type to ensure structure consistency
-export interface Address {
-  id: string;
-  name: string;
-  phone: string;
-  pincode: string;
-  address: string;
-  locality?: string;
-  city?: string;
-  state?: string;
-  landmark?: string;
-  altPhone?: string;
-  addressType: "home" | "work";
-}
-
-// ✅ Form values type (same as Address but without id)
-type AddressFormValues = Omit<Address, "id">;
-
-interface StateOption {
-  name: string;
-  isoCode: string;
-}
-
-interface CityOption {
-  name: string;
-}
+import { AddressFormValues, CityOption, StateOption, StepProps } from "@/types/checkoutTypes";
 
 const COUNTRY_CODE = "IN";
 
-const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
+const AddressStep: React.FC<StepProps> = ({ isActive = true, onNext }) => {
   const dispatch = useDispatch<AppDispatch>();
   const addresses = useSelector((state: RootState) => state.checkout.addresses);
   const selectedAddressId = useSelector(
@@ -65,7 +34,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
   const [cityOptions, setCityOptions] = useState<CityOption[]>([]);
   const [selectedStateIso, setSelectedStateIso] = useState<string>("");
 
-  // ✅ Validation schema with Yup
+
   const AddressSchema = Yup.object({
     name: Yup.string().min(2).max(50).required("Name is required"),
     phone: Yup.string()
@@ -88,7 +57,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     addressType: Yup.mixed<"home" | "work">().oneOf(["home", "work"]).required(),
   });
 
-  // ✅ Load user default address
+
   useEffect(() => {
     const userStr = localStorage.getItem("user");
     const user = userStr ? JSON.parse(userStr) : null;
@@ -106,7 +75,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     }
   }, [dispatch, addresses.length]);
 
-  // ✅ When an address is selected, load its data
+
   useEffect(() => {
     if (selectedAddressId) {
       const selected = addresses.find((a) => a.id === selectedAddressId);
@@ -132,7 +101,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     }
   }, [selectedAddressId, addresses]);
 
-  // ✅ Load all states
+
   useEffect(() => {
     try {
       const states = State.getStatesOfCountry(COUNTRY_CODE) || [];
@@ -142,7 +111,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     }
   }, []);
 
-  // ✅ Load cities for selected state
+
   useEffect(() => {
     if (selectedStateIso) {
       try {
@@ -158,7 +127,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
 
   if (!isActive) return null;
 
-  // ✅ Handle selecting existing address
+
   const handleSelect = (id: string) => {
     dispatch(selectAddress(id));
     const selected = addresses.find((a) => a.id === id);
@@ -178,7 +147,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
     }
   };
 
-  // ✅ Handle saving address
+  
   const handleSaveAndContinue = (
     values: AddressFormValues,
     { resetForm }: FormikHelpers<AddressFormValues>
@@ -221,7 +190,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
         Delivery Address
       </h2>
 
-      {/* ✅ Saved Addresses */}
+
       {addresses.length > 0 && (
         <div className="mb-5">
           <div className="flex flex-col gap-3">
@@ -308,7 +277,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
         </div>
       )}
 
-      {/* ✅ Add/Edit Address Form */}
+
       {(showAddForm || addresses.length === 0) && (
         <Formik
           initialValues={form}
@@ -452,7 +421,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
                 </div>
               </div>
 
-              {/* Address Type */}
+ 
               <div className="mt-4">
                 <p className="text-sm text-gray-700 mb-2">Address Type</p>
                 <label className="mr-6 inline-flex items-center gap-2">
@@ -465,7 +434,7 @@ const AddressStep: React.FC<Props> = ({ isActive = true, onNext }) => {
                 </label>
               </div>
 
-              {/* Submit / Cancel */}
+
               <div className="mt-4 grid grid-cols-[1fr_auto] gap-4 items-center">
                 <button
                   type="submit"

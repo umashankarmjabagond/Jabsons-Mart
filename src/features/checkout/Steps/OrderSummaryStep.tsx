@@ -1,56 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/common/ui/Button";
+import { PLATFORM_FEE, DISCOUNT, COUPONS } from "@/constants/priceConstant";
+import type { PriceDetails, StepProps } from "@/types/checkoutTypes";
+import { getCartData } from "@/utils/cartUtils";
 
-interface Props {
-  isActive?: boolean;
-}
-
-interface CartItem {
-  cartId: string;
-  itemName: string;
-  sellerName: string;
-  imageUrl: string;
-  price: number;
-  quantity: number;
-  [key: string]: unknown;
-}
-
-interface PriceDetails {
-  items: CartItem[];
-  itemsTotal: number;
-  discount: number;
-  coupons: number;
-  platformFee: number;
-  totalAmount: number;
-}
-
-const OrderSummaryStep: React.FC<Props> = ({ isActive = true }) => {
+const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { items, itemsTotal } = getCartData();
 
-  const reduxItems: CartItem[] = useSelector(
-    (state: RootState) => state.cart?.items ?? []
-  );
 
-  const persistedItems: CartItem[] = (() => {
-    try {
-      const raw = localStorage.getItem("cart");
-      return raw ? (JSON.parse(raw) as CartItem[]) : [];
-    } catch {
-      return [];
-    }
-  })();
-
-  const items: CartItem[] = reduxItems.length > 0 ? reduxItems : persistedItems;
-
-  const itemsTotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const PLATFORM_FEE = 7;
-  const DISCOUNT = 25;
-  const COUPONS = 10;
   const totalAmount = itemsTotal - DISCOUNT - COUPONS + PLATFORM_FEE;
 
   if (!isActive) return null;
@@ -74,6 +35,7 @@ const OrderSummaryStep: React.FC<Props> = ({ isActive = true }) => {
       <h2 className="text-xl font-semibold mb-6 text-gray-800">
         {t("CART.orderSummary")}
       </h2>
+
 
       <div className="mb-6">
         <h3 className="text-lg font-medium mb-4 text-gray-700">
@@ -129,6 +91,7 @@ const OrderSummaryStep: React.FC<Props> = ({ isActive = true }) => {
         </div>
       </div>
 
+
       <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
         <h3 className="font-semibold mb-4 text-gray-700">
           {t("CART.priceDetails")}
@@ -164,11 +127,12 @@ const OrderSummaryStep: React.FC<Props> = ({ isActive = true }) => {
         </p>
       </div>
 
-      <div className="mt-6 pt-4 border-t flex items-center justify-between">
+
+      <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between gap-4">
         <Button
           variant="addToCart"
           size="lg"
-          className="w-28 py-2"
+          className="w-36 py-3 px-6 rounded-lg font-semibold text-white bg-amber-500 hover:bg-amber-600 transition-colors duration-200 shadow-sm hover:shadow-md"
           onClick={goBack}
         >
           {t("CART.back")}
@@ -177,7 +141,7 @@ const OrderSummaryStep: React.FC<Props> = ({ isActive = true }) => {
         <Button
           variant="buyNow"
           size="lg"
-          className="w-28 py-2"
+          className="w-36 py-3 px-6 rounded-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 shadow-sm hover:shadow-md"
           onClick={proceed}
         >
           {t("CART.placeOrder")}
