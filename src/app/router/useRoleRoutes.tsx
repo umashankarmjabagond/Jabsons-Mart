@@ -6,6 +6,9 @@ import { ROUTES } from "@/constants/routeConstants";
 import CheckoutLayout from "../layouts/CheckoutLayout";
 import CheckoutFlow from "../../features/checkout/CheckoutFlow";
 import ProtectedRoute from "./ProtectedRoute";
+import ProductListView from "@/features/productList/ProductListView";
+import CartLayout from "../layouts/CartLayout";
+import CheckoutLayout from "../layouts/CheckoutLayout";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";
@@ -42,3 +45,4 @@ export const useRoleRoutes = (): RouteObject[] => {
     },
   ];
 };
+

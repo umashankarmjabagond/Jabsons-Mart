@@ -1,45 +1,29 @@
+import { CardProduct } from "@/types/cartType";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
- 
-// Read cart from localStorage
+
 const storedCart = localStorage.getItem("cart");
- 
-export interface Product {
-  id: string;
-  cartId?: string; // unique for each cart item
-  itemName: string;
-  price: number;
-  imageUrl: string;
-  quantity: number; // number of units in cart
-  sellerName: string;
-  location: string;
-}
- 
-const initialState: { items: Product[] } = {
+
+const initialState: { items: CardProduct[] } = {
   items: storedCart ? JSON.parse(storedCart) : [],
 };
- 
-const saveCart = (items: Product[]) => {
+
+const saveCart = (items: CardProduct[]) => {
   localStorage.setItem("cart", JSON.stringify(items));
 };
- 
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Product>) => {
-      const existingItem = state.items.find(
-        (i) => i.id === action.payload.id && i.sellerName === action.payload.sellerName
-      );
- 
-      if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
-      } else {
-        state.items.push({
-          ...action.payload,
-          cartId: `${action.payload.id}-${action.payload.sellerName.replace(/\s+/g, "-")}-${Date.now()}`,
-        });
-      }
- 
+    addToCart: (state, action: PayloadAction<CardProduct>) => {
+      state.items.push({
+        ...action.payload,
+        cartId: `${action.payload.id}-${action.payload.sellerName.replace(
+          /\s+/g,
+          "-"
+        )}-${Date.now()}`, 
+      });
+
       saveCart(state.items);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -62,12 +46,12 @@ const cartSlice = createSlice({
     },
   },
 });
- 
+
 export const {
   addToCart,
   removeFromCart,
   incrementQuantity,
   decrementQuantity,
 } = cartSlice.actions;
- 
+
 export default cartSlice.reducer;

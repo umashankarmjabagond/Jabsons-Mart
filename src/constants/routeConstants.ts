@@ -7,5 +7,6 @@ export const ROUTES = {
   PROFILE: "/profile",
   NOT_FOUND: "*",
   SEARCH_PAGE: "/products",
-  CHECKOUT_PAGE: "/checkout",
+  ADD_TO_CART:"/addtocart",
+  CHECKOUT:"/checkout"
 } as const;
