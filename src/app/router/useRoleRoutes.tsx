@@ -4,6 +4,7 @@ import HomeLayout from "../layouts/homeLayouts";
 import UserRoutes from "./user/userRoutes";
 import SearchLayout from "../layouts/SearchLayout";
 import { ROUTES } from "@/constants/routeConstants";
+import PaymentLayout from "../layouts/PaymentLayout";
 
 export const useRoleRoutes = (): RouteObject[] => {
 
@@ -18,6 +19,10 @@ export const useRoleRoutes = (): RouteObject[] => {
                 element: <SearchLayout />,
                 path: ROUTES.SEARCH_PAGE,
             },
+            {
+                element:<PaymentLayout />,
+                path:ROUTES.PAYMENT_PAGE,
+            }
         ];
     }
     return [
