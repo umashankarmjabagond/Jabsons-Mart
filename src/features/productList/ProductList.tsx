@@ -33,9 +33,11 @@ const ProductList: React.FC<ProductListProps> = ({
               key={`${product.itemName ?? "no-name"}-${
                 product.sellerName ?? "no-seller"
               }`}
-           onClick={() => navigate(`/product/${product.id}`, { state: { supplier: product } })}
-
-             
+              onClick={() =>
+                navigate(`/product/${product.id}`, {
+                  state: { supplier: product },
+                })
+              }
               className="bg-white shadow rounded-lg overflow-hidden border border-gray-200 flex flex-col h-full"
             >
               <div className="relative h-44 md:h-48 w-full bg-gray-100 flex-shrink-0">
