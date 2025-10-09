@@ -10,33 +10,47 @@ import { CompanyInfoProps } from "@/types/profileTypes";
 import { PROFILE_PAGE_TXT } from "@constants/textConstants";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuPanelTop } from "react-icons/lu";
-import { getCompanies } from "@services/profile"; 
-export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
-  companyName,
-  gstNumber,
-  companyAddress,
-  ownerName,
-}) => {
+import { getCompanies,updateCompany } from "@services/profile"; 
+export const CompanyInfoCard: React.FC<CompanyInfoProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  
   const [formData, setFormData] = useState({
-    companyName,
-    gstNumber,
-    companyAddress,
-    ownerName,
+    companyName: "",
+    gstNumber: "",
+    companyAddress: "",
+    ownerName: "",
+    facebook: "",
+    instagram: "",
+    googleBusiness: "",
   });
 
-   useEffect(() => {
+  // Fetch company data on mount
+  useEffect(() => {
     const fetchCompanies = async () => {
       try {
         const res = await getCompanies();
         if (res && res.data && res.data.length > 0) {
-          const company = res.data[0]; // assuming first company
+          const company = res.data[0]; // get first company
           setFormData({
             companyName: company.companyName || "",
             gstNumber: company.gstNumber || "",
-            companyAddress: company.companyAddress || "",
+            companyAddress: company.address || "",
             ownerName: company.ownerName || "",
+            facebook: company.facebook || "",
+            instagram: company.instagram || "",
+            googleBusiness: company.googleBusiness || "",
+          });
+        } else {
+          // no company found, keep fields empty
+          setFormData({
+            companyName: "",
+            gstNumber: "",
+            companyAddress: "",
+            ownerName: "",
+            facebook: "",
+            instagram: "",
+            googleBusiness: "",
           });
         }
       } catch (error) {
@@ -54,8 +68,24 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
     });
   };
 
-  const handleUpdate = () => {
-    setIsOpen(false);
+  const handleUpdate = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}"); // get logged-in user id
+      const payload = {
+        id: user._id,
+        companyName: formData.companyName,
+        gstNumber: formData.gstNumber,
+        address: formData.companyAddress,
+        ownerName: formData.ownerName,
+        facebook: formData.facebook,
+        instagram: formData.instagram,
+        googleBusiness: formData.googleBusiness,
+      };
+      await updateCompany(payload); // call API to add/update company
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to update company info:", error);
+    }
   };
 
   return (
@@ -269,3 +299,5 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
     </div>
   );
 };
+
+
