@@ -100,3 +100,8 @@ export const PROFILE_PAGE_TXT = {
   ACC_NUM : "Account Number",
   ACC_TYPE : "Account Type"
 };
+
+export const HELP_PAGE_TEXT={
+  TITLE:'Hello, how can we assist you today?',
+  SUBTITLE:'Explore support articles'
+}
