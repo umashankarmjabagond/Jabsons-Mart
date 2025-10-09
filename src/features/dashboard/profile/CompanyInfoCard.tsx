@@ -1,5 +1,8 @@
 import { MdBusiness, MdEdit, MdLanguage } from "react-icons/md";
-
+import Modal from "@/components/common/modal/Modal";
+import { Button } from "@/components/common/ui/Button";
+import { Input } from "@/components/common/ui/Input"; 
+import { useState,useEffect } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { AiFillGoogleCircle, AiOutlineLink } from "react-icons/ai";
 import { FaSquareInstagram } from "react-icons/fa6";
@@ -7,24 +10,63 @@ import { CompanyInfoProps } from "@/types/profileTypes";
 import { PROFILE_PAGE_TXT } from "@constants/textConstants";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuPanelTop } from "react-icons/lu";
-
+import { getCompanies } from "@services/profile"; 
 export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
   companyName,
-
   gstNumber,
   companyAddress,
   ownerName,
-  onEdit,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [formData, setFormData] = useState({
+    companyName,
+    gstNumber,
+    companyAddress,
+    ownerName,
+  });
+
+   useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const res = await getCompanies();
+        if (res && res.data && res.data.length > 0) {
+          const company = res.data[0]; // assuming first company
+          setFormData({
+            companyName: company.companyName || "",
+            gstNumber: company.gstNumber || "",
+            companyAddress: company.companyAddress || "",
+            ownerName: company.ownerName || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching company data:", error);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdate = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative bg-white rounded-lg shadow-md px-3 py-4 mt-4">
       <div className="flex justify-between items-center border-b pb-3 mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 p-2  ">
+        <h2 className="text-lg font-semibold text-gray-800 p-2">
           {PROFILE_PAGE_TXT.COMPANY_INFO}
         </h2>
         <div
-          onClick={onEdit}
-          className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
+          onClick={() => setIsOpen(true)}
+          className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
         >
           <MdEdit />
           {PROFILE_PAGE_TXT.EDIT_BTN}
@@ -41,7 +83,9 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
               <span className="text-sm font-semibold text-gray-700">
                 {PROFILE_PAGE_TXT.COMPANY_NAME}
               </span>
-              <span className="text-sm text-gray-600">{companyName}</span>
+              <span className="text-sm text-gray-600">
+                {formData.companyName}
+              </span>
             </div>
           </div>
 
@@ -53,54 +97,74 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
               <span className="text-sm font-semibold text-gray-700">
                 {PROFILE_PAGE_TXT.GST}
               </span>
-              <span className="text-sm text-gray-600">{gstNumber}</span>
+              <span className="text-sm text-gray-600">
+                {formData.gstNumber}
+              </span>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="flex items-start gap-3">
-              <div className="w-8 flex justify-start">
-                <AiOutlineLink className="w-6 h-6 text-blue-500 bg-gray-200" />
-              </div>
-
-              <div className="flex flex-col items-start">
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 mt-2">
-                  <div className="flex items-center gap-2">
+            <div className="w-8 flex justify-start">
+              <AiOutlineLink className="w-6 h-6 text-blue-500 bg-gray-200" />
+            </div>
+            <div className="flex flex-col items-start">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 mt-2">
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://facebook.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FaFacebook className="text-blue-950 w-5 h-5" />
-                    <span className="text-sm text-gray-600">
-                      {PROFILE_PAGE_TXT.FB}
-                    </span>
-                  </div>
+                  </a>
+                  <span className="text-sm text-gray-600">
+                    {PROFILE_PAGE_TXT.FB}
+                  </span>
+                </div>
 
-                  <div className="flex items-center gap-2">
-                    <FaSquareInstagram className="text-pink-500 w-5 h-5 " />
-                    <span className="text-sm text-gray-600">
-                      {PROFILE_PAGE_TXT.IG}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaSquareInstagram className="text-pink-500 w-5 h-5" />
+                  </a>
+                  <span className="text-sm text-gray-600">
+                    {PROFILE_PAGE_TXT.IG}
+                  </span>
+                </div>
 
-                  <div className="flex items-center gap-2">
-                    <AiFillGoogleCircle className="text-blue-800  w-5 h-5" />
-                    <span className="text-sm text-gray-600">
-                      {PROFILE_PAGE_TXT.GL_BUSINESS}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://google.com/business"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <AiFillGoogleCircle className="text-blue-800 w-5 h-5" />
+                  </a>
+                  <span className="text-sm text-gray-600">
+                    {PROFILE_PAGE_TXT.GL_BUSINESS}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+
         <div className="flex flex-col items-start space-y-10 p-5">
-          <div className="flex items-start gap-3 ">
-            <div className="w-8 flex justify-start ">
+          <div className="flex items-start gap-3">
+            <div className="w-8 flex justify-start">
               <MdLanguage className="w-7 h-8 text-blue-500 bg-gray-200" />
             </div>
             <div className="flex flex-col items-start">
               <span className="text-sm font-semibold text-gray-700">
                 {PROFILE_PAGE_TXT.WEBSITE}
               </span>
-              <span className="text-sm text-gray-600">{companyAddress}</span>
+              <span className="text-sm text-gray-600">
+                {formData.companyAddress}
+              </span>
             </div>
           </div>
 
@@ -112,11 +176,96 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
               <span className="text-sm font-semibold text-gray-700">
                 {PROFILE_PAGE_TXT.PAN}
               </span>
-              <span className="text-sm text-gray-600">{ownerName}</span>
+              <span className="text-sm text-gray-600">
+                {formData.ownerName}
+              </span>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Edit Company Info"
+        showClose={true}
+        footer={
+          <>
+            <Button
+              onClick={() => setIsOpen(false)}
+              className="w-full"
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleUpdate} className="w-full m-auto">
+              Update
+            </Button>
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+          <Input
+            label={PROFILE_PAGE_TXT.COMPANY_NAME}
+            name="companyName"
+            className="px-4 py-2"
+            requiredIndicator={false}
+            value={formData.companyName}
+            onChange={handleChange}
+          />
+
+          <Input
+            label={PROFILE_PAGE_TXT.GST}
+            name="gstNumber"
+            className="px-4 py-2"
+            requiredIndicator={false}
+            value={formData.gstNumber}
+            onChange={handleChange}
+          />
+
+          <Input
+            label={PROFILE_PAGE_TXT.WEBSITE}
+            name="companyAddress"
+             className="px-4 py-2"
+            requiredIndicator={false}
+            value={formData.companyAddress}
+            onChange={handleChange}
+          />
+
+          <Input
+            label={PROFILE_PAGE_TXT.PAN}
+            name="ownerName"
+            className="px-4 py-2"
+            requiredIndicator={false}
+            value={formData.ownerName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="flex items-center justify-center gap-6 mt-4">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook className="text-blue-950 w-6 h-6 cursor-pointer" />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaSquareInstagram className="text-pink-500 w-6 h-6 cursor-pointer" />
+          </a>
+          <a
+            href="https://google.com/business"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AiFillGoogleCircle className="text-blue-800 w-6 h-6 cursor-pointer" />
+          </a>
+        </div>
+      </Modal>
     </div>
   );
 };
