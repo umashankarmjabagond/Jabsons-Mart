@@ -3,9 +3,9 @@ import HomeLayout from "../layouts/homeLayouts";
 import UserRoutes from "./user/userRoutes";
 import SearchLayout from "../layouts/SearchLayout";
 import { ROUTES } from "@/constants/routeConstants";
-import ProductListView from "@/features/productList/ProductListView";
 import CartLayout from "../layouts/CartLayout";
 import CheckoutLayout from "../layouts/CheckoutLayout";
+import ProductDetailsLayout from "../layouts/ProductDetailsLayout";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";
@@ -20,8 +20,8 @@ export const useRoleRoutes = (): RouteObject[] => {
         path: ROUTES.SEARCH_PAGE,
       },
       {
-        element: <ProductListView />,
-        path: "/product/:id",
+        element: <ProductDetailsLayout />,
+        path: ROUTES.PRODUCT_DETAILS_PAGE,
       },
       {
         element: <CartLayout />,
