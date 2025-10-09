@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { BsBank2 } from "react-icons/bs";
 import { VscCodeOss } from "react-icons/vsc";
 import { MdEdit, MdOutlineAccountBox, MdSwitchAccount } from "react-icons/md";
@@ -22,18 +21,16 @@ export const BankAccountDetailsCard: React.FC = () => {
     accountType: "",
   });
 
-  
+
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
         setLoading(true);
-        // const payload="68d93b4dcacc850a1caa1371"
-      
-        const response = await getProfile({id:"68d93b4dcacc850a1caa1371"})
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.",response)
+        const payload = { id: "68d93b4dcacc850a1caa1371" }
 
-        
-        
+        const response = await getProfile(payload)
+        // const companiesResponse = await getCompanies(payload)
+
         // const response = {
         //   data: {
         //     bankName: "HDFC Bank",
@@ -44,7 +41,7 @@ export const BankAccountDetailsCard: React.FC = () => {
         // };
 
         const bank = response.data;
-        console.log(bank,"testing data")
+        console.log(bank, "testing data")
 
         setFormData({
           bankName: bank.bankName || "",
@@ -74,7 +71,7 @@ export const BankAccountDetailsCard: React.FC = () => {
   const handleUpdate = async () => {
     try {
       console.log("Updating bank info:", formData);
-    
+
       // await axios.put("<YOUR_UPDATE_API_URL>", formData, {
       //   withCredentials: true,
       // });
