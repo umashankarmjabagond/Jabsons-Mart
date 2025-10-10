@@ -3,7 +3,6 @@ import { MapPin, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
 import type { Product } from "@/types/productTypes";
-
 interface SimilarProductsProps {
   products: Product[];
   currentProductName: string;
