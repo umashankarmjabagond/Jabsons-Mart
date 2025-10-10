@@ -23,7 +23,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
     return (
       <aside
         ref={ref}
-        className="w-74 sm:w-64 bg-[#D0E9E9] flex flex-col h-full"
+        className="w-74 sm:w-64 bg-blue-900 flex flex-col h-full"
         {...props}
       >
         <div className="p-6 flex flex-col items-center border-b border-gray-200">
@@ -41,9 +41,9 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 mt-2 rounded-s-3xl text-black-900 hover:bg-gray-100 transition-colors
+                  `flex items-center px-6 py-3 mt-2 rounded-s-3xl text-white hover:bg-gray-100 transition-colors
                   ${isActive
-                    ? "bg-gray-100 font-bold rounded-s-3xl text-white"
+                    ? "bg-white font-bold rounded-s-3xl !text-blue-900"
                     : ""
                   }`
                 }

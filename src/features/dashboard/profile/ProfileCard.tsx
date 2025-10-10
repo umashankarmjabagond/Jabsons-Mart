@@ -14,7 +14,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   rating,
 }) => {
   return (
-    <div className="relative flex flex-col md:flex-row flex-wrap  items-center md:items-center justify-center md:justify-between  bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 gap-6 w-full text-center md:text-left">
+    <div className="relative flex flex-col md:flex-row flex-wrap  items-center md:items-center justify-center md:justify-between bg-gray-1000 border rounded-lg shadow-md p-4 sm:p-6 md:p-8 gap-6 w-full text-center md:text-left">
       <div className="absolute top-4 right-4 flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium">
         <MdEdit />
         {PROFILE_PAGE_TXT.EDIT_BTN}
