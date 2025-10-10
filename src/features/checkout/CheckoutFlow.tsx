@@ -22,19 +22,17 @@ const CheckoutFlow: React.FC = () => {
     (state: RootState) => state.checkout.selectedItems
   );
 
-  // Always call getCartData to avoid conditional hook usage
   const fullCartData = getCartData();
 
-  // Handle navigation state from cart
   useEffect(() => {
     if (location.state?.fromCart && location.state?.selectedItems) {
-      // Clear previous checkout data and set new selected items
+
       dispatch(resetCheckout());
       dispatch(setSelectedItems(location.state.selectedItems));
     }
   }, [location.state, dispatch]);
 
-  // Use selected items if available, otherwise fall back to cart data
+ 
   const cartData = selectedItems.length > 0 
     ? {
         items: selectedItems,
