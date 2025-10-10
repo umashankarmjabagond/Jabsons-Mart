@@ -66,7 +66,7 @@ export const ContactInfoCard: React.FC<ContactInfoProps> = ({
         <div className="flex flex-col items-start space-y-10 p-5">
           <div className="flex items-start gap-3">
             <div className="w-8 flex justify-start">
-              <TbDeviceMobileStar className="w-16 h-10 bg-gray-200 text-green-400" />
+              <TbDeviceMobileStar className="w-16 h-10 text-green-400" />
             </div>
             <div className="flex flex-col text-left">
               <span className="text-sm font-semibold text-gray-700">

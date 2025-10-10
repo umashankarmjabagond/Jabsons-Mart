@@ -7,28 +7,19 @@ export interface ContactInfoProps {
   primaryEmail: string;
   altEmail?: string;
   address: string;
+  name: string;
+  location: string;
+  memberSince: string;
+  rating: number;
 }
 
-// Fetch user profile
-export const getUserProfile = async (): Promise<ContactInfoProps> => {
+// Fetch user profile by ID
+export const getUserProfileById = async (id: string): Promise<ContactInfoProps> => {
   try {
-    const response = await API.get("/user/get-profile"); // replace with your endpoint
+    const response = await API.get(`/user/get-profile/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    throw error;
-  }
-};
-
-// Update user profile
-export const updateUserProfile = async (
-  data: ContactInfoProps
-): Promise<ContactInfoProps> => {
-  try {
-    const response = await API.put(`/user/get-profile/${data.id}`, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error updating user profile:", error);
+    console.error(`Error fetching user profile with ID ${id}:`, error);
     throw error;
   }
 };
