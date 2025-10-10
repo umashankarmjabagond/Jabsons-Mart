@@ -2,213 +2,244 @@ import { TbDeviceMobileStar } from "react-icons/tb";
 import { RiMailStarLine } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/common/ui/Button";
 import Modal from "@/components/common/modal/Modal";
 import { Input } from "@/components/common/ui/Input";
-import { ContactInfoProps } from "@/types/profileTypes";
+import { editUserProfile, getUserProfile } from "@/services/profile";
+import { useTranslation } from "react-i18next";
 
-export const ContactInfoCard: React.FC<ContactInfoProps> = ({
-  mobile,
-  email,
-  address,
-  altMobile,
-  altEmail,
-}) => {
+interface UserProfile {
+  _id: string;
+  name: string;
+  email: string;
+  contact: string;
+  alternateEmail: string;
+  alternateContact: string;
+  address?: string;
+}
+
+export const ContactInfoCard: React.FC = () => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
 
-  const [contactInfo, setContactInfo] = useState({
-    mobile: mobile || "",
-    email: email || "",
-    address: address || "",
-    altMobile: altMobile || "",
-    altEmail: altEmail || "",
+  const [user, setUser] = useState<UserProfile>({
+    _id: "",
+    name: "",
+    email: "",
+    contact: "",
+    alternateEmail: "",
+    alternateContact: "",
+    address: "",
   });
 
-  const [formData, setFormData] = useState(contactInfo);
+  const [formData, setFormData] = useState(user);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const userId = storedUser?.user?.id;
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        if (!userId) throw new Error("User ID not found");
+        const data = await getUserProfile(userId);
+        setUser(data.user);
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
+
+  useEffect(() => {
+    setFormData(user);
+  }, [user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEditClick = () => {
-    setFormData(contactInfo);
     setIsOpen(true);
   };
 
-  const handleUpdate = () => {
-    setContactInfo(formData);
-    setIsOpen(false);
+  const handleUpdate = async () => {
+    try {
+      if (!userId) throw new Error("User ID not found");
+      setUpdating(true);
+      setError(null);
+
+      const payload = {
+        id: userId,
+        contact: formData.contact,
+        email: formData.email,
+        alternateContact: formData.alternateContact,
+        alternateEmail: formData.alternateEmail,
+        address: formData.address,
+      };
+
+      const res = await editUserProfile(payload);
+
+      if (res.user) {
+        setUser(res.user);
+        setIsOpen(false);
+      }
+    } catch (error: any) {
+      console.error("Failed to update profile:", error);
+      setError(error.message || "Something went wrong");
+    } finally {
+      setUpdating(false);
+    }
   };
 
+  if (loading) return <p>{t("PROFILE.CONTACT_INFO")}...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+
   return (
-    <div className="relative bg-white rounded-lg shadow-md px-3 py-4 mt-4">
-      {/* Header */}
-      <div className="flex justify-between items-center border-b pb-3 mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 p-2">
+    <div className="relative bg-white rounded-lg shadow-md px-5 py-6 mt-4">
+      <div className="flex justify-between items-center border-b pb-3 mb-5">
+        <h2 className="text-lg font-semibold text-black p-2 ">
           {t("PROFILE.CONTACT_INFO")}
         </h2>
-        <div
+        <button
           onClick={handleEditClick}
-          className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
+          className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
         >
           <MdEdit /> {t("PROFILE.EDIT_BTN")}
-        </div>
+        </button>
       </div>
 
-      {/* Contact Info */}
-      <div className="flex flex-col sm:flex-row flex-wrap justify-start gap-8 sm:gap-16 lg:gap-64">
-        <div className="flex flex-col items-start space-y-10 p-5">
+      <div className="grid sm:grid-cols-2 gap-6 p-3">
+        <div className="flex flex-col space-y-6">
           <div className="flex items-start gap-3">
-            <div className="w-8 flex justify-start">
-              <TbDeviceMobileStar className="w-16 h-10 text-green-400" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-sm font-semibold text-gray-700">
+            <TbDeviceMobileStar className="w-8 h-8 text-green-500" />
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-semibold text-black">
                 {t("PROFILE.PRIMARY_MOB")}
-              </span>
-              <span className="text-sm text-gray-600">
-                {contactInfo.mobile}
-              </span>
+              </p>
+              <p className="text-sm text-black">{user.contact || " "}</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-8 flex justify-start">
-              <RiMailStarLine className="w-14 h-10 text-blue-300 bg-gray-200" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-sm font-semibold text-gray-700">
+            <RiMailStarLine className="w-6 h-6 text-blue-500 mt-1" />
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-semibold text-black">
                 {t("PROFILE.PRIMARY_MAIL")}
-              </span>
-              <span className="text-sm text-gray-600">{contactInfo.email}</span>
+              </p>
+              <p className="text-sm text-black">{user.email || " "}</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-8 flex justify-start">
-              <CiLocationOn className="w-7 h-8 bg-gray-200 text-green-400" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-sm font-semibold text-gray-700">
+            <CiLocationOn className="w-6 h-6 text-green-500 mt-1" />
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-semibold text-black">
                 {t("PROFILE.ADDRESS")}
-              </span>
-              <span className="text-sm text-gray-600">
-                {contactInfo.address}
-              </span>
+              </p>
+              <p className="text-sm text-black">{user.address || " "}</p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col space-y-10 p-5">
-          {contactInfo.altMobile && (
-            <div className="flex items-start gap-3">
-              <div className="w-8 flex justify-center">
-                <TbDeviceMobileStar className="w-16 h-11 text-blue-300 bg-gray-200" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-sm font-semibold text-gray-700">
-                  {t("PROFILE.ALT_MOB")}
-                </span>
-                <span className="text-sm text-gray-600">
-                  {contactInfo.altMobile}
-                </span>
-              </div>
+        <div className="flex flex-col space-y-6">
+          <div className="flex items-start gap-3">
+            <TbDeviceMobileStar className="w-6 h-6 text-blue-500 mt-1" />
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-semibold text-black">
+                {t("PROFILE.ALT_MOB")}
+              </p>
+              <p className="text-sm text-black">
+                {user.alternateContact || " "}
+              </p>
             </div>
-          )}
-          {contactInfo.altEmail && (
-            <div className="flex items-start gap-3">
-              <div className="w-8 flex justify-center">
-                <RiMailStarLine className="w-14 h-10 bg-gray-200 text-green-400" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-sm font-semibold text-gray-700">
-                  {t("PROFILE.ALT_MAIL")}
-                </span>
-                <span className="text-sm text-gray-600">
-                  {contactInfo.altEmail}
-                </span>
-              </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <RiMailStarLine className="w-6 h-6 text-green-500 mt-1" />
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-semibold text-black">
+                {t("PROFILE.ALT_MAIL")}
+              </p>
+              <p className="text-sm text-black">{user.alternateEmail || " "}</p>
             </div>
-          )}
+          </div>
         </div>
       </div>
 
-      {/* Modal */}
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         title={t("PROFILE.CONTACT_INFO")}
-        showClose={true}
+        showClose
         footer={
-          <>
+          <div className="flex gap-2">
             <Button
               onClick={() => setIsOpen(false)}
-              className="w-full"
+              className="flex-1"
               variant="secondary"
             >
-              {t("common.cancel")}
+              {t("COMMON.CANCEL")}
             </Button>
-            <Button onClick={handleUpdate} className="w-full m-auto">
-              {t("common.update")}
+            <Button
+              onClick={handleUpdate}
+              className="flex-1"
+              disabled={updating}
+            >
+              {updating ? t("COMMON.UPDATE") + "..." : t("COMMON.UPDATE")}
             </Button>
-          </>
+          </div>
         }
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label={t("PROFILE.PRIMARY_MOB")}
-            name="mobile"
-            requiredIndicator={false}
-            value={formData.mobile}
+            name="contact"
+            value={formData.contact}
             onChange={handleChange}
+            requiredIndicator={false}
             className="px-4 py-2"
           />
-
           <Input
             label={t("PROFILE.PRIMARY_MAIL")}
             name="email"
             type="email"
-            requiredIndicator={false}
             value={formData.email}
             onChange={handleChange}
+            requiredIndicator={false}
             className="px-4 py-2"
           />
-
           <Input
             label={t("PROFILE.ALT_MOB")}
-            name="altMobile"
-            requiredIndicator={false}
-            value={formData.altMobile}
+            name="alternateContact"
+            value={formData.alternateContact}
             onChange={handleChange}
+            requiredIndicator={false}
             className="px-4 py-2"
           />
-
           <Input
             label={t("PROFILE.ALT_MAIL")}
-            name="altEmail"
+            name="alternateEmail"
             type="email"
-            requiredIndicator={false}
-            value={formData.altEmail}
+            value={formData.alternateEmail}
             onChange={handleChange}
+            requiredIndicator={false}
             className="px-4 py-2"
           />
-
-          <div className="sm:col-span-2">
-            <Input
-              label={t("PROFILE.ADDRESS")}
-              name="address"
-              requiredIndicator={false}
-              value={formData.address}
-              onChange={handleChange}
-              className="px-4 py-2"
-            />
-          </div>
+          <Input
+            label={t("PROFILE.ADDRESS")}
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            requiredIndicator={false}
+            className="px-4 py-2 sm:col-span-2"
+          />
         </div>
       </Modal>
     </div>

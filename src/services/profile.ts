@@ -1,25 +1,19 @@
 import API from "./index";
 
-export interface ContactInfoProps {
-  id: string;
-  primaryMobile: string;
-  altMobile?: string;
-  primaryEmail: string;
-  altEmail?: string;
-  address: string;
-  name: string;
-  location: string;
-  memberSince: string;
-  rating: number;
-}
-
-// Fetch user profile by ID
-export const getUserProfileById = async (id: string): Promise<ContactInfoProps> => {
+export const getUserProfile = async (userId: string) => {
   try {
-    const response = await API.get(`/user/get-profile/${id}`);
+    const response = await API.post("/user/get-profile", { id: userId });
     return response.data;
-  } catch (error) {
-    console.error(`Error fetching user profile with ID ${id}:`, error);
-    throw error;
+  } catch (err: any) {
+    throw err.response ? err.response.data : { message: err.message };
+  }
+};
+
+export const editUserProfile = async (data: any) => {
+  try {
+    const response = await API.put("/user/edit-profile", data);
+    return response.data;
+  } catch (err: any) {
+    throw err.response ? err.response.data : { message: err.message };
   }
 };
