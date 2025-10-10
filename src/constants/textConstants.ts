@@ -103,5 +103,5 @@ export const PROFILE_PAGE_TXT = {
 
 export const HELP_PAGE_TEXT={
   TITLE:'Hello, how can we assist you today?',
-  SUBTITLE:'Explore support articles'
+  SUBTITLE:'Explore support articles: '
 }
