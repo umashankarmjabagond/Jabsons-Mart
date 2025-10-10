@@ -42,6 +42,10 @@ export const useRoleRoutes = (): RouteObject[] => {
         element: <PaymentLayout />,
         path: ROUTES.PAYMENT_PAGE,
       },
+      {
+        element :<SellerLanding/>,
+        path: "/seller"
+      }
     ];
   }
   return [
