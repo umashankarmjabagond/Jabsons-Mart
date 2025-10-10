@@ -404,7 +404,7 @@ const Navbar: FC<NavbarProps> = ({
                 onMouseEnter={() => setSigninOpen(true)}
                 onMouseLeave={() => setSigninOpen(false)}
               >
-                <button className="flex flex-col items-center justify-center space-y-1 px-3 pt-2 text-white hover:text-green-400 transition-colors duration-200 rounded-full">
+                <button className="flex flex-col items-center justify-center space-y-1 px-3 pt-1 text-white hover:text-green-400 transition-colors duration-200 rounded-full">
                   <FaUser className="text-lg" />
                   <span className="text-sm ">
                     {user ? "Profile" : t("NAVBAR.SIGN_IN")}
