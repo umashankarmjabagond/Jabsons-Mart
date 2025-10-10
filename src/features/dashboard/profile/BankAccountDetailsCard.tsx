@@ -6,7 +6,7 @@ import Modal from "@/components/common/modal/Modal";
 import { Button } from "@/components/common/ui/Button";
 import { Input } from "@/components/common/ui/Input";
 import { PROFILE_PAGE_TXT } from "@constants/textConstants";
-import { getBank, editBank } from "@/services/auth"; // ✅ import both
+import { getBank, editBank } from "@/services/auth"; 
 
 export const BankAccountDetailsCard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ export const BankAccountDetailsCard: React.FC = () => {
 
   const fallback = (value: string | undefined) => value || "-";
 
-  // ✅ Fetch bank details
+  // Fetch bank details
   const fetchBankDetails = async () => {
     try {
       setLoading(true);
@@ -57,7 +57,7 @@ export const BankAccountDetailsCard: React.FC = () => {
     fetchBankDetails();
   }, []);
 
-  // ✅ Handle input changes
+  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -88,7 +88,7 @@ export const BankAccountDetailsCard: React.FC = () => {
 
       alert("✅ Bank details updated successfully!");
       setIsOpen(false);
-      await fetchBankDetails(); // refresh data
+      await fetchBankDetails();
     } catch (err: any) {
       console.error("Error updating bank info:", err);
       alert(err.message || "Failed to update bank info");
@@ -97,7 +97,7 @@ export const BankAccountDetailsCard: React.FC = () => {
     }
   };
 
-  // ✅ Render loading or error
+
   if (loading)
     return (
       <div className="p-6 bg-white rounded-lg shadow-md mt-4">
