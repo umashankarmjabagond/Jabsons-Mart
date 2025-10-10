@@ -87,7 +87,7 @@ export const PROFILE_PAGE_TXT = {
   ALT_MOB: " Alternative Mobile",
   ALT_MAIL: " Alternative Email",
   COMPANY_INFO: " Company Information",
-  COMPANY_NAME: "Company Name:",
+  COMPANY_NAME: "Company Name",
   GST: "GSTIN",
   FB: "Facebook",
   IG: "Instagram",
