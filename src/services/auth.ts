@@ -2,7 +2,6 @@ import { getBanks } from './auth';
 // Login function
 import API from "./index";
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loginUser = async ({ email, password }: any) => {
   try {
@@ -25,7 +24,7 @@ export const loginUser = async ({ email, password }: any) => {
 export const registerUser = async (userData: any) => {
   try {
     const response = await API.post("/auth/signup", userData);
-    console.log(response)
+    console.log(response);
     return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
