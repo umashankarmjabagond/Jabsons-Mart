@@ -38,9 +38,27 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
       "category",
       "product",
     ];
+    // Build list of full location options from products for normalization
+    const locationOptions = Array.from(
+      new Set(
+        allProducts.map((p) => p.location).filter((v): v is string => !!v)
+      )
+    );
+
     urlKeys.forEach((key) => {
-      const value = searchParams.get(key);
-      if (value && filters[key] !== value) dispatch(setFilter({ key, value }));
+      const raw = searchParams.get(key);
+      if (!raw) return;
+
+      let value = raw;
+      if (key === "location") {
+        // If URL provides only city (e.g., "Hyderabad"), normalize to a full option like "Hyderabad - Abids"
+        if (!raw.includes(" - ")) {
+          const matched = locationOptions.find((opt) => opt.startsWith(raw));
+          if (matched) value = matched;
+        }
+      }
+
+      if (filters[key] !== value) dispatch(setFilter({ key, value }));
     });
   }, [allProducts, searchParams, dispatch, filters]);
 
@@ -51,7 +69,9 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
 
   const sidebarSections = useMemo(() => {
     if (!allProducts.length) return [];
-    return [
+    const hasAnyParams = Array.from(searchParams.keys()).length > 0;
+
+    const sections: Section[] = [
       {
         title: SECTION_TITLES.PRICE,
         options: [
@@ -80,7 +100,11 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
         ),
         key: "location" as FilterKeys,
       },
-      {
+    ];
+
+    // Show Categories only when on base /products (no query params)
+    if (!hasAnyParams) {
+      sections.push({
         title: SECTION_TITLES.CATEGORIES,
         options: Array.from(
           new Set(
@@ -88,9 +112,11 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
           )
         ),
         key: "category" as FilterKeys,
-      },
-    ];
-  }, [allProducts]);
+      });
+    }
+
+    return sections;
+  }, [allProducts, searchParams]);
 
   const handleSelect = (key: FilterKeys, value: string) => {
     dispatch(setFilter({ key, value }));
