@@ -13,7 +13,6 @@ const LocationSearch: React.FC = () => {
   const routeLocation = useLocation();
   const navigate = useNavigate();
 
-  // ✅ Updated state selectors
   const products = useSelector(
     (state: RootState) => state.products.allProducts
   );
@@ -46,14 +45,12 @@ const LocationSearch: React.FC = () => {
     }
   }, [cities, activeCity]);
 
-  // Initialize from/clear based on query param: ?location=Hyderabad+-+Abids
   useEffect(() => {
     const search = routeLocation.search;
     const params = new URLSearchParams(search);
     const locParam = params.get("location");
 
     if (locParam) {
-      // Replace + with spaces, then decode in case of encoded characters
       const decoded = decodeURIComponent(locParam.replace(/\+/g, " "));
       const cityFromParam = decoded.split("-")[0].trim();
       if (cityFromParam) {
@@ -61,7 +58,6 @@ const LocationSearch: React.FC = () => {
         initializedFromParamRef.current = true;
       }
     } else {
-      // No location param → clear selection and remove from localStorage
       setActiveCity("");
       initializedFromParamRef.current = false;
       try {
@@ -70,7 +66,6 @@ const LocationSearch: React.FC = () => {
     }
   }, [routeLocation.search]);
 
-  // Handle click outside dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -107,10 +102,9 @@ const LocationSearch: React.FC = () => {
             "Unknown location";
           setActiveCity(city);
           setIsDropdownOpen(false);
-          // update URL param
+
           setUrlLocationParam(city);
         } catch {
-          // Handle error case - could show error message
           console.error("Failed to get location from coordinates");
         }
       },
@@ -121,17 +115,16 @@ const LocationSearch: React.FC = () => {
     );
   };
 
-  // Helper: update the 'location' query param in URL
   const setUrlLocationParam = (city: string) => {
     const params = new URLSearchParams(routeLocation.search);
-    // Encode spaces as + to match existing style
+
     const encoded = encodeURIComponent(city).replace(/%20/g, "+");
     params.set("location", encoded);
     navigate(
       { pathname: routeLocation.pathname, search: `?${params.toString()}` },
       { replace: true }
     );
-    // Persist for Navbar to pick globally
+
     try {
       localStorage.setItem("selectedLocation", city);
     } catch {
@@ -152,7 +145,6 @@ const LocationSearch: React.FC = () => {
       </h2>
 
       <div className="flex flex-col gap-4">
-        {/* Mobile: Dropdown layout, Desktop: Chips layout */}
         <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <Button
             type="button"
@@ -167,7 +159,6 @@ const LocationSearch: React.FC = () => {
             </span>
           </Button>
 
-          {/* Mobile: Dropdown for location selection */}
           <div className="relative w-full sm:hidden" ref={dropdownRef}>
             <button
               type="button"
@@ -212,7 +203,6 @@ const LocationSearch: React.FC = () => {
             )}
           </div>
 
-          {/* Desktop: Chips container */}
           <div
             ref={pillContainerRef}
             className="hidden sm:flex flex-wrap gap-2 justify-end"
