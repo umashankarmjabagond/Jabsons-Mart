@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { RootState, AppDispatch } from "@/redux/store";
-import { goToNextStep, goToStep, setSelectedItems, resetCheckout } from "@/redux/checkoutSlice";
+import {
+  goToNextStep,
+  goToStep,
+  setSelectedItems,
+  resetCheckout,
+} from "@/redux/checkoutSlice";
 import LoginStep from "./Steps/LoginStep";
 import AddressStep from "./Steps/AddressStep";
 import OrderSummaryStep from "./Steps/OrderSummaryStep";
@@ -26,20 +31,25 @@ const CheckoutFlow: React.FC = () => {
 
   useEffect(() => {
     if (location.state?.fromCart && location.state?.selectedItems) {
-
       dispatch(resetCheckout());
       dispatch(setSelectedItems(location.state.selectedItems));
     }
   }, [location.state, dispatch]);
 
- 
-  const cartData = selectedItems.length > 0 
-    ? {
-        items: selectedItems,
-        itemCount: selectedItems.reduce((sum, item) => sum + (item.quantity || 0), 0),
-        itemsTotal: selectedItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0)
-      }
-    : fullCartData;
+  const cartData =
+    selectedItems.length > 0
+      ? {
+          items: selectedItems,
+          itemCount: selectedItems.reduce(
+            (sum, item) => sum + (item.quantity || 0),
+            0
+          ),
+          itemsTotal: selectedItems.reduce(
+            (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
+            0
+          ),
+        }
+      : fullCartData;
 
   const { itemCount, itemsTotal } = cartData;
 
