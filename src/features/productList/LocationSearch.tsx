@@ -1,37 +1,18 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LocateFixed } from "lucide-react";
+import { LocateFixed, ChevronDown } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { LOCATION_SEARCH } from "@/constants/textConstants";
-// import { Input } from "@/components/common/ui/Input";
 import { Button } from "@/components/common/ui/Button";
-import { cn } from "@/utils/helpers";
 import Chip from "@/components/common/ui/Chip";
 import { fetchProducts } from "@/redux/productSlice";
 import { RootState, AppDispatch } from "@/redux/store";
-
-const SCROLL_AMOUNT = 150;
-
-const nearbyLocations = [
-  "Whitefield",
-  "HSR Layout",
-  "Koramangala",
-  "Electronic City",
-  "Marathahalli",
-];
 
 const LocationSearch: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const routeLocation = useLocation();
   const navigate = useNavigate();
 
-  // ✅ Updated state selectors
   const products = useSelector(
     (state: RootState) => state.products.allProducts
   );
@@ -39,15 +20,11 @@ const LocationSearch: React.FC = () => {
   const error = useSelector((state: RootState) => state.products.error);
 
   const [activeCity, setActiveCity] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
   const pillContainerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const initializedFromParamRef = useRef(false);
-
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -65,85 +42,45 @@ const LocationSearch: React.FC = () => {
   useEffect(() => {
     if (cities.length && !initializedFromParamRef.current && !activeCity) {
       setActiveCity(cities[0]);
-      setSearchTerm(cities[0]);
     }
   }, [cities, activeCity]);
 
-  // Initialize from/clear based on query param: ?location=Hyderabad+-+Abids
   useEffect(() => {
     const search = routeLocation.search;
     const params = new URLSearchParams(search);
     const locParam = params.get("location");
 
     if (locParam) {
-      // Replace + with spaces, then decode in case of encoded characters
       const decoded = decodeURIComponent(locParam.replace(/\+/g, " "));
       const cityFromParam = decoded.split("-")[0].trim();
       if (cityFromParam) {
         setActiveCity(cityFromParam);
-        setSearchTerm(cityFromParam);
         initializedFromParamRef.current = true;
       }
-} else {
-  // No location param → clear selection and remove from localStorage
-  setActiveCity("");
-  setSearchTerm("");
-  initializedFromParamRef.current = false;
-  try {
-    localStorage.removeItem("selectedLocation");
-  } catch {}
-}
+    } else {
+      setActiveCity("");
+      initializedFromParamRef.current = false;
+      try {
+        localStorage.removeItem("selectedLocation");
+      } catch {}
+    }
   }, [routeLocation.search]);
 
-  const filteredNearby = useMemo(
-    () =>
-      nearbyLocations.filter((loc) =>
-        loc.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    [searchTerm]
-  );
-
   useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setShowDropdown(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
       }
     };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, []);
 
-  const checkScroll = useCallback(() => {
-    const el = pillContainerRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(
-      el.scrollWidth > el.clientWidth &&
-        el.scrollLeft + el.clientWidth < el.scrollWidth
-    );
-  }, []);
-
-  useEffect(() => {
-    const el = pillContainerRef.current;
-    if (!el) return;
-
-    checkScroll();
-
-    el.addEventListener("scroll", checkScroll);
-    window.addEventListener("resize", checkScroll);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [checkScroll]);
-
-  const scrollPills = (direction: "left" | "right") => {
-    pillContainerRef.current?.scrollBy({
-      left: direction === "left" ? -SCROLL_AMOUNT : SCROLL_AMOUNT,
-      behavior: "smooth",
-    });
-  };
+  }, []);
 
   const handleNearbyBtnClick = () => {
     if (!navigator.geolocation) {
@@ -164,15 +101,11 @@ const LocationSearch: React.FC = () => {
             data.address?.county ||
             "Unknown location";
           setActiveCity(city);
-          setSearchTerm(city);
-          setShowDropdown(false);
-          // update URL param
+          setIsDropdownOpen(false);
+
           setUrlLocationParam(city);
         } catch {
-          setSearchTerm(
-            `Lat: ${latitude.toFixed(2)}, Lon: ${longitude.toFixed(2)}`
-          );
-          setShowDropdown(false);
+          console.error("Failed to get location from coordinates");
         }
       },
       () => {
@@ -182,27 +115,27 @@ const LocationSearch: React.FC = () => {
     );
   };
 
-  const handleSelectNearby = (location: string) => {
-    setActiveCity(location);
-    setSearchTerm(location);
-    setShowDropdown(false);
-    // update URL param
-    setUrlLocationParam(location);
-  };
-
-  // Helper: update the 'location' query param in URL
   const setUrlLocationParam = (city: string) => {
     const params = new URLSearchParams(routeLocation.search);
-    // Encode spaces as + to match existing style
+
     const encoded = encodeURIComponent(city).replace(/%20/g, "+");
     params.set("location", encoded);
-    navigate({ pathname: routeLocation.pathname, search: `?${params.toString()}` }, { replace: true });
-    // Persist for Navbar to pick globally
+    navigate(
+      { pathname: routeLocation.pathname, search: `?${params.toString()}` },
+      { replace: true }
+    );
+
     try {
       localStorage.setItem("selectedLocation", city);
     } catch {
       //
     }
+  };
+
+  const handleCitySelect = (city: string) => {
+    setActiveCity(city);
+    setIsDropdownOpen(false);
+    setUrlLocationParam(city);
   };
 
   return (
@@ -212,14 +145,13 @@ const LocationSearch: React.FC = () => {
       </h2>
 
       <div className="flex flex-col gap-4">
-        {/* Single row: Near Me on the left, pins to the right */}
-        <div className="w-full flex items-center justify-between gap-2">
+        <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <Button
             type="button"
             onClick={handleNearbyBtnClick}
             variant="ghost"
             size="md"
-            className="px-5 py-2.5 rounded-full text-base bg-blue-600 hover:bg-blue-700 text-white border border-blue-600"
+            className="px-5 py-3 rounded-full text-base bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 w-full sm:w-auto min-h-[56px] sm:min-h-auto"
           >
             <span className="inline-flex items-center gap-2">
               <LocateFixed className="w-5 h-5 sm:w-5 sm:h-5" />
@@ -227,10 +159,53 @@ const LocationSearch: React.FC = () => {
             </span>
           </Button>
 
-          {/* Chips container - no scroll, show all */}
+          <div className="relative w-full sm:hidden" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full flex items-center justify-between px-4 py-4 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[56px]"
+            >
+              <span className="text-base font-medium text-gray-700">
+                {activeCity || "Select Location"}
+              </span>
+              <ChevronDown
+                className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {isDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                {loading ? (
+                  <div className="px-4 py-3 text-gray-400 text-sm">
+                    Loading cities...
+                  </div>
+                ) : error ? (
+                  <div className="px-4 py-3 text-red-500 text-sm">{error}</div>
+                ) : (
+                  cities.map((city) => (
+                    <button
+                      key={city}
+                      type="button"
+                      onClick={() => handleCitySelect(city)}
+                      className={`w-full text-left px-4 py-4 text-base hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg min-h-[48px] flex items-center ${
+                        activeCity === city
+                          ? "bg-blue-50 text-blue-700 font-medium"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      {city}
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+
           <div
             ref={pillContainerRef}
-            className="flex flex-wrap gap-2 justify-end"
+            className="hidden sm:flex flex-wrap gap-2 justify-end"
           >
             {loading ? (
               <div className="text-gray-400 px-4 py-2">Loading cities...</div>
@@ -242,51 +217,12 @@ const LocationSearch: React.FC = () => {
                   key={city}
                   label={city}
                   isActive={activeCity === city}
-                  onClick={() => {
-                    setActiveCity(city);
-                    setSearchTerm(city);
-                    setShowDropdown(false);
-                    setUrlLocationParam(city);
-                  }}
+                  onClick={() => handleCitySelect(city)}
                 />
               ))
             )}
           </div>
         </div>
-
-        {/* Input kept commented intentionally */}
-        <div className="flex flex-col sm:flex-row sm:items-center w-full max-w-md gap-2 sm:gap-3">
-          <div className="relative flex-grow">
-            {/* <Input
-              ref={inputRef}
-              type="text"
-              placeholder="Select City to find sellers near you"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setShowDropdown(true);
-              }}
-              onFocus={() => setShowDropdown(true)}
-              className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-full outline-none text-sm"
-            /> */}
-
-            {/* {showDropdown && filteredNearby.length > 0 && (
-              <ul className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md max-h-40 overflow-auto z-10 shadow-md">
-                {filteredNearby.map((loc) => (
-                  <li
-                    key={loc}
-                    onClick={() => handleSelectNearby(loc)}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                  >
-                    {loc}
-                  </li>
-                ))}
-              </ul>
-            )} */}
-          </div>
-        </div>
-
-        {/* (Chips row moved to be right of Near Me) */}
       </div>
     </div>
   );
