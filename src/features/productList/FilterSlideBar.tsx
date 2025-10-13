@@ -199,9 +199,15 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => setIsOpen(true)}
         className="md:hidden fixed bottom-4 right-4 p-3 rounded-full bg-gray-50 shadow-lg z-50"
+      >
+        <FunnelPlus size={24} />
+      </button> */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="md:hidden fixed right-4 p-3 rounded-full bg-blue-400 shadow-lg z-50 "
       >
         <FunnelPlus size={24} />
       </button>

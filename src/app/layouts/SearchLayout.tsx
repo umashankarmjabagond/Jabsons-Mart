@@ -8,11 +8,7 @@ import LocationSearch from "@/features/productList/LocationSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/productSlice";
 import { RootState, AppDispatch } from "@/redux/store";
-import {
-  FILTER_BUTTON_TEXT,
-  OBSERVER_OPTIONS,
-  CLASSNAMES,
-} from "@/constants/searchpagelayout";
+import { OBSERVER_OPTIONS, CLASSNAMES } from "@/constants/searchpagelayout";
 
 const SearchLayout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +17,6 @@ const SearchLayout: React.FC = () => {
   );
 
   const [showForm, setShowForm] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productListEndRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,37 +42,34 @@ const SearchLayout: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* Navbar */}
       <Navbar />
 
       <div className="flex-1 flex flex-col border border-gray-200">
+        {/* Location search */}
         <div className={CLASSNAMES.LOCATION_SEARCH_CONTAINER}>
           <LocationSearch />
-          <div className="flex justify-end sm:justify-start mt-3 md:hidden">
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={CLASSNAMES.FILTER_BUTTON}
-            >
-              {isFilterOpen ? FILTER_BUTTON_TEXT.HIDE : FILTER_BUTTON_TEXT.SHOW}
-            </button>
-          </div>
+          {/* ✅ Removed Show/Hide Filter button */}
         </div>
-
         <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
-          <aside
-            className={`${isFilterOpen ? "block" : "hidden"} md:block ${
-              CLASSNAMES.FILTER_SIDEBAR
-            }`}
-          >
+          <aside className={`md:block ${CLASSNAMES.FILTER_SIDEBAR}`}>
             <FilterSlideBar loading={loading} error={error} />
           </aside>
-
+        </div>
+        {/* Main content area */}
+        <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
+          {/* Product list section */}
           <main ref={mainRef} className={CLASSNAMES.MAIN_CONTAINER}>
             <ProductList
               products={filteredProducts}
               loading={loading}
               error={error}
             />
+
+            {/* Observer target */}
             <div ref={productListEndRef} className="h-4" />
+
+            {/* Requirement form when scrolled */}
             {showForm && (
               <div className="p-2 sm:p-4">
                 <RequirementForm />
@@ -87,6 +79,7 @@ const SearchLayout: React.FC = () => {
         </div>
       </div>
 
+      {/* Footer */}
       <Footer />
     </div>
   );
