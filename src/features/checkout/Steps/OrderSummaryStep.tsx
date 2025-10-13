@@ -11,7 +11,6 @@ const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
   const { t } = useTranslation();
   const { items, itemsTotal } = getCartData();
 
-
   const totalAmount = itemsTotal - DISCOUNT - COUPONS + PLATFORM_FEE;
 
   if (!isActive) return null;
@@ -35,7 +34,6 @@ const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
       <h2 className="text-xl font-semibold mb-6 text-gray-800">
         {t("CART.orderSummary")}
       </h2>
-
 
       <div className="mb-6">
         <h3 className="text-lg font-medium mb-4 text-gray-700">
@@ -91,7 +89,6 @@ const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
         </div>
       </div>
 
-
       <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
         <h3 className="font-semibold mb-4 text-gray-700">
           {t("CART.priceDetails")}
@@ -126,7 +123,6 @@ const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
           {t("CART.youWillSave", { amount: DISCOUNT + COUPONS })}
         </p>
       </div>
-
 
       <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between gap-4">
         <Button

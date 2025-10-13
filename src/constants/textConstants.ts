@@ -123,6 +123,10 @@ export const PROFILE_PAGE_TXT = {
   INVALID_ACC_NUM: "Account number must be 9–18 digits.",
 };
 
+export const HELP_PAGE_TEXT={
+  TITLE:'Hello, how can we assist you today?',
+  SUBTITLE:'Explore support articles: '
+}
 
 
 

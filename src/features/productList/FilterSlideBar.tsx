@@ -46,12 +46,25 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
       )
     );
 
+    // First, clear all filters that are not in the URL
+    urlKeys.forEach((key) => {
+      const raw = searchParams.get(key);
+      if (!raw && filters[key]) {
+        // URL parameter is not present but filter exists, clear it
+        dispatch(setFilter({ key, value: "" }));
+      }
+    });
+
+    // Then, set filters from URL parameters
     urlKeys.forEach((key) => {
       const raw = searchParams.get(key);
       if (!raw) return;
 
-      let value = raw;
+      // URL decode the parameter value
+      let value = decodeURIComponent(raw);
+
       if (key === "location") {
+        // If URL provides only city (e.g., "Hyderabad"), normalize to a full option like "Hyderabad - Abids"
         if (!raw.includes(" - ")) {
           const matched = locationOptions.find((opt) => opt.startsWith(raw));
           if (matched) value = matched;
@@ -61,6 +74,7 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
       if (filters[key] !== value) dispatch(setFilter({ key, value }));
     });
   }, [allProducts, searchParams, dispatch, filters]);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -113,9 +127,10 @@ const FilterSlideBar: React.FC<FilterSlideBarProps> = ({ loading, error }) => {
       },
     ];
 
+    // Show Categories only when on base /products (no query params)
     if (!hasAnyParams) {
       sections.push({
-        title: SECTION_TITLES.CATEGORIES,
+        title: "Categories",
         options: Array.from(
           new Set(
             allProducts.map((p) => p.itemName).filter((v): v is string => !!v)
