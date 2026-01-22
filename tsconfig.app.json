@@ -38,7 +38,8 @@
       "@pages/*": ["pages/*"],
       "@types/*": ["types/*"],
       "@store/*": ["store/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"]
 }
