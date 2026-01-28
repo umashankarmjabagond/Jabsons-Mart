@@ -15,18 +15,18 @@ const LoginStep: React.FC<StepProps> = ({ isActive = true, onNext }) => {
 
   const initialValues: LoginFormValues = { email: "", password: "" };
 
-  const getStoredToken = (): string | undefined => {
-    try {
-      const userStr = localStorage.getItem("user");
-      if (userStr) {
-        const parsed: StoredUser = JSON.parse(userStr);
-        if (parsed?.token) return parsed.token;
-      }
-    } catch (err) {
-      console.error("Failed to parse user from localStorage", err);
-    }
-    return localStorage.getItem("token") || undefined;
-  };
+  // const getStoredToken = (): string | undefined => {
+  //   try {
+  //     const userStr = localStorage.getItem("user");
+  //     if (userStr) {
+  //       const parsed: StoredUser = JSON.parse(userStr);
+  //       if (parsed?.token) return parsed.token;
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to parse user from localStorage", err);
+  //   }
+  //   return localStorage.getItem("token") || undefined;
+  // };
 
   const getUserEmail = (): string => {
     try {
@@ -41,7 +41,8 @@ const LoginStep: React.FC<StepProps> = ({ isActive = true, onNext }) => {
     return "";
   };
 
-  const isAuthenticated = Boolean(getStoredToken());
+  // const isAuthenticated = Boolean(getStoredToken());
+  const isAuthenticated = true;
   const userEmail = getUserEmail();
 
   return (
@@ -77,7 +78,7 @@ const LoginStep: React.FC<StepProps> = ({ isActive = true, onNext }) => {
             validationSchema={LoginSchema}
             onSubmit={async (
               values: LoginFormValues,
-              { setSubmitting, setStatus }: FormikHelpers<LoginFormValues>
+              { setSubmitting, setStatus }: FormikHelpers<LoginFormValues>,
             ) => {
               setStatus(undefined);
               try {

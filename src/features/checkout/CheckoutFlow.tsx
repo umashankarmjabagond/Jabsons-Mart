@@ -21,10 +21,10 @@ const CheckoutFlow: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
   const currentStep = useSelector(
-    (state: RootState) => state.checkout.currentStep
+    (state: RootState) => state.checkout.currentStep,
   );
   const selectedItems = useSelector(
-    (state: RootState) => state.checkout.selectedItems
+    (state: RootState) => state.checkout.selectedItems,
   );
 
   const fullCartData = getCartData();
@@ -42,11 +42,11 @@ const CheckoutFlow: React.FC = () => {
           items: selectedItems,
           itemCount: selectedItems.reduce(
             (sum, item) => sum + (item.quantity || 0),
-            0
+            0,
           ),
           itemsTotal: selectedItems.reduce(
             (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
-            0
+            0,
           ),
         }
       : fullCartData;
@@ -78,8 +78,8 @@ const CheckoutFlow: React.FC = () => {
                   isActive
                     ? "border-blue-600 bg-blue-50 text-blue-700"
                     : isCompleted
-                    ? "border-green-600 bg-green-50 text-green-700"
-                    : "border-gray-200 bg-white text-gray-700"
+                      ? "border-green-600 bg-green-50 text-green-700"
+                      : "border-gray-200 bg-white text-gray-700"
                 }
               `}
               onClick={() => navigateToStep(stepNumber)}
