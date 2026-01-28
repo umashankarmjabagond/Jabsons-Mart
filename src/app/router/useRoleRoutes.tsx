@@ -10,6 +10,8 @@ import ProductDetailsLayout from "../layouts/ProductDetailsLayout";
 import PaymentLayout from "@/features/paymentpage/Mainpage";
 // import PaymentLayout from "../../features/paymentpage/PaymentOptions";
 import SellerLanding from "../pages/SellerLanding";
+import MarketLayout from "../layouts/MarketLayout";
+import MarketPage from "@/features/market/pages/MarketPage";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";
@@ -18,6 +20,16 @@ export const useRoleRoutes = (): RouteObject[] => {
       {
         element: <HomeLayout />,
         children: UserRoutes,
+      },
+      {
+        path: ROUTES.MARKET,
+        element: <MarketLayout />,
+        children: [
+          {
+            index: true,
+            element: <MarketPage />,
+          },
+        ],
       },
       {
         element: <SearchLayout />,
@@ -39,18 +51,18 @@ export const useRoleRoutes = (): RouteObject[] => {
         element: <CheckoutLayout />,
         path: ROUTES.CHECKOUT,
       },
-            {
-                element: <SellerLanding />,
-                path: ROUTES.SELLER_PAGE,
-            },
+      {
+        element: <SellerLanding />,
+        path: ROUTES.SELLER_PAGE,
+      },
       {
         element: <PaymentLayout />,
         path: ROUTES.PAYMENT_PAGE,
       },
       {
-        element :<SellerLanding/>,
-        path: "/seller"
-      }
+        element: <SellerLanding />,
+        path: "/seller",
+      },
     ];
   }
   return [

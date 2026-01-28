@@ -217,9 +217,11 @@ const BannerSection = () => {
 
         {/* BUYER ACTION PANEL */}
 
-        <div className=" relative bg-black-900 text-white rounded-3xl p-8 shadow-2xl border border-white/10  ">
-          <h3 className="text-xl font-semibold mb-2">Get Price from Farmers</h3>
-          <p className="text-green-100 mb-6 text-sm">
+        <div className=" relative bg-black-900 rounded-3xl p-8 shadow-2xl border border-white/10  ">
+          <h3 className="text-xl font-semibold mb-2 text-white">
+            Get Price from Farmers
+          </h3>
+          <p className="text-white mb-6 text-sm">
             Tell us what you need. We’ll connect you directly.
           </p>
 
@@ -233,11 +235,11 @@ const BannerSection = () => {
           >
             {() => (
               <Form className="space-y-5">
-                <div>
+                <div className="text-red-500">
                   <Field
                     name="product"
                     placeholder="Product name (eg. Onions, Rice)"
-                    className="w-full px-4 py-3 rounded-xl text-black"
+                    className="w-full px-4 py-3 rounded-xl text-black-900"
                   />
                   <ErrorMessage
                     name="product"
@@ -248,11 +250,11 @@ const BannerSection = () => {
                   </ErrorMessage>
                 </div>
 
-                <div>
+                <div className="text-red-500">
                   <Field
                     name="mobile"
                     placeholder="Mobile number"
-                    className="w-full px-4 py-3 rounded-xl text-black"
+                    className="w-full px-4 py-3 rounded-xl text-black-900"
                   />
                   <ErrorMessage
                     name="mobile"
@@ -272,6 +274,34 @@ const BannerSection = () => {
               </Form>
             )}
           </Formik>
+          <br />
+          <div className="text-green-500">
+            <h2 className="font-bold">Other ways to reach us</h2>
+
+            <p>
+              Email –{" "}
+              <a
+                href="https://wa.me/919823191415?text=Hello%20I%20want%20to%20connect%20with%20you"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-green-600"
+              >
+                umashankarjabagond@gmail.com
+              </a>
+            </p>
+
+            <p>
+              Call on{" "}
+              <a
+                href="https://wa.me/919823191415"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-green-600"
+              >
+                9823191415
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 

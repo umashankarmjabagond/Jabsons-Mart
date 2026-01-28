@@ -1,9 +1,9 @@
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
-import Banner from "@/features/market/Banner/Banner";
-import MoreForYou from "@/features/market/MoreforyouSection/MoreForYou";
-import CategoryList from "@/features/market/ProductsCategory/CategoryList";
-import TopCities from "@/features/market/supplierForCities/TopCities";
+import Banner from "@/features/landing/Banner/Banner";
+import MoreForYou from "@/features/landing/MoreforyouSection/MoreForYou";
+import CategoryList from "@/features/landing/ProductsCategory/CategoryList";
+import TopCities from "@/features/landing/supplierForCities/TopCities";
 
 export default function LandingPage() {
   return (
