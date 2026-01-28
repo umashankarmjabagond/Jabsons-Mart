@@ -1,7 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/common/Sidebar";
-import { Home, User, Settings, TextAlignJustify, X, ShoppingCart } from "lucide-react";
+import {
+  Home,
+  User,
+  Settings,
+  TextAlignJustify,
+  X,
+  ShoppingCart,
+} from "lucide-react";
 import { menuItem } from "@/types/sideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBarOpen, toggleSideBarClose } from "@/redux/dashBoardSlice";
@@ -20,6 +27,11 @@ const HomeLayout: React.FC = () => {
     { name: t("menu.profile"), icon: <User size={20} />, path: "/profile" },
     { name: t("Cart"), icon: <ShoppingCart size={20} />, path: "/addtocart" },
     {
+      name: t("market"),
+      icon: <ShoppingCart size={20} />,
+      path: "/market",
+    },
+    {
       name: t("menu.settings"),
       icon: <Settings size={20} />,
       path: "/settings",
@@ -29,7 +41,7 @@ const HomeLayout: React.FC = () => {
   const userStr = localStorage.getItem("user");
   const user = userStr ? JSON.parse(userStr) : null;
 
-  console.log("userStr from local string", user)
+  console.log("userStr from local string", user);
 
   return (
     <>
@@ -46,10 +58,11 @@ const HomeLayout: React.FC = () => {
         <div className="flex flex-1 overflow-hidden">
           <div
             className={`absolute sm:relative transition-all duration-500 ease-in-out
-            ${toggle
+            ${
+              toggle
                 ? "translate-x-0 opacity-100 z-10"
                 : "-translate-x-full opacity-0 sm:opacity-100 sm:translate-x-0"
-              }
+            }
           `}
           >
             <Sidebar
@@ -73,7 +86,7 @@ const HomeLayout: React.FC = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default HomeLayout;

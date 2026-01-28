@@ -4,12 +4,24 @@ import Banner from "@/features/landing/Banner/Banner";
 import MoreForYou from "@/features/landing/MoreforyouSection/MoreForYou";
 import CategoryList from "@/features/landing/ProductsCategory/CategoryList";
 import TopCities from "@/features/landing/supplierForCities/TopCities";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <Banner />
+      {/* 🔥 CTA to Market */}
+      <div className="max-w-7xl mx-auto px-6 mt-6">
+        <button
+          onClick={() => navigate("/market")}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold"
+        >
+          Explore All Categories →
+        </button>
+      </div>
+      <br />
       <CategoryList />
       <TopCities />
       <MoreForYou />
