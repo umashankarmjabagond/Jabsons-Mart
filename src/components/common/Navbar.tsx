@@ -65,7 +65,7 @@ const Navbar: FC<NavbarProps> = ({
 
   const [user, setUser] = useState<{ name: string } | null>(null);
   const [selectedValue, setSelectedValue] = useState<string>(
-    controlledState ?? stateOptions[0].value
+    controlledState ?? stateOptions[0].value,
   );
   const [dropdownOpen, setDropdownOpen] = useState(false); // Desktop
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false); // Mobile
@@ -91,7 +91,9 @@ const Navbar: FC<NavbarProps> = ({
       if (persisted && persisted !== selectedValue) {
         setSelectedValue(persisted);
       }
-    } catch {}
+    } catch (err) {
+      console.error("Failed to load selected location from localStorage", err);
+    }
   }, []);
 
   // Sync controlled state
@@ -118,7 +120,9 @@ const Navbar: FC<NavbarProps> = ({
     // Persist globally so it reflects on all pages
     try {
       localStorage.setItem("selectedLocation", value);
-    } catch {}
+    } catch (err) {
+      console.error("Failed to save selected location to localStorage", err);
+    }
     setStatets?.(value);
     setDropdownOpen(false);
     setMobileDropdownOpen(false);
@@ -129,7 +133,7 @@ const Navbar: FC<NavbarProps> = ({
   const handleSearch = () => {
     if (!searchText.trim()) return;
     const match = stateOptions.find(
-      (opt) => opt.label.toLowerCase() === searchText.trim().toLowerCase()
+      (opt) => opt.label.toLowerCase() === searchText.trim().toLowerCase(),
     );
     if (match) handleSelect(match.value);
     else setNotFoundMessage(`${searchText} not found`);
@@ -139,8 +143,8 @@ const Navbar: FC<NavbarProps> = ({
     if (product.trim()) {
       navigate(
         `/products?product=${encodeURIComponent(
-          product
-        )}&location=${encodeURIComponent(selectedValue)}`
+          product,
+        )}&location=${encodeURIComponent(selectedValue)}`,
       );
     }
   };
@@ -332,7 +336,7 @@ const Navbar: FC<NavbarProps> = ({
                       .filter((opt) =>
                         opt.label
                           .toLowerCase()
-                          .includes(searchText.toLowerCase())
+                          .includes(searchText.toLowerCase()),
                       )
                       .map((opt) => (
                         <li
@@ -451,7 +455,7 @@ const Navbar: FC<NavbarProps> = ({
                         .filter((opt) =>
                           opt.label
                             .toLowerCase()
-                            .includes(searchText.toLowerCase())
+                            .includes(searchText.toLowerCase()),
                         )
                         .map((opt) => (
                           <li
@@ -489,7 +493,7 @@ const Navbar: FC<NavbarProps> = ({
               <div className="flex items-center justify-around flex-1 gap-4">
                 {navOptions
                   .filter((opt) =>
-                    ["export", "sell", "help"].includes(opt.value)
+                    ["export", "sell", "help"].includes(opt.value),
                   )
                   .map((opt) => (
                     <button
@@ -520,215 +524,3 @@ const Navbar: FC<NavbarProps> = ({
 };
 
 export default Navbar;
-
-// import { FC, useEffect, useRef, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   FaBars,
-//   FaChevronDown,
-//   FaMapMarkerAlt,
-//   FaSearch,
-//   FaTimes,
-//   FaUser,
-// } from "react-icons/fa";
-// import { ShoppingCart } from "lucide-react";
-// import { useSelector } from "react-redux";
-// import { useTranslation } from "react-i18next";
-
-// import logo from "@assets/images/logo_farmer_mart_final.png";
-// import { RootState } from "@/redux/store";
-// import { Button } from "@components/common/ui/Button";
-// import { Input } from "@components/common/ui/Input";
-// import { NavbarProps, NavOption } from "@/types/navbarTypes";
-
-// const Navbar: FC<NavbarProps> = ({
-//   state: controlledState,
-//   setStatets,
-//   stateOptions = [
-//     { value: "Hyderabad - Abids", label: "Hyderabad - Abids" },
-//     { value: "Bengaluru - Basavanagudi", label: "Bengaluru - Basavanagudi" },
-//     { value: "Mumbai - Andheri", label: "Mumbai - Andheri" },
-//   ],
-// }) => {
-//   const navigate = useNavigate();
-//   const { t } = useTranslation();
-
-//   const [user, setUser] = useState<{ name: string } | null>(null);
-//   const [selectedValue, setSelectedValue] = useState(
-//     controlledState ?? stateOptions[0].value
-//   );
-//   const [product, setProduct] = useState("");
-//   const [dropdownOpen, setDropdownOpen] = useState(false);
-//   const [mobileMenu, setMobileMenu] = useState(false);
-
-//   const dropdownRef = useRef<HTMLDivElement>(null);
-
-//   const cartItems = useSelector((state: RootState) => state.cart.items);
-//   const cartCount = cartItems.length;
-
-//   useEffect(() => {
-//     const stored = localStorage.getItem("user");
-//     if (stored) setUser(JSON.parse(stored));
-//   }, []);
-
-//   useEffect(() => {
-//     const persisted = localStorage.getItem("selectedLocation");
-//     if (persisted) setSelectedValue(persisted);
-//   }, []);
-
-//   useEffect(() => {
-//     const handler = (e: MouseEvent) => {
-//       if (!dropdownRef.current?.contains(e.target as Node)) {
-//         setDropdownOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handler);
-//     return () => document.removeEventListener("mousedown", handler);
-//   }, []);
-
-//   const handleSelect = (value: string) => {
-//     setSelectedValue(value);
-//     localStorage.setItem("selectedLocation", value);
-//     setStatets?.(value);
-//     setDropdownOpen(false);
-//   };
-
-//   const handleSearch = () => {
-//     if (!product) return;
-//     navigate(
-//       `/products?product=${encodeURIComponent(
-//         product
-//       )}&location=${encodeURIComponent(selectedValue)}`
-//     );
-//   };
-
-//   const navOptions: NavOption[] = t("NAVBAR.NAV_OPTIONS", {
-//     returnObjects: true,
-//   });
-
-//   return (
-//     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-green-100">
-//       {/* DESKTOP */}
-//       <div className="hidden lg:flex items-center justify-between px-6 py-4">
-//         {/* Brand */}
-//         <div
-//           className="flex items-center gap-3 cursor-pointer"
-//           onClick={() => navigate("/")}
-//         >
-//           <img src={logo} alt="Farmer Mart" className="w-36" />
-//           <span className="text-sm text-gray-500 hidden xl:block">
-//             From Farms to Businesses
-//           </span>
-//         </div>
-
-//         {/* Search */}
-//         <div className="flex items-center gap-3 flex-1 max-w-2xl mx-10">
-//           {/* Location */}
-//           <div className="relative" ref={dropdownRef}>
-//             <button
-//               onClick={() => setDropdownOpen((s) => !s)}
-//               className="flex items-center gap-2 px-3 py-2 border rounded-lg bg-gray-50 text-sm"
-//             >
-//               <FaMapMarkerAlt className="text-green-600" />
-//               <span className="truncate max-w-[120px]">
-//                 {stateOptions.find((o) => o.value === selectedValue)?.label}
-//               </span>
-//               <FaChevronDown className="text-xs" />
-//             </button>
-
-//             {dropdownOpen && (
-//               <div className="absolute mt-2 w-56 bg-white border rounded-lg shadow">
-//                 {stateOptions.map((opt) => (
-//                   <div
-//                     key={opt.value}
-//                     onClick={() => handleSelect(opt.value)}
-//                     className="px-4 py-2 hover:bg-green-50 cursor-pointer text-sm"
-//                   >
-//                     {opt.label}
-//                   </div>
-//                 ))}
-//               </div>
-//             )}
-//           </div>
-
-//           {/* Product Input */}
-//           <div className="relative flex-1">
-//             <Input
-//               value={product}
-//               onChange={(e) => setProduct(e.target.value)}
-//               placeholder="Search products, crops, suppliers…"
-//               className="pr-10 rounded-lg"
-//             />
-//             <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
-//           </div>
-
-//           <Button
-//             onClick={handleSearch}
-//             disabled={!product}
-//             className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-5"
-//           >
-//             Get Price
-//           </Button>
-//         </div>
-
-//         {/* Actions */}
-//         <div className="flex items-center gap-6">
-//           {navOptions.map((opt) => (
-//             <button
-//               key={opt.value}
-//               onClick={() => navigate(opt.path)}
-//               className="text-sm text-gray-600 hover:text-green-700"
-//             >
-//               {opt.label}
-//             </button>
-//           ))}
-
-//           <div className="relative cursor-pointer">
-//             <ShoppingCart onClick={() => navigate("/addtocart")} />
-//             {cartCount > 0 && (
-//               <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-//                 {cartCount}
-//               </span>
-//             )}
-//           </div>
-
-//           <FaUser
-//             className="cursor-pointer"
-//             onClick={() => navigate(user ? "/profile" : "/auth/login")}
-//           />
-//         </div>
-//       </div>
-
-//       {/* MOBILE */}
-//       <div className="lg:hidden px-4 py-3 flex items-center justify-between">
-//         <img
-//           src={logo}
-//           alt="Farmer Mart"
-//           className="w-28"
-//           onClick={() => navigate("/")}
-//         />
-//         <button onClick={() => setMobileMenu((s) => !s)}>
-//           {mobileMenu ? <FaTimes /> : <FaBars />}
-//         </button>
-//       </div>
-
-//       {mobileMenu && (
-//         <div className="lg:hidden px-4 pb-4 space-y-4">
-//           <Input
-//             value={product}
-//             onChange={(e) => setProduct(e.target.value)}
-//             placeholder="Search products…"
-//           />
-//           <Button
-//             onClick={handleSearch}
-//             className="w-full bg-green-600 text-white"
-//           >
-//             Get Price
-//           </Button>
-//         </div>
-//       )}
-//     </nav>
-//   );
-// };
-
-// export default Navbar;

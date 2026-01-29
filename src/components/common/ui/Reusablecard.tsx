@@ -40,7 +40,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 col-span-1 lg:col-span-3">
-            {categories.map((group, index) => (
+            {categories?.map((group, index) => (
               <div
                 key={index}
                 className="p-4 border rounded-lg shadow-sm bg-white transition-transform duration-300 hover:shadow-md hover:scale-[1.02] flex flex-col gap-3"
@@ -69,14 +69,14 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
                         onClick={() =>
                           navigate(
                             `/products?product=${encodeURIComponent(
-                              typeof item === "string" ? item : item.toString()
-                            )}`
+                              typeof item === "string" ? item : item.toString(),
+                            )}`,
                           )
                         }
                       >
                         {truncateText(
                           typeof item === "string" ? item : item.toString(),
-                          15
+                          15,
                         )}
                       </span>
                     ))}

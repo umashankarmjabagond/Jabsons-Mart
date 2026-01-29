@@ -4,7 +4,7 @@
 // export default function CategoryList() {
 //   return (
 //     <div>
-//       {Market_Category_data.categories.map((section: CategorySectionType, i) => (
+//       {Market_Category_data.categories?.map((section: CategorySectionType, i) => (
 //         <CategorySection
 //           key={i}
 //           leftCard={{
@@ -40,7 +40,7 @@
 
 //         {/* CATEGORY TABS */}
 //         <div className="flex gap-3 overflow-x-auto pb-4 mb-10">
-//           {categories.map((cat, i) => (
+//           {categories?.map((cat, i) => (
 //             <button
 //               key={i}
 //               onClick={() => setActiveIndex(i)}
@@ -69,7 +69,7 @@ import CategoryUseCaseSection from "./CategoryUseCaseSection";
 export default function CategoryList() {
   return (
     <section className="bg-green-50 py-10 space-y-10 relative z-10">
-      {Market_Category_data.categories.map((section, i) => (
+      {Market_Category_data.categories?.map((section, i) => (
         <>
           <CategoryUseCaseSection
             key={i}

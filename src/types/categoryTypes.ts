@@ -4,15 +4,10 @@ export interface Category {
   slug: string;
 }
 
-export interface CategoryItem {
-  id?: number;
-  name: string;
-  slug?: string;
-}
-
 export interface CategoryGroup {
   title: string;
-  items: CategoryItem[];
+  image?: string;
+  items: string[]; // ✅ correct
 }
 
 export interface CategorySection {

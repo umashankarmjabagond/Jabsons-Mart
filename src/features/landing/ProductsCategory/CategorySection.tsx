@@ -35,7 +35,7 @@ export default function CategorySection({ leftCard, categories }: Props) {
         </div>
 
         <div className="col-span-1 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-y-5 md:pr-6 pt-2 md:pt-0 lg:pt-0">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <CategoryCard key={category.title} category={category} />
           ))}
         </div>
