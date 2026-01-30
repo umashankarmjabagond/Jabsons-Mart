@@ -1,8 +1,8 @@
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import Banner from "@/features/landing/Banner/Banner";
+import CategoryLandingList from "@/features/landing/categoryLanding/CategoryLandingList";
 import MoreForYou from "@/features/landing/MoreforyouSection/MoreForYou";
-import CategoryList from "@/features/landing/ProductsCategory/CategoryList";
 import TopCities from "@/features/landing/supplierForCities/TopCities";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export default function LandingPage() {
         </button>
       </div>
       <br />
-      <CategoryList />
+      <CategoryLandingList />
       <TopCities />
       <MoreForYou />
       <Footer />
