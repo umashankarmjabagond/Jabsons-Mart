@@ -1,4 +1,9 @@
-import { Category, CategoryTreeResponse } from "@/types/categoryTypes";
+import {
+  ApiSuccessResponse,
+  Category,
+  CategoryTreeResponse,
+  LandingMainCategory,
+} from "@/types/categoryTypes";
 import API from "./index";
 
 export const fetchMainCategories = () => {
@@ -7,4 +12,10 @@ export const fetchMainCategories = () => {
 
 export const fetchCategoryTreeBySlug = (slug: string) => {
   return API.get<CategoryTreeResponse>(`/categories/tree/${slug}`);
+};
+
+export const fetchLandingCategories = () => {
+  return API.get<ApiSuccessResponse<LandingMainCategory[]>>(
+    "/categories/landing/flattened",
+  );
 };
