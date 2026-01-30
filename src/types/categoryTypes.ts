@@ -19,3 +19,22 @@ export interface CategoryTreeResponse {
   mainCategory: string;
   sections: CategorySection[];
 }
+
+export interface LandingGroup {
+  id: string;
+  name: string;
+  slug: string;
+  products: string[];
+}
+
+export interface LandingMainCategory {
+  id: string;
+  name: string;
+  slug: string;
+  groups: LandingGroup[];
+}
+
+export interface ApiSuccessResponse<T> {
+  success: boolean;
+  data: T;
+}
