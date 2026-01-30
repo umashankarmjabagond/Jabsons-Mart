@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CategoryLandingSection from "./CategoryLandingSection";
+import { fetchLandingCategories } from "@/services/category.service";
 
 interface Group {
   id: string;
@@ -18,18 +19,35 @@ interface MainCategory {
 export default function CategoryLandingList() {
   const [data, setData] = useState<MainCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/categories/landing/flattened")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) setData(res.data);
-      })
-      .finally(() => setLoading(false));
+    loadLandingCategories();
   }, []);
+
+  const loadLandingCategories = async () => {
+    try {
+      setLoading(true);
+      const { data } = await fetchLandingCategories();
+      if (data.success) setData(data.data);
+    } catch (err) {
+      console.error("Landing categories error", err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className="py-10 text-center">Loading categories…</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="py-10 text-center text-red-500">
+        Failed to load categories
+      </div>
+    );
   }
 
   return (
