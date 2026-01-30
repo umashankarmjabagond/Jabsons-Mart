@@ -1,23 +1,3 @@
-// import type { CategorySection as SectionType } from "@/types/categoryTypes";
-// import CategoryCard from "./CategoryCard";
-
-// const CategorySection = ({ section }: { section: SectionType }) => {
-//   return (
-//     <section>
-//       <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
-
-//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//         {section.groups.map((group, idx) => (
-//           <CategoryCard key={idx} group={group} />
-//         ))}
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default CategorySection;
-
-// CategorySection.tsx
 import type { CategorySection as SectionType } from "@/types/categoryTypes";
 import CategoryCard from "./CategoryCard";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
@@ -30,6 +10,9 @@ const CategorySection = ({
   section: SectionType;
   loading?: boolean;
 }) => {
+  if (!loading && section.groups.length === 0) {
+    return "No items";
+  }
   return (
     <section className="space-y-4">
       <h2 className="text-xl font-bold text-left">{section.title}</h2>
