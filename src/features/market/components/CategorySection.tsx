@@ -32,7 +32,7 @@ const CategorySection = ({
 }) => {
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-semibold">{section.title}</h2>
+      <h2 className="text-xl font-bold text-left">{section.title}</h2>
 
       <HorizontalScroller>
         {(loading

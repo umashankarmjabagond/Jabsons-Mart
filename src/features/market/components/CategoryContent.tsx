@@ -49,27 +49,6 @@ const CategoryContent = ({ loading, error, data, mode }: Props) => {
   return (
     <div className="max-w-7xl mx-auto space-y-10">
       <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
-      {sections.map((section, idx) => (
-        <CategorySection key={idx} section={section} loading={loading} />
-      ))}
-      <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
-      {sections.map((section, idx) => (
-        <CategorySection key={idx} section={section} loading={loading} />
-      ))}
-      <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
-      {sections.map((section, idx) => (
-        <CategorySection key={idx} section={section} loading={loading} />
-      ))}
-      <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
-      {sections.map((section, idx) => (
-        <CategorySection key={idx} section={section} loading={loading} />
-      ))}
-      <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
       {sections.map((section, idx) => (
         <CategorySection key={idx} section={section} loading={loading} />
       ))}

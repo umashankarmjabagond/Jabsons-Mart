@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { useRef } from "react";
 
 export default function HorizontalScroller({
@@ -31,7 +31,7 @@ export default function HorizontalScroller({
           md:p-2
         "
       >
-        <ChevronLeft size={18} />
+        <ChevronsLeft size={18} />
       </button>
 
       {/* SCROLL AREA */}
@@ -61,7 +61,7 @@ export default function HorizontalScroller({
           md:p-2
         "
       >
-        <ChevronRight size={18} />
+        <ChevronsRight size={18} />
       </button>
     </div>
   );
