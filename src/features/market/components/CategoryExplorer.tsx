@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CategorySidebar from "./CategorySidebar";
 import CategoryContent from "./CategoryContent";
 import {
@@ -24,6 +25,11 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
+  /* 🔑 READ QUERY PARAM */
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+
+  /* 🧠 SCROLL TO TOP ON CATEGORY CHANGE */
   useEffect(() => {
     if (categoryData && contentRef.current) {
       contentRef.current.scrollTo({
@@ -33,20 +39,30 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
     }
   }, [categoryData]);
 
+  /* 🔁 LOAD MAIN CATEGORIES */
   useEffect(() => {
     loadMainCategories();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryFromUrl]);
 
+  /* 📦 FETCH MAIN CATEGORIES */
   const loadMainCategories = async () => {
     try {
       setLoading(true);
+
       const { data } = await fetchMainCategories();
       setMainCategories(data);
 
-      if (data.length) {
-        setActiveSlug(data[0].slug);
-        await loadCategoryTree(data[0].slug);
-      }
+      if (!data.length) return;
+
+      // ✅ URL → category → fallback to first
+      const initialSlug =
+        categoryFromUrl && data.some((cat) => cat.slug === categoryFromUrl)
+          ? categoryFromUrl
+          : data[0].slug;
+
+      setActiveSlug(initialSlug);
+      await loadCategoryTree(initialSlug);
     } catch {
       setError("Failed to load categories");
     } finally {
@@ -54,13 +70,14 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
     }
   };
 
+  /* 🌳 FETCH CATEGORY TREE */
   const loadCategoryTree = async (slug: string) => {
     try {
       setLoading(true);
       const { data } = await fetchCategoryTreeBySlug(slug);
       setCategoryData(data);
 
-      // ✅ Mobile UX: auto-close sidebar after selection
+      // 📱 Mobile UX
       if (window.innerWidth < 768) {
         setIsSidebarOpen(false);
       }
@@ -73,7 +90,6 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
 
   return (
     <div className="flex w-full h-[calc(100vh-64px)] overflow-hidden">
-      {/* <div className="flex w-full flex-1 overflow-hidden"> */}
       {/* SIDEBAR */}
       <CategorySidebar
         categories={mainCategories}
