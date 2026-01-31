@@ -63,7 +63,9 @@ const LocationSearch: React.FC = () => {
       initializedFromParamRef.current = false;
       try {
         localStorage.removeItem("selectedLocation");
-      } catch {}
+      } catch (err) {
+        console.log("Failed to remove location from localStorage", err);
+      }
     }
   }, [routeLocation.search]);
 

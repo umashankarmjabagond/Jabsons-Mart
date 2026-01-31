@@ -60,9 +60,18 @@ export interface ParsedQuantity {
   label: string;
 }
 
-
 export type Section = {
   title: string;
   options: string[];
   key: FilterKeys;
 };
+
+export interface ApiProduct {
+  id: number;
+  name: string;
+  image: string;
+  price: string;
+  category: string;
+  seller_name?: string;
+  location?: string;
+}
