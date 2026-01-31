@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { MouseEvent } from "react";
 import fallbackImageUrl from "../../../assets/images/FruitSeed.png";
+import { slugify } from "@/utils/helpers";
 
 interface Group {
   id: string;
@@ -22,7 +23,7 @@ export default function CategoryLandingCard({
 
   // CARD → MARKET PAGE
   const handleCardClick = () => {
-    navigate(`/market?category=${mainSlug}&group=${group.slug}`);
+    navigate(`/market?category=${mainSlug}&group=${slugify(group.name)}`);
   };
 
   // CHIP → PLP
