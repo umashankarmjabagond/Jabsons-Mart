@@ -2,7 +2,6 @@ import { ProductCategoryProps } from "@/types/dashboardType";
 import { Button } from "./Button";
 import { truncateText } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
 
 const ProductCategory: React.FC<ProductCategoryProps> = ({
@@ -13,8 +12,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
   return (
-    <section className="w-full py-8 mt-6 border-t-4 border-t-blue-900 bg-green-50 ]">
+    <section className="w-full py-8 mt-6 border-t-4 border-t-blue-900 bg-green-50">
       <div className="max-w-screen-xl mx-auto px-4 space-y-6">
         <div className="text-left">
           <h2 className="text-xl md:text-3xl font-bold text-black-500 hover:text-blue-900 hover:underline decoration-blue-900 transition duration-200">
@@ -23,13 +23,14 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-          <div className="relative h-64 md:h-[auto] bg-white rounded-lg overflow-hidden col-span-1 border shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg">
+          {/* LEFT CARD */}
+          <div className="relative h-64 bg-white rounded-lg overflow-hidden col-span-1 border shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg">
             <img
               src={image || "https://via.placeholder.com/150"}
               alt={title}
               className="w-full h-full object-cover opacity-70"
             />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end items-start p-4">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end p-4">
               <p className="text-white text-sm md:text-lg font-semibold leading-normal hover:underline">
                 {description}
               </p>
@@ -39,6 +40,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
             </div>
           </div>
 
+          {/* RIGHT GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 col-span-1 lg:col-span-3">
             {categories?.map((group, index) => (
               <div
@@ -62,22 +64,15 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
                     {group.items.map((item, i) => (
                       <span
                         key={i}
-                        title={
-                          typeof item === "string" ? item : item.toString()
-                        }
-                        className="px-2 py-0  text-gray-500 text-xs md:text-sm font-medium rounded-md hover:bg-blue-100 cursor-pointer truncate max-w-[120px]"
+                        title={item}
+                        className="px-2 py-0 text-gray-500 text-xs md:text-sm font-medium rounded-md hover:bg-blue-100 cursor-pointer truncate max-w-[120px]"
                         onClick={() =>
                           navigate(
-                            `/products?product=${encodeURIComponent(
-                              typeof item === "string" ? item : item.toString(),
-                            )}`,
+                            `/products?product=${encodeURIComponent(item)}`,
                           )
                         }
                       >
-                        {truncateText(
-                          typeof item === "string" ? item : item.toString(),
-                          15,
-                        )}
+                        {truncateText(item, 15)}
                       </span>
                     ))}
                   </div>
