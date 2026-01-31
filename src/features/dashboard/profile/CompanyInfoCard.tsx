@@ -77,8 +77,6 @@ export const CompanyInfoCard = () => {
         googleBusiness: formData.googleBusiness,
       };
 
-      console.log("Updating payload:", payload);
-
       await updateCompany(payload);
       await fetchCompanyData();
       setIsOpen(false);
