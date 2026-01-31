@@ -64,12 +64,14 @@ const CategoryCard = ({ group }: { group: CategoryGroup }) => {
                 key={idx}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(
-                    `/products?product=${encodeURIComponent(
-                      item,
-                    )}&category=${item}`,
-                  );
+                  navigate(`/products?product=${encodeURIComponent(item)}`);
                 }}
+                //   navigate(
+                //     `/products?product=${encodeURIComponent(
+                //       item,
+                //     )}&category=${item}`,
+                //   );
+                // }}
                 className="
                   text-xs px-3 py-1
                   rounded-full
