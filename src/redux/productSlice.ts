@@ -167,11 +167,13 @@ const initialState: ProductsState = {
  */
 export const fetchProducts = createAsyncThunk<
   Product[],
-  { product?: string | null; category?: string | null },
+  { product?: string | null; category?: string | null } | undefined,
   { rejectValue: string }
 >("products/fetchProducts", async (params, { rejectWithValue }) => {
   try {
-    const response = await fetchProductsApi(params);
+    const safeParams = params ?? {};
+
+    const response = await fetchProductsApi(safeParams);
 
     const mappedProducts: Product[] = response.data.map((item: ApiProduct) =>
       mapApiProductToUiProduct(item),
