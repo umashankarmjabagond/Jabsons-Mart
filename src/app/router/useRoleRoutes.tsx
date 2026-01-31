@@ -6,9 +6,7 @@ import { ROUTES } from "@/constants/routeConstants";
 import Help from "@/features/help/Help";
 import CartLayout from "../layouts/CartLayout";
 import CheckoutLayout from "../../features/checkout/CheckoutLayout";
-import ProductDetailsLayout from "../layouts/ProductDetailsLayout";
 import PaymentLayout from "@/features/paymentpage/Mainpage";
-// import PaymentLayout from "../../features/paymentpage/PaymentOptions";
 import SellerLanding from "../pages/SellerLanding";
 import MarketLayout from "../layouts/MarketLayout";
 import MarketPage from "@/features/market/pages/MarketPage";
@@ -38,10 +36,6 @@ export const useRoleRoutes = (): RouteObject[] => {
       {
         element: <Help />,
         path: ROUTES.HELP_PAGE,
-      },
-      {
-        element: <ProductDetailsLayout />,
-        path: ROUTES.PRODUCT_DETAILS_PAGE,
       },
       {
         element: <CartLayout />,
