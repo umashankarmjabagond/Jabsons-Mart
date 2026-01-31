@@ -69,6 +69,7 @@ import processedfood from "@assets/images/processed-food.jpg";
 import Vegetable1 from "@assets/images/vegetables1.webp";
 import Flowers from "@assets/images/Flowers.webp";
 import Grains from "@assets/images/grains.webp";
+import { ApiProduct, Product } from "@/types/productTypes";
 export const Farming_Equipment_Category_data: CategoryData = {
   categories: [
     {
@@ -487,4 +488,16 @@ export const Farming_Equipment_Category_data: CategoryData = {
       ],
     },
   ],
+};
+
+export const mapApiProductToUiProduct = (apiProduct: ApiProduct): Product => {
+  return {
+    id: apiProduct.id,
+    itemName: apiProduct.name,
+    price: apiProduct.price,
+    imageUrl: apiProduct.image,
+    location: apiProduct.location,
+    sellerName: apiProduct.seller_name,
+    category: apiProduct.category,
+  };
 };

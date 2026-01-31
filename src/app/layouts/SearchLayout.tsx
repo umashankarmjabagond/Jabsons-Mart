@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { fetchProducts } from "@/redux/productSlice";
 import { RootState, AppDispatch } from "@/redux/store";
 
@@ -13,6 +14,8 @@ import RequirementForm from "@/features/productList/RequirementForm";
 
 const SearchLayout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+
   const { filteredProducts, loading, error } = useSelector(
     (state: RootState) => state.products,
   );
@@ -21,22 +24,36 @@ const SearchLayout: React.FC = () => {
   const productListEndRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  const searchParams = new URLSearchParams(location.search);
+  const productParam = searchParams.get("product");
+  const categoryParam = searchParams.get("category");
 
+  /** Fetch products from DB based on URL */
+  useEffect(() => {
+    dispatch(
+      fetchProducts({
+        product: productParam,
+        category: categoryParam,
+      }),
+    );
+  }, [dispatch, productParam, categoryParam]);
+
+  /** Scroll reset */
   useEffect(() => {
     if (mainRef.current) {
       mainRef.current.scrollTo({ top: 0, behavior: "auto" });
     }
-  }, []);
+  }, [filteredProducts]);
 
+  /** Observer for requirement form */
   useEffect(() => {
     if (!mainRef.current || !productListEndRef.current) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => setShowForm(entry.isIntersecting),
       { root: mainRef.current, threshold: OBSERVER_OPTIONS.THRESHOLD },
     );
+
     observer.observe(productListEndRef.current);
     return () => observer.disconnect();
   }, []);
@@ -44,20 +61,20 @@ const SearchLayout: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-
       <div className="flex-1 flex flex-col border border-gray-200">
         {/* Location search */}
         <div className={CLASSNAMES.LOCATION_SEARCH_CONTAINER}>
           <LocationSearch />
-          {/* ✅ Removed Show/Hide Filter button */}
         </div>
-        <div className="flex flex-1 flex-col md:flex-row overflow-hidden"></div>
+
         {/* Main content area */}
         <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
-          {/* Product list section */}
+          {/* Filters */}
           <aside className={`md:block ${CLASSNAMES.FILTER_SIDEBAR}`}>
             <FilterSlideBar loading={loading} error={error} />
           </aside>
+
+          {/* Product list */}
           <main ref={mainRef} className={CLASSNAMES.MAIN_CONTAINER}>
             <ProductList
               products={filteredProducts}
@@ -68,7 +85,7 @@ const SearchLayout: React.FC = () => {
             {/* Observer target */}
             <div ref={productListEndRef} className="h-4" />
 
-            {/* Requirement form when scrolled */}
+            {/* Requirement form */}
             {showForm && (
               <div className="p-2 sm:p-4">
                 <RequirementForm />
@@ -77,8 +94,6 @@ const SearchLayout: React.FC = () => {
           </main>
         </div>
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
