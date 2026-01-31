@@ -44,7 +44,6 @@ const Register: React.FC = () => {
       // Map phone → contact and remove confirmPassword
       const { phone, ...rest } = values;
       const payload = { ...rest, contact: phone };
-      console.log("Payload to backend:", payload);
 
       // Call backend API
       await registerUser(payload);
