@@ -18,6 +18,9 @@ const ProductList: React.FC<ProductListProps> = ({
   const productParam = searchParams.get("product");
   const categoryParam = searchParams.get("category");
 
+  console.log("productParam", productParam);
+  console.log("categoryParam", categoryParam);
+
   // Helper: highlight searched product text
   const highlightText = (text: string, highlight?: string | null) => {
     if (!highlight) return text;

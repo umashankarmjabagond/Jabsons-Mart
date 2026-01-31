@@ -141,11 +141,12 @@ const Navbar: FC<NavbarProps> = ({
 
   const handleProductSearch = () => {
     if (product.trim()) {
-      navigate(
-        `/products?product=${encodeURIComponent(
-          product,
-        )}&location=${encodeURIComponent(selectedValue)}`,
-      );
+      navigate(`/products?product=${encodeURIComponent(product)}`);
+      // navigate(
+      //   `/products?product=${encodeURIComponent(
+      //     product,
+      //   )}&location=${encodeURIComponent(selectedValue)}`,
+      // );
     }
   };
 
