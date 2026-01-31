@@ -19,11 +19,8 @@ const Login = () => {
   };
 
   const handleSubmit = async (values: LoginFormValues) => {
-    console.log("Form submitted:", values);
-
     try {
-      const data = await loginUser(values);
-      console.log("User data:", data);
+      await loginUser(values);
       navigate("/dashboard");
     } catch (err) {
       console.log("error while logging in", err);

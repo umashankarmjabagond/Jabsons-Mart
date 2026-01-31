@@ -41,8 +41,6 @@ const HomeLayout: React.FC = () => {
   const userStr = localStorage.getItem("user");
   const user = userStr ? JSON.parse(userStr) : null;
 
-  console.log("userStr from local string", user);
-
   return (
     <>
       {/* <Navbar />

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import FALLBACK_IMAGE from "@assets/images/Fruits&Preserved.jpg";
 
 const CategoryCard = ({ group }: { group: CategoryGroup }) => {
-  console.log("Rendering CategoryCard with group:", group);
   const navigate = useNavigate();
 
   return (
