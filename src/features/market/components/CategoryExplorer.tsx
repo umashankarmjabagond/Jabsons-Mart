@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CategorySidebar from "./CategorySidebar";
 import CategoryContent from "./CategoryContent";
 import {
@@ -24,18 +25,23 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (categoryData && contentRef.current) {
-      contentRef.current.scrollTo({
-        top: 0,
-        behavior: "auto",
-      });
-    }
-  }, [categoryData]);
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+  const groupFromUrl = searchParams.get("group");
 
   useEffect(() => {
     loadMainCategories();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryFromUrl]);
+
+  useEffect(() => {
+    if (!categoryData || !groupFromUrl) return;
+
+    const el = document.getElementById(`group-${groupFromUrl}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [categoryData, groupFromUrl]);
 
   const loadMainCategories = async () => {
     try {
@@ -43,10 +49,15 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
       const { data } = await fetchMainCategories();
       setMainCategories(data);
 
-      if (data.length) {
-        setActiveSlug(data[0].slug);
-        await loadCategoryTree(data[0].slug);
-      }
+      if (!data.length) return;
+
+      const initialSlug =
+        categoryFromUrl && data.some((c) => c.slug === categoryFromUrl)
+          ? categoryFromUrl
+          : data[0].slug;
+
+      setActiveSlug(initialSlug);
+      await loadCategoryTree(initialSlug);
     } catch {
       setError("Failed to load categories");
     } finally {
@@ -60,7 +71,6 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
       const { data } = await fetchCategoryTreeBySlug(slug);
       setCategoryData(data);
 
-      // ✅ Mobile UX: auto-close sidebar after selection
       if (window.innerWidth < 768) {
         setIsSidebarOpen(false);
       }
@@ -73,8 +83,6 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
 
   return (
     <div className="flex w-full h-[calc(100vh-64px)] overflow-hidden">
-      {/* <div className="flex w-full flex-1 overflow-hidden"> */}
-      {/* SIDEBAR */}
       <CategorySidebar
         categories={mainCategories}
         activeSlug={activeSlug}
@@ -86,13 +94,13 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
         }}
       />
 
-      {/* CONTENT */}
       <div className="flex-1 overflow-y-auto px-4" ref={contentRef}>
         <CategoryContent
           loading={loading}
           error={error}
           data={categoryData}
           mode={mode}
+          activeGroupSlug={groupFromUrl}
         />
       </div>
     </div>

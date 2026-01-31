@@ -19,3 +19,14 @@ export const formatCurrency = (value?: number | string) => {
   if (!Number.isFinite(n)) return "--";
   return currencyFormatter.format(n);
 };
+
+export const slugify = (value?: string) => {
+  if (!value) return "";
+
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+};

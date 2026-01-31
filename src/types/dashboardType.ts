@@ -3,26 +3,22 @@ export interface CategoryItem {
   name: string;
 }
 
-
 export interface CategoryGroup {
   title: string;
-  image: string | any; 
-  items: String[]; 
+  image: string;
+  items: string[];
 }
-
 
 export interface LeftCard {
   title: string;
   description: string;
-  image: string | any;
+  image: string;
 }
-
 
 export interface CategorySection {
   leftCard: LeftCard;
   categories: CategoryGroup[];
 }
-
 
 export interface CategoryData {
   categories: CategorySection[];
