@@ -17,7 +17,7 @@ import { Button } from "@/components/common/ui/Button";
 
 import { addToCart } from "@/redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { CardProduct } from "@/types/cartType";
+// import { CardProduct } from "@/types/cartType";
 import { RootState } from "@/redux/store";
 
 import SimilarProducts from "./SimilarProducts";
@@ -36,7 +36,7 @@ const ProductListView: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const allProducts: Product[] = useSelector(
-    (state: RootState) => state.products.allProducts
+    (state: RootState) => state.products.allProducts,
   );
 
   if (!supplier) {
@@ -46,23 +46,45 @@ const ProductListView: React.FC = () => {
   }
 
   const similarProducts = allProducts.filter(
-    (p) => p.category === supplier.category && p.id !== supplier.id
+    (p) => p.category === supplier.category && p.id !== supplier.id,
   );
 
   const product = supplier;
   const TEXT = productText.PRODUCT_LIST_VIEW;
   const visibleOffers = showAllOffers ? TEXT.OFFERS : TEXT.OFFERS.slice(0, 3);
   const isInCart = cartItems.some(
-    (item) => item.id === product.id && item.sellerName === supplier.sellerName
+    (item) => item.id === product.id && item.sellerName === supplier.sellerName,
   );
 
-  const handleAddToCart = (product: CardProduct) => {
+  // const handleAddToCart = (product: CardProduct) => {
+  //   const productToAdd = {
+  //     ...product,
+  //     sellerName: supplier.sellerName,
+  //     location: supplier.location,
+  //     quantity: 1,
+  //   };
+
+  //   console.log("Adding to cart:", productToAdd);
+
+  //   dispatch(addToCart(productToAdd));
+  //   navigate("/addtocart");
+  // };
+
+  const handleAddToCart = () => {
     const productToAdd = {
-      ...product,
-      sellerName: supplier.sellerName,
-      location: supplier.location,
+      id: product.id,
+      itemName: product.itemName,
+      price: Number(product.price),
+      imageUrl: Array.isArray(product.imageUrl)
+        ? product.imageUrl[0]
+        : (product.imageUrl ?? ""), // 🔥 fallback
+      sellerName: supplier?.sellerName ?? "Unknown Seller", // 🔥 fallback
+      location: supplier?.location ?? "",
+      category: product.category,
       quantity: 1,
     };
+
+    console.log("Adding to cart:", productToAdd);
 
     dispatch(addToCart(productToAdd));
     navigate("/addtocart");
@@ -132,7 +154,8 @@ const ProductListView: React.FC = () => {
 
           <div className="mt-6 flex gap-4">
             <Button
-              onClick={() => handleAddToCart(product)}
+              // onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart()}
               variant="addToCart"
               leftIcon={<ShoppingCart size={20} />}
               disabled={isInCart}
