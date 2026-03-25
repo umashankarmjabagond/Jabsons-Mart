@@ -73,15 +73,8 @@ const ProductList: React.FC<ProductListProps> = ({
   return (
     <div>
       {/* Breadcrumb + Back */}
-      <div className="px-4 sm:px-5 md:px-6 pt-4">
-        <button
-          onClick={() => navigate("/market")}
-          className="text-green-700 text-sm font-medium hover:underline mb-2 inline-flex items-center"
-        >
-          ← Back to Market
-        </button>
-
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+      <div className="px-4 sm:px-5 md:px-6 pt-4 flex justify-between items-center">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
           <span
             className="cursor-pointer text-green-700 hover:underline"
             onClick={() => navigate("/market")}
@@ -107,10 +100,17 @@ const ProductList: React.FC<ProductListProps> = ({
             </>
           )}
         </div>
+
+        <button
+          onClick={() => navigate("/market")}
+          className="text-green-700 text-sm font-medium hover:underline inline-flex items-center"
+        >
+          ← Back to Market
+        </button>
       </div>
 
       {/* Product Grid */}
-      <div className="p-3 sm:p-4 md:p-5 rounded-2xl bg-white border border-gray-200 shadow-sm">
+      <div className="py-2 sm:py-2 md:py-2 rounded-2xl !bg-white">
         <div
           className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
           style={{ gridAutoRows: "1fr" }}

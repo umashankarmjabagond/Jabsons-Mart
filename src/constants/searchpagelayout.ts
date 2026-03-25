@@ -9,12 +9,11 @@ export const OBSERVER_OPTIONS = {
 
 export const CLASSNAMES = {
   LOCATION_SEARCH_CONTAINER: "sticky top-0 z-20 border-b bg-white p-3 sm:p-4",
-  FILTER_BUTTON:
-    "bg-blue-600 text-white text-sm px-4 py-2 rounded-md shadow-md",
+  FILTER_BUTTON: "text-white text-sm px-4 py-2 rounded-md shadow-md",
   FILTER_SIDEBAR:
-    "md:w-1/4 lg:w-1/5 p-3 sm:p-4 border-gray-200 bg-gradient-to-b from-blue-50 to-indigo-50 h-full overflow-hidden",
+    "md:w-1/4 lg:w-1/5 p-1 sm:p-1 border border-gray-200 rounded-2xl h-full overflow-hidden",
   MAIN_CONTAINER:
-    "flex-1 h-full overflow-y-auto flex flex-col px-2 sm:px-4 min-h-0",
+    "flex-1 h-full overflow-y-auto flex flex-col px-2 sm:px-4 min-h-0 bg-white rounded-2xl",
 };
 
 export const MESSAGES = {

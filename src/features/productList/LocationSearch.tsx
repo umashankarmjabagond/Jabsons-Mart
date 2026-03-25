@@ -145,31 +145,13 @@ const LocationSearch: React.FC = () => {
             onClick={handleNearbyBtnClick}
             variant="ghost"
             size="sm"
-            className="px-2 py-1 rounded-full text-base bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 "
+            className="px-2 rounded-full text-xs bg-blue-600 hover:bg-blue-900 text-white border border-blue-600"
           >
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 text-xs">
               <LocateFixed className="w-3 h-3 sm:w-3 sm:h-3" />
-              {LOCATION_SEARCH.NEAR_ME} Me
+              {LOCATION_SEARCH.NEAR_ME} me
             </span>
           </Button>
-
-          {/* Mobile: Dropdown for location selection */}
-          <div className="relative w-full sm:hidden" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full flex items-center justify-between px-4 py-4 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[56px]"
-            >
-              <span className="text-base font-medium text-gray-700">
-                {activeCity || "Select Location"}
-              </span>
-              <ChevronDown
-                className={`w-6 h-6 text-gray-400 transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-          </div>
         </div>
       </div>
     </div>
