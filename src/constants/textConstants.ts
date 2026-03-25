@@ -74,7 +74,8 @@ export const DASHBOARD_NAV_TXT = {
 
 export const LOCATION_SEARCH = {
   TITLE: "Farm near",
-  NEARME: "Near Me",
+  NEAR_ME: "Near",
+  PRODUCTS: " Products",
 };
 
 export const PROFILE_PAGE_TXT = {
@@ -95,7 +96,7 @@ export const PROFILE_PAGE_TXT = {
   GL_BUSINESS: "Google Business",
   WEBSITE: "Company Website",
   PAN: "PAN",
-  
+
   // Bank Info
   BANK_ACC: "Bank Account Details",
   IFSC: "IFSC Code",
@@ -103,16 +104,16 @@ export const PROFILE_PAGE_TXT = {
   ACC_NUM: "Account Number",
   ACC_TYPE: "Account Type",
   ACC_HOLDER: "Account Holder Name",
-  
+
   // Modal & Buttons
   EDIT_BANK_MODAL: "Edit Bank Details",
   CANCEL: "Cancel",
   UPDATE: "Update",
-  
+
   // Loading / Error
   LOADING_BANK: "Loading bank details...",
   ERROR_BANK: "Error fetching bank details:",
-  
+
   // Validation messages
   REQUIRED_IFSC: "IFSC Code is required.",
   REQUIRED_BANK_NAME: "Bank Name is required.",
@@ -123,55 +124,51 @@ export const PROFILE_PAGE_TXT = {
   INVALID_ACC_NUM: "Account number must be 9–18 digits.",
 };
 
-export const HELP_PAGE_TEXT={
-  TITLE:'Hello, how can we assist you today?',
-  SUBTITLE:'Explore support articles: '
-}
+export const HELP_PAGE_TEXT = {
+  TITLE: "Hello, how can we assist you today?",
+  SUBTITLE: "Explore support articles: ",
+};
 
-
-
-export const SELLER_PAGE_TXT ={
-  ICON1_TITLE:" Grow your Business",
+export const SELLER_PAGE_TXT = {
+  ICON1_TITLE: " Grow your Business",
   ICON1_DES: " Sell to buyers anytime, anywhere",
   ICON2_TITLE: "Zero Cost",
   ICON2_DES: "No commission or transaction fee",
-  ICON3_TITLE:" Manage your Business Better",
+  ICON3_TITLE: " Manage your Business Better",
   ICON3_DES: "Lead Management System & other features",
   ICON4_TITLE: " Create Account",
   ICON4_DES: " Add your name and phone number to get started",
-  ICON5_TITLE:"Add Business",
+  ICON5_TITLE: "Add Business",
   ICON5_DES: " Add name, address & e-mail of your company, store/ business.",
   ICON6_TITLE: "Add Products/ Services",
-  ICON6_DES:"Minimum 3 products/ services needed    for your free listing page.",
+  ICON6_DES:
+    "Minimum 3 products/ services needed    for your free listing page.",
   HEADING1_TXT: "Sell on IndiaMART",
-  HEADING2_TXT:"Get a free listing in 3 simple steps:"
-
-}
-
+  HEADING2_TXT: "Get a free listing in 3 simple steps:",
+};
 
 export const countries: Country[] = [
-  { code: "+91", name: "India", flag: "https://flagcdn.com/w20/in.png"},
+  { code: "+91", name: "India", flag: "https://flagcdn.com/w20/in.png" },
   { code: "+1", name: "USA", flag: "https://flagcdn.com/us.svg" },
   { code: "+44", name: "UK", flag: "https://flagcdn.com/gb.svg" },
   { code: "+61", name: "Australia", flag: "https://flagcdn.com/au.svg" },
   { code: "+81", name: "Japan", flag: "https://flagcdn.com/jp.svg" },
-  
 ];
 
-export const SELLER_REGIST_ICON_TXT ={
-  ICON1_TITLE:" Grow your Business",
+export const SELLER_REGIST_ICON_TXT = {
+  ICON1_TITLE: " Grow your Business",
   ICON1_DES: " Sell to buyers anytime, anywhere",
   ICON2_TITLE: "Zero Cost",
   ICON2_DES1: "No commission",
-  ICON2_DES2:"transaction fee",
-  ICON3_TITLE:" Manage Business Easily",
+  ICON2_DES2: "transaction fee",
+  ICON3_TITLE: " Manage Business Easily",
   ICON3_DES: "Lead Management System & other features",
-}
- 
- export const SELLER_REGISTER_TXT = {
- SELLER_HEADIND1 :"Sell for free",
-  SELLER_HEADING2:"on India’s largest ",
-  SELLER_TEXT3:"online B2B marketplace",
- SELLER_REGISTER_TITLE:"Free Registration / Sign In",
-  SELLER_LOGIN_BTN:"Login"
- }
+};
+
+export const SELLER_REGISTER_TXT = {
+  SELLER_HEADIND1: "Sell for free",
+  SELLER_HEADING2: "on India’s largest ",
+  SELLER_TEXT3: "online B2B marketplace",
+  SELLER_REGISTER_TITLE: "Free Registration / Sign In",
+  SELLER_LOGIN_BTN: "Login",
+};

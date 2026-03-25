@@ -18,9 +18,6 @@ const ProductList: React.FC<ProductListProps> = ({
   const productParam = searchParams.get("product");
   const categoryParam = searchParams.get("category");
 
-  console.log("productParam", productParam);
-  console.log("categoryParam", categoryParam);
-
   // Helper: highlight searched product text
   const highlightText = (text: string, highlight?: string | null) => {
     if (!highlight) return text;
@@ -74,17 +71,10 @@ const ProductList: React.FC<ProductListProps> = ({
     );
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div>
       {/* Breadcrumb + Back */}
-      <div className="px-4 sm:px-5 md:px-6 pt-4">
-        <button
-          onClick={() => navigate("/market")}
-          className="text-green-700 text-sm font-medium hover:underline mb-2 inline-flex items-center"
-        >
-          ← Back to Market
-        </button>
-
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+      <div className="px-4 sm:px-5 md:px-6 pt-4 flex justify-between items-center">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
           <span
             className="cursor-pointer text-green-700 hover:underline"
             onClick={() => navigate("/market")}
@@ -110,10 +100,17 @@ const ProductList: React.FC<ProductListProps> = ({
             </>
           )}
         </div>
+
+        <button
+          onClick={() => navigate("/market")}
+          className="text-green-700 text-sm font-medium hover:underline inline-flex items-center"
+        >
+          ← Back to Market
+        </button>
       </div>
 
       {/* Product Grid */}
-      <div className="p-4 sm:p-5 md:p-6">
+      <div className="py-2 sm:py-2 md:py-2 rounded-2xl !bg-white">
         <div
           className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6"
           style={{ gridAutoRows: "1fr" }}
@@ -131,10 +128,10 @@ const ProductList: React.FC<ProductListProps> = ({
                     state: { supplier: product },
                   })
                 }
-                className="bg-white rounded-xl shadow hover:shadow-md transition-all border border-gray-200 flex flex-col h-full p-3 sm:p-4 cursor-pointer"
+                className="bg-white rounded-xl shadow hover:shadow-md transition-all border border-gray-200 flex flex-col h-full p-2 sm:p-2 cursor-pointer"
               >
                 {/* Image */}
-                <div className="relative h-36 sm:h-40 md:h-48 w-full bg-gray-100 rounded-lg overflow-hidden">
+                <div className="relative h-30 sm:h-30 md:h-36 w-full bg-gray-100 rounded-lg overflow-hidden">
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
@@ -149,9 +146,9 @@ const ProductList: React.FC<ProductListProps> = ({
                 </div>
 
                 {/* Info */}
-                <div className="flex-1 flex flex-col mt-3">
+                <div className="flex-1 flex flex-col mt-2">
                   <h3
-                    className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold text-gray-900 leading-tight h-12 overflow-hidden"
+                    className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold text-gray-900 leading-tight h-10 overflow-hidden"
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
@@ -164,27 +161,12 @@ const ProductList: React.FC<ProductListProps> = ({
                     )}
                   </h3>
 
-                  <p className="text-gray-600 text-xs sm:text-sm mt-1 truncate">
-                    {product.location ?? MESSAGES.UNKNOWN_LOCATION}
-                  </p>
-
-                  <p className="text-blue-600 font-bold text-sm sm:text-base mt-2">
-                    {formatCurrency(product.price)}
-                    <span className="text-xs sm:text-sm text-gray-600 ml-1">
-                      {product.quantity ? `/${product.quantity}` : ""}
-                    </span>
-                  </p>
-
-                  <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-semibold py-2 rounded-md mt-auto">
-                    {BUTTON_TEXTS.CONTACT_SUPPLIER}
-                  </button>
-                </div>
-
-                {/* Seller */}
-                <div className="border-t mt-3 pt-3 flex justify-between">
-                  <div>
-                    <p className="text-sm font-semibold truncate">
-                      {product.sellerName ?? MESSAGES.UNKNOWN_SELLER}
+                  <div className="flex items-center justify-around">
+                    <p className="text-blue-600 font-bold text-sm sm:text-base truncate">
+                      {formatCurrency(product.price)}
+                      <span className="text-xs sm:text-sm text-gray-600 ml-1">
+                        {product.quantity ? `/${product.quantity}` : ""}
+                      </span>
                     </p>
                     <div className="flex items-center text-xs text-gray-600">
                       <MapPin size={14} className="mr-1" />
@@ -192,30 +174,42 @@ const ProductList: React.FC<ProductListProps> = ({
                     </div>
                   </div>
 
-                  <div className="text-right">
-                    <div className="flex gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={
-                            i < ratingNumber
-                              ? "text-yellow-500"
-                              : "text-gray-300"
-                          }
-                        >
-                          ★
-                        </span>
-                      ))}
-                      <span className="ml-1 text-xs font-semibold">
-                        {ratingNumber.toFixed(1)}
-                      </span>
-                    </div>
+                  <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-semibold py-1 rounded-md mt-1">
+                    {BUTTON_TEXTS.CONTACT_SUPPLIER}
+                  </button>
+                </div>
 
+                {/* Seller */}
+                <div className="border-t mt-2 pt-2 flex justify-between items-start gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold truncate break-words">
+                      {product.sellerName ?? MESSAGES.UNKNOWN_SELLER}
+                    </p>
+                  </div>
+
+                  <div className="text-right shrink-0">
                     <div className="flex items-center text-green-700 text-xs mt-1">
                       <Phone size={14} className="mr-1" />
                       {BUTTON_TEXTS.VIEW_NUMBER}
                     </div>
                   </div>
+                </div>
+                <div className="flex justify-around items-center mt-1">
+                  <div>
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span
+                        key={i}
+                        className={
+                          i < ratingNumber ? "text-yellow-500" : "text-gray-300"
+                        }
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-xs font-semibold mt-1">
+                    {ratingNumber.toFixed(1)}
+                  </span>
                 </div>
               </div>
             );
