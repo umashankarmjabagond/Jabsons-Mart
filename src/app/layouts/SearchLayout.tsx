@@ -59,18 +59,19 @@ const SearchLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col h-screen min-h-screen bg-gray-50 overflow-hidden">
       <Navbar />
-      <div className="flex-1 flex flex-col border border-gray-200">
+
+      <div className="flex-1 flex flex-col border border-gray-200 overflow-hidden">
         {/* Location search */}
         <div className={CLASSNAMES.LOCATION_SEARCH_CONTAINER}>
           <LocationSearch />
         </div>
 
         {/* Main content area */}
-        <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 min-h-0 flex md:flex-row overflow-hidden gap-4 p-2 sm:p-4">
           {/* Filters */}
-          <aside className={`md:block ${CLASSNAMES.FILTER_SIDEBAR}`}>
+          <aside className={`hidden md:block ${CLASSNAMES.FILTER_SIDEBAR}`}>
             <FilterSlideBar loading={loading} error={error} />
           </aside>
 
@@ -91,10 +92,12 @@ const SearchLayout: React.FC = () => {
                 <RequirementForm />
               </div>
             )}
+
+            {/* Footer inside scrollable area */}
+            <Footer />
           </main>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
