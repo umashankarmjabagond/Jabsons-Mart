@@ -1,15 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { Button } from "@/components/common/ui/Button";
 import { PLATFORM_FEE, DISCOUNT, COUPONS } from "@/constants/priceConstant";
 import type { PriceDetails, StepProps } from "@/types/checkoutTypes";
 import { getCartData } from "@/utils/cartUtils";
+import { RootState } from "@/redux/store";
 
 const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { items, itemsTotal } = getCartData();
+  const selectedItems = useSelector(
+    (state: RootState) => state.checkout.selectedItems,
+  );
+  const cartData = getCartData();
+  const items =
+    selectedItems && selectedItems.length > 0 ? selectedItems : cartData.items;
+  const itemsTotal =
+    selectedItems && selectedItems.length > 0
+      ? selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      : cartData.itemsTotal;
 
   const totalAmount = itemsTotal - DISCOUNT - COUPONS + PLATFORM_FEE;
 

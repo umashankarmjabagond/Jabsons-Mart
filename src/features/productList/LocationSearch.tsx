@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LocateFixed, ChevronDown } from "lucide-react";
+import { LocateFixed } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { LOCATION_SEARCH } from "@/constants/textConstants";
 import { Button } from "@/components/common/ui/Button";
@@ -17,10 +17,8 @@ const LocationSearch: React.FC = () => {
   );
 
   const [activeCity, setActiveCity] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // const pillContainerRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const initializedFromParamRef = useRef(false);
 
   useEffect(() => {
@@ -66,22 +64,6 @@ const LocationSearch: React.FC = () => {
     }
   }, [routeLocation.search]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const handleNearbyBtnClick = () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
@@ -101,8 +83,6 @@ const LocationSearch: React.FC = () => {
             data.address?.county ||
             "Unknown location";
           setActiveCity(city);
-          setIsDropdownOpen(false);
-
           setUrlLocationParam(city);
         } catch {
           console.error("Failed to get location from coordinates");
@@ -145,7 +125,7 @@ const LocationSearch: React.FC = () => {
             onClick={handleNearbyBtnClick}
             variant="ghost"
             size="sm"
-            className="px-2 rounded-full text-xs bg-blue-600 hover:bg-blue-900 text-white border border-blue-600"
+            className="px-2 py-0.5 rounded-full text-xs bg-blue-600 hover:bg-blue-900 text-white border border-blue-600"
           >
             <span className="inline-flex items-center gap-2 text-xs">
               <LocateFixed className="w-3 h-3 sm:w-3 sm:h-3" />

@@ -24,10 +24,10 @@ const SimilarProducts: React.FC<SimilarProductsProps> = ({
   ];
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 bg-white p-4 rounded-2xl border border-gray-200">
       <h2 className="text-xl font-semibold mb-4">Similar Products</h2>
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
         style={{ gridAutoRows: "1fr" }}
       >
         {orderedProducts.map((product) => {
@@ -43,25 +43,25 @@ const SimilarProducts: React.FC<SimilarProductsProps> = ({
                   state: { supplier: product },
                 })
               }
-              className="bg-white shadow rounded-lg border border-gray-200 flex flex-col h-full cursor-pointer"
+              className="bg-white rounded-xl shadow hover:shadow-md transition-all border border-gray-200 flex flex-col h-full p-2 sm:p-2 cursor-pointer w-full"
             >
-              <div className="relative h-44 md:h-48 bg-gray-100 flex-shrink-0">
+              <div className="relative h-30 sm:h-30 md:h-36 w-full bg-gray-100 rounded-lg overflow-hidden">
                 {product.imageUrl ? (
                   <img
                     src={product.imageUrl}
-                    alt={product.itemName ?? "Product"}
+                    alt={product.itemName ?? "Unnamed Product"}
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs sm:text-sm">
                     No image
                   </div>
                 )}
               </div>
 
-              <div className="flex-1 flex flex-col p-4 pt-3">
-                <div
-                  className="text-[20px] font-medium text-gray-900 h-12 overflow-hidden"
+              <div className="flex-1 flex flex-col mt-2">
+                <h3
+                  className="text-[14px] sm:text-[16px] md:text-[18px] font-semibold text-gray-900 leading-tight h-10 overflow-hidden"
                   style={{
                     display: "-webkit-box",
                     WebkitLineClamp: 2,
@@ -69,65 +69,53 @@ const SimilarProducts: React.FC<SimilarProductsProps> = ({
                   }}
                 >
                   {product.itemName ?? "Unnamed Product"}
-                </div>
+                </h3>
 
-                <div className="mt-1 mb-2">
-                  <div className="text-gray-900 text-[20px] font-semibold tracking-tight">
+                <div className="flex items-center justify-around mt-1">
+                  <p className="text-blue-600 font-bold text-sm sm:text-base truncate">
                     {formatCurrency(product.price)}
-                    {product.quantity && (
-                      <span className="text-sm font-medium text-gray-600 ml-1">
-                        /{product.quantity}
-                      </span>
-                    )}
+                    <span className="text-xs sm:text-sm text-gray-600 ml-1">
+                      {product.quantity ? `/${product.quantity}` : ""}
+                    </span>
+                  </p>
+
+                  <div className="flex items-center text-xs sm:text-sm text-gray-600 truncate">
+                    <MapPin size={14} className="mr-1" />
+                    <span>{product.location ?? "Unknown Location"}</span>
                   </div>
                 </div>
 
-                <button className="w-full bg-teal-700 hover:bg-teal-800 text-white font-semibold py-2.5 rounded-md shadow-sm mt-auto">
+                <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-semibold py-2 rounded-md mt-2">
                   Contact Supplier
                 </button>
               </div>
 
-              <div className="border-t" />
+              <div className="border-t mt-2 pt-2 flex justify-around items-center gap-3">
+                <p className="text-sm font-semibold truncate break-words">
+                  {product.sellerName ?? "Unknown Seller"}
+                </p>
 
-              <div className="px-4 py-3 flex items-center justify-between min-h-[64px]">
-                <div className="min-w-0">
-                  <div className="text-[16px] font-semibold text-gray-900 truncate">
-                    {product.sellerName ?? "Unknown Seller"}
-                  </div>
-                  <div className="flex items-center text-gray-700 text-[13px] mt-0.5">
-                    <MapPin size={14} className="mr-1 flex-shrink-0" />
-                    <span className="truncate">
-                      {product.location ?? "Unknown Location"}
+                <div className="flex items-center text-green-700 text-xs">
+                  <Phone size={14} className="mr-1" />
+                  <span>View Number</span>
+                </div>
+              </div>
+              <div className="flex justify-center items-center gap-2 mt-1">
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className={
+                        i < rating ? "text-yellow-500" : "text-gray-300"
+                      }
+                    >
+                      ★
                     </span>
-                  </div>
+                  ))}
                 </div>
-
-                <div className="flex flex-col items-end justify-center ml-3">
-                  {rating ? (
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <span
-                          key={i}
-                          className={
-                            i < rating ? "text-yellow-500" : "text-gray-300"
-                          }
-                        >
-                          ★
-                        </span>
-                      ))}
-                      <span className="ml-1 text-sm font-semibold text-gray-900">
-                        {rating.toFixed(1)}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="text-sm text-gray-400">No Rating</div>
-                  )}
-
-                  <div className="flex items-center text-green-700 text-sm mt-2">
-                    <Phone size={14} className="mr-1" />
-                    <span className="font-semibold">View Number</span>
-                  </div>
-                </div>
+                <span className="text-xs font-semibold">
+                  {rating.toFixed(1)}
+                </span>
               </div>
             </div>
           );
