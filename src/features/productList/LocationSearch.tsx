@@ -4,7 +4,6 @@ import { LocateFixed, ChevronDown } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { LOCATION_SEARCH } from "@/constants/textConstants";
 import { Button } from "@/components/common/ui/Button";
-import Chip from "@/components/common/ui/Chip";
 import { fetchProducts } from "@/redux/productSlice";
 import { RootState, AppDispatch } from "@/redux/store";
 
@@ -16,13 +15,11 @@ const LocationSearch: React.FC = () => {
   const products = useSelector(
     (state: RootState) => state.products.allProducts,
   );
-  const loading = useSelector((state: RootState) => state.products.loading);
-  const error = useSelector((state: RootState) => state.products.error);
 
   const [activeCity, setActiveCity] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const pillContainerRef = useRef<HTMLDivElement>(null);
+  // const pillContainerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const initializedFromParamRef = useRef(false);
 
@@ -135,17 +132,11 @@ const LocationSearch: React.FC = () => {
     }
   };
 
-  const handleCitySelect = (city: string) => {
-    setActiveCity(city);
-    setIsDropdownOpen(false);
-    setUrlLocationParam(city);
-  };
-
   return (
-    <div className="w-full px-4 pt-2 pb-4 ">
-      <h2 className="text-xl sm:text-2xl font-poppins text-left">
-        {LOCATION_SEARCH.TITLE} {activeCity}
-      </h2>
+    <div className="flex w-full px-4 pt-2 gap-4">
+      <p className="text-xxl font-poppins text-left">
+        {LOCATION_SEARCH.PRODUCTS} {LOCATION_SEARCH.NEAR_ME} {activeCity}
+      </p>
 
       <div className="flex flex-col gap-4">
         <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -153,12 +144,12 @@ const LocationSearch: React.FC = () => {
             type="button"
             onClick={handleNearbyBtnClick}
             variant="ghost"
-            size="md"
-            className="px-5 py-3 rounded-full text-base bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 w-full sm:w-auto min-h-[56px] sm:min-h-auto"
+            size="sm"
+            className="px-2 py-1 rounded-full text-base bg-blue-600 hover:bg-blue-700 text-white border border-blue-600 "
           >
             <span className="inline-flex items-center gap-2">
-              <LocateFixed className="w-5 h-5 sm:w-5 sm:h-5" />
-              {LOCATION_SEARCH.NEARME}
+              <LocateFixed className="w-3 h-3 sm:w-3 sm:h-3" />
+              {LOCATION_SEARCH.NEAR_ME} Me
             </span>
           </Button>
 
@@ -178,54 +169,6 @@ const LocationSearch: React.FC = () => {
                 }`}
               />
             </button>
-
-            {isDropdownOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                {loading ? (
-                  <div className="px-4 py-3 text-gray-400 text-sm">
-                    Loading cities...
-                  </div>
-                ) : error ? (
-                  <div className="px-4 py-3 text-red-500 text-sm">{error}</div>
-                ) : (
-                  cities.map((city) => (
-                    <button
-                      key={city}
-                      type="button"
-                      onClick={() => handleCitySelect(city)}
-                      className={`w-full text-left px-4 py-4 text-base hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg min-h-[48px] flex items-center ${
-                        activeCity === city
-                          ? "bg-blue-50 text-blue-700 font-medium"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      {city}
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Desktop: Chips container */}
-          <div
-            ref={pillContainerRef}
-            className="hidden sm:flex flex-wrap gap-2 justify-end"
-          >
-            {loading ? (
-              <div className="text-gray-400 px-4 py-2">Loading cities...</div>
-            ) : error ? (
-              <div className="text-red-500 px-4 py-2">{error}</div>
-            ) : (
-              cities.map((city) => (
-                <Chip
-                  key={city}
-                  label={city}
-                  isActive={activeCity === city}
-                  onClick={() => handleCitySelect(city)}
-                />
-              ))
-            )}
           </div>
         </div>
       </div>
