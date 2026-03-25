@@ -1,16 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/common/ui/Button";
 import { PLATFORM_FEE, DISCOUNT, COUPONS } from "@/constants/priceConstant";
 import type { PriceDetails, StepProps } from "@/types/checkoutTypes";
 import { getCartData } from "@/utils/cartUtils";
 import { RootState } from "@/redux/store";
+import { clearCart } from "@/redux/cartSlice";
 
 const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const selectedItems = useSelector(
     (state: RootState) => state.checkout.selectedItems,
   );
@@ -37,6 +39,10 @@ const OrderSummaryStep: React.FC<StepProps> = ({ isActive = true }) => {
       platformFee: PLATFORM_FEE,
       totalAmount,
     };
+
+    // clear cart locally after successful checkout (no backend state sync yet)
+    dispatch(clearCart());
+
     navigate("/paymentpage", { state: priceDetails });
   };
 

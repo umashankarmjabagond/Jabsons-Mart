@@ -41,6 +41,30 @@ const ProductListView: React.FC = () => {
     (state: RootState) => state.products.allProducts,
   );
 
+  const handleBuyNow = () => {
+    const buyNowItem: CardProduct = {
+      id: product.id,
+      itemName: product.itemName,
+      price: Number(product.price),
+      imageUrl: Array.isArray(product.imageUrl)
+        ? product.imageUrl[0]
+        : (product.imageUrl ?? ""),
+      sellerName: supplier?.sellerName ?? "Unknown Seller",
+      location: supplier?.location ?? "",
+      quantity: 1,
+    };
+
+    dispatch(resetCheckout());
+    dispatch(setSelectedItems([buyNowItem]));
+
+    navigate(ROUTES.CHECKOUT, {
+      state: {
+        fromDirectBuy: true,
+        selectedItems: [buyNowItem],
+      },
+    });
+  };
+
   if (!supplier) {
     return (
       <div className="p-6">{productText.PRODUCT_LIST_VIEW.NO_PRODUCT}</div>
@@ -99,7 +123,7 @@ const ProductListView: React.FC = () => {
   return (
     <div className="bg-gray-200  min-h-screen">
       {/* Sticky topbar with back and title */}
-      <div className="sticky top-[82px] z-50 bg-gray-200 border-b border-gray-200 pt-2">
+      <div className="sticky top-[82px] bg-gray-200 border-b border-gray-200 pt-2">
         <div className="flex items-center justify-between max-w-[1200px] mx-auto">
           <button
             onClick={() => navigate(ROUTES.SEARCH_PAGE)}
@@ -107,7 +131,6 @@ const ProductListView: React.FC = () => {
           >
             ← Back to Products
           </button>
-          <span className="text-sm text-gray-500">Product details</span>
         </div>
       </div>
 
@@ -167,7 +190,11 @@ const ProductListView: React.FC = () => {
               >
                 {isInCart ? "Added to Cart" : TEXT.ADD_TO_CART}
               </Button>
-              <Button variant="buyNow" leftIcon={<Zap size={20} />}>
+              <Button
+                variant="buyNow"
+                leftIcon={<Zap size={20} />}
+                onClick={handleBuyNow}
+              >
                 {TEXT.BUY_NOW}
               </Button>
             </div>
