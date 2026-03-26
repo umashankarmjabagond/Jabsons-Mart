@@ -19,9 +19,9 @@ const CategorySidebar = ({
   return (
     <aside
       className={`
-        bg-white shadow-lg
+        !bg-white shadow-lg
         transition-all duration-300
-        z-20
+        z-20 border border-gray-300 shadow-lg
 
         /* POSITIONING */
         fixed md:relative
@@ -43,7 +43,7 @@ const CategorySidebar = ({
       {/* CONTENT */}
       <div className="h-full overflow-y-auto px-2 py-3 md:p-3">
         {isOpen ? (
-          <>
+          <div className=" p-2 h-auto rounded-lg">
             <h3 className="font-semibold mb-3 text-sm md:text-base">
               All Categories
             </h3>
@@ -73,7 +73,7 @@ const CategorySidebar = ({
                 </li>
               ))}
             </ul>
-          </>
+          </div>
         ) : (
           /* COLLAPSED ICON MODE */
           <div className="flex flex-col gap-3 items-center mt-12">

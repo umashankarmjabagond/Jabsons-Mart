@@ -37,79 +37,74 @@ export default function CategoryLandingSection({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-2xl text-black-900 font-bold text-left">
-            {mainCategory.name}
-          </h2>
-          <p className="text-black-900 text-left">
-            Explore {mainCategory.name}
-          </p>
+    <>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* HEADER */}
+        <div className="flex items-center justify-between mb-6 bg-white w-full px-4 rounded-2xl">
+          <div>
+            <h2 className="text-2xl text-black-900 font-bold text-left">
+              {mainCategory.name}
+            </h2>
+            <p className="text-black-900 text-left">
+              Explore {mainCategory.name}
+            </p>
+          </div>
+
+          {mainCategory.groups.length > 6 && (
+            <Button
+              onClick={() => setExpanded(!expanded)}
+              className="text-sm font-medium text-green-600 hover:underline"
+            >
+              {expanded ? "Show Less" : "View All"}
+            </Button>
+          )}
         </div>
 
-        {mainCategory.groups.length > 6 && (
-          <Button
-            onClick={() => setExpanded(!expanded)}
-            className="text-sm font-medium text-green-600 hover:underline"
-          >
-            {expanded ? "Show Less" : "View All"}
-          </Button>
-        )}
-      </div>
+        {/* CARDS */}
+        <div className="relative">
+          {!expanded && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                scroll("left");
+              }}
+              className="absolute  left-0  top-[50%]  -translate-y-[50%]  z-30  w-10 h-10  bg-green-600 text-white  rounded-full  flex items-center justify-center"
+            >
+              <ChevronLeft />
+            </button>
+          )}
 
-      {/* CARDS */}
-      <div className="relative">
-        {!expanded && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              scroll("left");
-            }}
-            className="absolute  left-0  top-[50%]  -translate-y-[50%]  z-30  w-10 h-10  bg-green-600 text-white  rounded-full  flex items-center justify-center"
-          >
-            <ChevronLeft />
-          </button>
-        )}
+          {!expanded && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                scroll("right");
+              }}
+              className="absolute right-0 top-[50%] -translate-y-[50%] z-30 w-10 h-10  bg-green-600 text-white rounded-full flex items-center justify-center"
+            >
+              <ChevronRight />
+            </button>
+          )}
 
-        {!expanded && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              scroll("right");
-            }}
-            className="absolute
-  right-0
-  top-[50%]
-  -translate-y-[50%]
-  z-30
-  w-10 h-10
-  bg-green-600 text-white
-  rounded-full
-  flex items-center justify-center"
+          <div
+            ref={scrollRef}
+            className={`grid gap-6 ${
+              expanded
+                ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                : "grid-flow-col auto-cols-[280px] overflow-x-hidden"
+            }`}
           >
-            <ChevronRight />
-          </button>
-        )}
-
-        <div
-          ref={scrollRef}
-          className={`grid gap-6 ${
-            expanded
-              ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-              : "grid-flow-col auto-cols-[280px] overflow-x-hidden"
-          }`}
-        >
-          {visible.map((group) => (
-            <CategoryLandingCard
-              key={group.id}
-              mainSlug={mainCategory.slug}
-              group={group}
-            />
-          ))}
+            {visible.map((group) => (
+              <CategoryLandingCard
+                key={group.id}
+                mainSlug={mainCategory.slug}
+                group={group}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+      <hr className="border-green-500" />
+    </>
   );
 }

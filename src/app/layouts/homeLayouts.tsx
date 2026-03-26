@@ -8,6 +8,7 @@ import {
   TextAlignJustify,
   X,
   ShoppingCart,
+  ScrollText,
 } from "lucide-react";
 import { menuItem } from "@/types/sideBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,7 @@ import { toggleSideBarOpen, toggleSideBarClose } from "@/redux/dashBoardSlice";
 import { useTranslation } from "react-i18next";
 import { RootState } from "@/redux/store";
 import Navbar from "@/components/common/Navbar";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const HomeLayout: React.FC = () => {
   const toggle = useSelector((state: RootState) => state.toggle);
@@ -27,14 +29,19 @@ const HomeLayout: React.FC = () => {
     { name: t("menu.profile"), icon: <User size={20} />, path: "/profile" },
     { name: t("Cart"), icon: <ShoppingCart size={20} />, path: "/addtocart" },
     {
-      name: t("market"),
-      icon: <ShoppingCart size={20} />,
+      name: t("Market"),
+      icon: <ScrollText size={20} />,
       path: "/market",
     },
     {
       name: t("menu.settings"),
       icon: <Settings size={20} />,
       path: "/settings",
+    },
+    {
+      name: t("Help"),
+      icon: <FaQuestionCircle size={20} />,
+      path: "/help",
     },
   ];
 
@@ -74,7 +81,7 @@ const HomeLayout: React.FC = () => {
           </div>
           {/* Main content */}
           <main
-            className="flex-1 overflow-y-scroll scrollbar-none rounded-bl-2xl mb-4 h-screen bg-white border-r"
+            className="flex-1 overflow-y-scroll scrollbar-none rounded-bl-2xl mb-4 h-screen bg-gray-200 border-r"
             onClick={() => dispatch(toggleSideBarClose())}
           >
             <div className="p-6">

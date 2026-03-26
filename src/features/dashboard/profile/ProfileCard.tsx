@@ -5,53 +5,65 @@ import { CiLocationOn } from "react-icons/ci";
 import { LuCalendarCheck } from "react-icons/lu";
 import { RiStarSmileLine } from "react-icons/ri";
 import { ProfileCardProps } from "@/types/profileTypes";
-import { getUserProfile } from "@/services/profile";
+// import { getUserProfile } from "@/services/profile";
+
+const mockProfile: ProfileCardProps = {
+  name: "Umashankar Muragyappa Jabagond",
+  location: "Hyderabad, India",
+  memberSince: "2020-01-01T00:00:00Z",
+  rating: "4.5",
+  address: "Hyderabad, India",
+  createdAt: "2020-01-01T00:00:00Z",
+};
 
 const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   const { t } = useTranslation();
 
   const [profile, setProfile] = useState<ProfileCardProps | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-        const userId = storedUser?.user?.id;
+    setProfile(mockProfile);
+  }, []);
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  //       const userId = storedUser?.user?.id;
 
-        if (!userId) {
-          setError(t("PROFILE.USER_ID_REQUIRED"));
-          setLoading(false);
-          return;
-        }
+  //       if (!userId) {
+  //         setError(t("PROFILE.USER_ID_REQUIRED"));
+  //         setLoading(false);
+  //         return;
+  //       }
 
-        const data = await getUserProfile(userId);
-        setProfile(data.user);
-      } catch (err: any) {
-        setError(
-          err.response?.data?.message ||
-          err.message ||
-          t("PROFILE.FAILED_FETCH")
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       const data = await getUserProfile(userId);
+  //       setProfile(data.user);
+  //     } catch (err: any) {
+  //       setError(
+  //         err.response?.data?.message ||
+  //           err.message ||
+  //           t("PROFILE.FAILED_FETCH"),
+  //       );
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchProfile();
-  }, [t]);
+  //   fetchProfile();
+  // }, [t]);
 
-  if (loading) return <p>{t("PROFILE.LOADING_PROFILE")}...</p>;
-  if (error)
-    return (
-      <p className="text-red-500">
-        {t("PROFILE.ERROR")}: {error}
-      </p>
-    );
+  // if (loading) return <p>{t("PROFILE.LOADING_PROFILE")}...</p>;
+  // if (error)
+  //   return (
+  //     <p className="text-red-500">
+  //       {t("PROFILE.ERROR")}: {error}
+  //     </p>
+  //   );
 
   const {
-    name = "Unknown User",
+    name = "",
     createdAt = "N/A",
     rating = 0,
     address = "N/A",
@@ -60,7 +72,7 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   const memberSince = new Date(createdAt).toLocaleDateString();
 
   return (
-    <div className="relative flex flex-col md:flex-row flex-wrap items-center md:items-center justify-center md:justify-between bg-green-50 border rounded-lg shadow-md p-4 sm:p-6 md:p-8 gap-6 w-full text-center md:text-left">
+    <div className="relative flex flex-col md:flex-row flex-wrap items-center md:items-center justify-center md:justify-between bg-white border rounded-lg shadow-md p-4 sm:p-6 md:p-8 gap-6 w-full text-center md:text-left">
       <div className="flex flex-col sm:flex-row items-center md:items-center justify-center md:justify-start text-center md:text-left gap-4">
         <IoPersonCircleSharp className="w-24 h-24 text-black" />
         <div className="flex flex-col">

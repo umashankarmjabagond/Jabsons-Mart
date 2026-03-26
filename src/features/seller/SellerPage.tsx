@@ -8,13 +8,12 @@ import { SELLER_PAGE_TXT } from "@/constants/textConstants";
 const SellerPage = () => {
   return (
     <>
-      
       <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-16 lg:gap-32 xl:gap-72">
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-black-700 mb-2 md:mb-3 text-left">
           {SELLER_PAGE_TXT.HEADING1_TXT}
         </h2>
         <h1 className="hidden sm:block text-lg sm:text-xl md:text-2xl font-semibold text-black-700 mb-2 md:mb-3 text-left">
-         {SELLER_PAGE_TXT.HEADING2_TXT}
+          {SELLER_PAGE_TXT.HEADING2_TXT}
         </h1>
       </div>
 
@@ -66,7 +65,7 @@ const SellerPage = () => {
           </div>
         </div>
         <h1 className="sm:hidden text-lg sm:text-xl md:text-2xl font-semibold text-black-700 mb-2 md:mb-3 text-left">
-         {SELLER_PAGE_TXT.HEADING2_TXT}
+          {SELLER_PAGE_TXT.HEADING2_TXT}
         </h1>
         <div className="w-full md:basis-2/3 bg-gray-50 h-auto flex flex-col md:flex-row  bg-[url('src/assets/images/seller_page_bg.jpg')] bg-cover bg-center ">
           <div className="flex-1 flex flex-col items-center justify-center p-5 gap-4  min-w-0">
