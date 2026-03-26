@@ -86,13 +86,13 @@ export const CompanyInfoCard = () => {
   };
 
   return (
-    <div className="relative  border bg-green-50 rounded-lg shadow-md px-3 py-4 mt-4">
+    <div className="relative  border bg-white rounded-lg shadow-md px-3 py-4 mt-4">
       <div className="flex justify-between items-center border-b pb-3 mb-4">
         <h2 className="text-lg font-semibold text-black p-2">
           {PROFILE_PAGE_TXT.COMPANY_INFO}
         </h2>
         <div
-          onClick={() => setIsOpen(true)}
+          // onClick={() => setIsOpen(true)}
           className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
         >
           <MdEdit />
