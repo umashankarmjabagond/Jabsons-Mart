@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, JSX } from "react";
+import { useState, useEffect, JSX } from "react";
 import { BsBank2 } from "react-icons/bs";
 import { VscCodeOss } from "react-icons/vsc";
 import { MdEdit, MdOutlineAccountBox, MdSwitchAccount } from "react-icons/md";
@@ -6,7 +6,7 @@ import Modal from "@/components/common/modal/Modal";
 import { Button } from "@/components/common/ui/Button";
 import { Input } from "@/components/common/ui/Input";
 import { PROFILE_PAGE_TXT } from "@constants/textConstants";
-import { getBank, editBank } from "@/services/auth";
+import { editBank } from "@/services/auth";
 import {
   isValidIFSC,
   verifyIFSCExists,
@@ -43,35 +43,35 @@ export const BankAccountDetailsCard: React.FC = () => {
   const [modalFormData, setModalFormData] = useState(formData);
   const [modalFormErrors, setModalFormErrors] = useState<BankFormErrors>({});
 
-  const fallback = (value?: string) => value || "-";
+  // const fallback = (value?: string) => value || "-";
 
-  const fetchBankDetails = useCallback(async () => {
-    try {
-      setLoading(true);
-      const loginStr = localStorage.getItem("user");
-      if (!loginStr) throw new Error("Login response not found");
+  // const fetchBankDetails = useCallback(async () => {
+  //   try {
+  //     setLoading(true);
+  //     const loginStr = localStorage.getItem("user");
+  //     if (!loginStr) throw new Error("Login response not found");
 
-      const loginObj = JSON.parse(loginStr);
-      const userId = loginObj.user?.id;
-      if (!userId) throw new Error("User ID not found");
+  //     const loginObj = JSON.parse(loginStr);
+  //     const userId = loginObj.user?.id;
+  //     if (!userId) throw new Error("User ID not found");
 
-      const response = await getBank({ id: userId });
-      const bank = response.bank;
+  //     const response = await getBank({ id: userId });
+  //     const bank = response.bank;
 
-      setFormData({
-        bankName: fallback(bank?.bankName),
-        accountNumber: fallback(bank?.accountNumber),
-        ifscCode: fallback(bank?.ifscCode),
-        accountHolderName: fallback(bank?.accountHolderName),
-      });
-      setError(null);
-    } catch (err: any) {
-      console.error("Error fetching bank details:", err);
-      setError(err.response?.data?.message || err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //     setFormData({
+  //       bankName: fallback(bank?.bankName),
+  //       accountNumber: fallback(bank?.accountNumber),
+  //       ifscCode: fallback(bank?.ifscCode),
+  //       accountHolderName: fallback(bank?.accountHolderName),
+  //     });
+  //     setError(null);
+  //   } catch (err: any) {
+  //     console.error("Error fetching bank details:", err);
+  //     setError(err.response?.data?.message || err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   fetchBankDetails();
@@ -86,11 +86,11 @@ export const BankAccountDetailsCard: React.FC = () => {
     });
   }, []);
 
-  const openModal = () => {
-    setModalFormData(formData);
-    setModalFormErrors({});
-    setIsOpen(true);
-  };
+  // const openModal = () => {
+  //   setModalFormData(formData);
+  //   setModalFormErrors({});
+  //   setIsOpen(true);
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

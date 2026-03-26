@@ -5,7 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { LuCalendarCheck } from "react-icons/lu";
 import { RiStarSmileLine } from "react-icons/ri";
 import { ProfileCardProps } from "@/types/profileTypes";
-import { getUserProfile } from "@/services/profile";
+// import { getUserProfile } from "@/services/profile";
 
 const mockProfile: ProfileCardProps = {
   name: "Umashankar Muragyappa Jabagond",
@@ -20,8 +20,8 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   const { t } = useTranslation();
 
   const [profile, setProfile] = useState<ProfileCardProps | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setProfile(mockProfile);
@@ -54,7 +54,7 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   //   fetchProfile();
   // }, [t]);
 
-  if (loading) return <p>{t("PROFILE.LOADING_PROFILE")}...</p>;
+  // if (loading) return <p>{t("PROFILE.LOADING_PROFILE")}...</p>;
   // if (error)
   //   return (
   //     <p className="text-red-500">

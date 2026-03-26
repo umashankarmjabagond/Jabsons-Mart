@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/common/ui/Button";
 import Modal from "@/components/common/modal/Modal";
 import { Input } from "@/components/common/ui/Input";
-import { editUserProfile, getUserProfile } from "@/services/profile";
+import { editUserProfile } from "@/services/profile";
 import { useTranslation } from "react-i18next";
 
 interface UserProfile {
@@ -44,9 +44,9 @@ export const ContactInfoCard: React.FC = () => {
 
   const [formData, setFormData] = useState(user);
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const userId = storedUser?.user?.id;
@@ -72,7 +72,7 @@ export const ContactInfoCard: React.FC = () => {
 
   useEffect(() => {
     setUser(mockUser);
-    setLoading(false);
+    // setLoading(false);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,15 +80,15 @@ export const ContactInfoCard: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditClick = () => {
-    setIsOpen(true);
-  };
+  // const handleEditClick = () => {
+  //   setIsOpen(true);
+  // };
 
   const handleUpdate = async () => {
     try {
       if (!userId) throw new Error("User ID not found");
       setUpdating(true);
-      setError(null);
+      // setError(null);
 
       const payload = {
         id: userId,
@@ -107,7 +107,7 @@ export const ContactInfoCard: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Failed to update profile:", error);
-      setError(error.message || "Something went wrong");
+      // setError(error.message || "Something went wrong");
     } finally {
       setUpdating(false);
     }
