@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
@@ -26,13 +26,13 @@ export default function AddToCartPage() {
     setCheckedItems((prev) =>
       prev.includes(cartId)
         ? prev.filter((id) => id !== cartId)
-        : [...prev, cartId]
+        : [...prev, cartId],
     );
   };
 
   useEffect(() => {
     setCheckedItems((prev) =>
-      prev.filter((id) => cartItems.some((c) => c.cartId === id))
+      prev.filter((id) => cartItems.some((c) => c.cartId === id)),
     );
   }, [cartItems]);
 
@@ -42,16 +42,16 @@ export default function AddToCartPage() {
   }, [dispatch]);
 
   const checkedCartItems = cartItems.filter((item) =>
-    checkedItems.includes(item.cartId!)
+    checkedItems.includes(item.cartId!),
   );
 
   const totalPrice = checkedCartItems.reduce(
     (total, item) => total + item.price * item.quantity,
-    0
+    0,
   );
 
   return (
-    <div className="p-4 md:p-6 bg-gray-100">
+    <div className="p-4 md:p-6 bg-gray-200">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 flex flex-col gap-4">
           <div className="bg-white p-4 rounded shadow-sm flex items-center justify-between">
@@ -82,13 +82,15 @@ export default function AddToCartPage() {
               <Button
                 variant="buyNow"
                 size="lg"
-                className={`flex-1 max-w-[180px] ${totalPrice === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-                onClick={() => navigate("/checkout", { 
-                  state: { 
-                    selectedItems: checkedCartItems,
-                    fromCart: true 
-                  } 
-                })}
+                className={`flex-1 max-w-[180px] ${totalPrice === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                onClick={() =>
+                  navigate("/checkout", {
+                    state: {
+                      selectedItems: checkedCartItems,
+                      fromCart: true,
+                    },
+                  })
+                }
                 disabled={totalPrice === 0}
               >
                 {t("CART.placeOrder")}

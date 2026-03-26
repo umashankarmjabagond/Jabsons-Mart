@@ -32,9 +32,12 @@ const CategoryContent = ({
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-10">
-      <h1 className="text-2xl font-bold">{data?.mainCategory ?? "Loading…"}</h1>
-
+    <div className="max-w-7xl mx-auto space-y-4">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg px-6 py-4 shadow-md hover:scale-[1.01] transition">
+        <h1 className="text-lg md:text-xl font-semibold tracking-wide">
+          {data?.mainCategory ?? "Loading…"}
+        </h1>
+      </div>
       {sections.map((section, idx) => (
         <CategorySection
           key={idx}

@@ -75,7 +75,9 @@ export default function CartItemList({
             <div className="flex-1 flex flex-col justify-between">
               <div className="flex justify-between mb-6">
                 <div className="text-left">
-                  <h3 className="font-semibold text-xs md:text-sm">{item.itemName}</h3>
+                  <h3 className="font-semibold text-xs md:text-sm">
+                    {item.itemName}
+                  </h3>
                   <p className="text-sm text-gray-500 mt-1">
                     {t("CART.seller")}
                     <span className="font-medium text-xs md:text-sm text-gray-700">

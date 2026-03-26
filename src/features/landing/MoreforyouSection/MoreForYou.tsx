@@ -16,10 +16,10 @@ const MoreForYou: React.FC = () => {
   }>;
 
   return (
-    <section className="py-10 bg-green-50">
+    <section className="py-4 bg-white border border-2 rounded-2xl mt-4">
       <div className="max-w-7xl mx-auto px-4">
         {/* HEADER */}
-        <h2 className="text-3xl font-bold text-black-900 mb-12 text-left">
+        <h2 className="text-3xl font-bold text-black-900 mb-6 text-left">
           {t("MORE_FOR_YOU_TEXT.HEADING")}
         </h2>
 

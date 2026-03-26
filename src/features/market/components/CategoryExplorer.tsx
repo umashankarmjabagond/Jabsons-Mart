@@ -94,7 +94,7 @@ const CategoryExplorer = ({ mode = "full" }: Props) => {
         }}
       />
 
-      <div className="flex-1 overflow-y-auto px-4" ref={contentRef}>
+      <div className="flex-1 overflow-y-auto px-4 bg-gray-200" ref={contentRef}>
         <CategoryContent
           loading={loading}
           error={error}
