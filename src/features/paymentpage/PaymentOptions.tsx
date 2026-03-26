@@ -6,7 +6,10 @@ interface Props {
   setSelectedMethod: (method: string) => void;
 }
 
-const PaymentOptions: React.FC<Props> = ({ selectedMethod, setSelectedMethod }) => {
+const PaymentOptions: React.FC<Props> = ({
+  selectedMethod,
+  setSelectedMethod,
+}) => {
   const options = [
     { key: "upi", label: PAYMENT_TEXTS.OPTION_UPI, icon: "📱" },
     { key: "card", label: PAYMENT_TEXTS.OPTION_CARD, icon: "💳" },
@@ -18,7 +21,9 @@ const PaymentOptions: React.FC<Props> = ({ selectedMethod, setSelectedMethod }) 
 
   return (
     <div className="border rounded-xl bg-white shadow-sm p-4 flex flex-col gap-3">
-      <h2 className="text-lg font-semibold mb-2">{PAYMENT_TEXTS.OPTIONS_HEADER}</h2>
+      <h2 className="text-lg font-semibold mb-2">
+        {PAYMENT_TEXTS.OPTIONS_HEADER}
+      </h2>
       {options.map((option) => (
         <div
           key={option.key}

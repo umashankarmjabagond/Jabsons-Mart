@@ -36,9 +36,9 @@ const PaymentLayout: React.FC = () => {
     <div>
       <Navbar />
 
-      <div className="min-h-screen bg-gray-50 pt-5">
+      <div className="min-h-screen bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 pt-5">
         <div
-          className="flex items-center gap-3 py-4 border-b px-4 bg-white shadow-sm"
+          className="flex items-center gap-3 py-4 border-b px-4 shadow-sm"
           onClick={handleGoBack}
         >
           <span className="text-3xl cursor-pointer flex items-center gap-2">
