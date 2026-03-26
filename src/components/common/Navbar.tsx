@@ -201,6 +201,11 @@ const Navbar: FC<NavbarProps> = ({
           icon: <FaGlobe />,
         },
         {
+          label: "Help",
+          onClick: () => navigate("/help"),
+          icon: <FaQuestionCircle />,
+        },
+        {
           label: "Logout",
           onClick: () => {
             localStorage.removeItem("user");
