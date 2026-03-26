@@ -23,15 +23,15 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
     return (
       <aside
         ref={ref}
-        className="w-74 sm:w-64 bg-blue-900 flex flex-col h-full"
+        className="w-74 sm:w-64 bg-white flex flex-col h-full border-l"
         {...props}
       >
         <div className="p-2 flex flex-col items-center border-b border-gray-200">
-          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl">
+          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-black text-xl">
             {firstLatterOfName}
           </div>
-          <h2 className="mt-2 font-semibold text-white text-center">{name}</h2>
-          <p className="text-sm text-gray-300">{mobile}</p>
+          <h2 className="mt-2 font-semibold text-black text-center">{name}</h2>
+          <p className="text-sm text-black">{mobile}</p>
         </div>
 
         <ul className="flex-1 mt-4">
@@ -40,10 +40,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 mt-2 rounded-s-3xl text-white hover:bg-gray-100 transition-colors
-                  ${isActive
-                    ? "bg-white font-bold rounded-s-3xl !text-blue-900"
-                    : ""
+                  `border-t-2 border-l-2 border-b-2 border-r-0 flex items-center px-6 py-3 mt-2 rounded-s-3xl text-black hover:bg-gray-100 transition-colors
+                  ${
+                    isActive
+                      ? "bg-gray-200 font-bold rounded-s-3xl !text-black"
+                      : ""
                   }`
                 }
               >
@@ -54,7 +55,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
           ))}
         </ul>
 
-        <div className="p-4 border-t border-gray-200 text-sm items-center justify-between text-white">
+        <div className="p-4 border-t border-gray-200 text-sm items-center justify-between text-black">
           <Button className="!bg-blue-900 w-full" onClick={handleLogout}>
             {t("LOGOUT")}
           </Button>
@@ -71,7 +72,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
         </div>
       </aside>
     );
-  }
+  },
 );
 
 Sidebar.displayName = "Sidebar";

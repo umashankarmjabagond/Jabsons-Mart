@@ -12,6 +12,8 @@ import PaymentLayout from "@/features/paymentpage/Mainpage";
 import SellerLanding from "../pages/SellerLanding";
 import MarketLayout from "../layouts/MarketLayout";
 import MarketPage from "@/features/market/pages/MarketPage";
+import SellerNav from "@/features/seller/SellerNav";
+import ComingSoon from "@/components/common/ComingSoon ";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";
@@ -60,8 +62,20 @@ export const useRoleRoutes = (): RouteObject[] => {
         path: ROUTES.PAYMENT_PAGE,
       },
       {
-        element: <SellerLanding />,
-        path: "/seller",
+        element: <SellerNav />,
+        path: "/seller/business-details",
+      },
+      {
+        element: <ComingSoon />,
+        path: "/get-quote",
+      },
+      {
+        element: <ComingSoon />,
+        path: "/why-trust",
+      },
+      {
+        element: <ComingSoon />,
+        path: "/top-export-countries",
       },
     ];
   }

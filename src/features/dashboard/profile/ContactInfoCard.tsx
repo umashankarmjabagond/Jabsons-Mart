@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/common/ui/Button";
 import Modal from "@/components/common/modal/Modal";
 import { Input } from "@/components/common/ui/Input";
-import { editUserProfile, getUserProfile } from "@/services/profile";
+import { editUserProfile } from "@/services/profile";
 import { useTranslation } from "react-i18next";
 
 interface UserProfile {
@@ -18,6 +18,16 @@ interface UserProfile {
   alternateContact: string;
   address?: string;
 }
+
+const mockUser: UserProfile = {
+  _id: "12345",
+  name: "Umashankar",
+  email: "umashankar@gmail.com",
+  contact: "9876543210",
+  alternateEmail: "umashankar.alt@gmail.com",
+  alternateContact: "9123456780",
+  address: "Hyderabad, Telangana, India",
+};
 
 export const ContactInfoCard: React.FC = () => {
   const { t } = useTranslation();
@@ -34,46 +44,51 @@ export const ContactInfoCard: React.FC = () => {
 
   const [formData, setFormData] = useState(user);
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const userId = storedUser?.user?.id;
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        if (!userId) throw new Error("User ID not found");
-        const data = await getUserProfile(userId);
-        setUser(data.user);
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch profile");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, [userId]);
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       if (!userId) throw new Error("User ID not found");
+  //       const data = await getUserProfile(userId);
+  //       setUser(data.user);
+  //     } catch (err: any) {
+  //       setError(err.message || "Failed to fetch profile");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchProfile();
+  // }, [userId]);
+
+  // useEffect(() => {
+  //   setFormData(user);
+  // }, [user]);
 
   useEffect(() => {
-    setFormData(user);
-  }, [user]);
+    setUser(mockUser);
+    // setLoading(false);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditClick = () => {
-    setIsOpen(true);
-  };
+  // const handleEditClick = () => {
+  //   setIsOpen(true);
+  // };
 
   const handleUpdate = async () => {
     try {
       if (!userId) throw new Error("User ID not found");
       setUpdating(true);
-      setError(null);
+      // setError(null);
 
       const payload = {
         id: userId,
@@ -92,23 +107,23 @@ export const ContactInfoCard: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Failed to update profile:", error);
-      setError(error.message || "Something went wrong");
+      // setError(error.message || "Something went wrong");
     } finally {
       setUpdating(false);
     }
   };
 
-  if (loading) return <p>{t("PROFILE.CONTACT_INFO")}...</p>;
-  if (error) return <p className="text-red-500">Error: {error}</p>;
+  // if (loading) return <p>{t("PROFILE.CONTACT_INFO")}...</p>;
+  // if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
-    <div className="relative bg-green-50 rounded-lg shadow-md px-5 py-6 mt-4">
+    <div className="relative bg-white rounded-lg shadow-md px-5 py-6 mt-4">
       <div className="flex justify-between items-center border-b pb-3 mb-5">
         <h2 className="text-lg font-semibold text-black p-2 ">
           {t("PROFILE.CONTACT_INFO")}
         </h2>
         <button
-          onClick={handleEditClick}
+          // onClick={handleEditClick}
           className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
         >
           <MdEdit /> {t("PROFILE.EDIT_BTN")}

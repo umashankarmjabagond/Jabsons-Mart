@@ -19,7 +19,7 @@ const CategorySection = ({ section, loading, activeGroupSlug }: Props) => {
   }
 
   return (
-    <section className="space-y-4 scroll-mt-24">
+    <section className="space-y-2 scroll-mt-24 bg-white p-4 rounded-lg shadow">
       {/* ✅ section title */}
       <h2 className="text-xl font-bold text-left">{section.title}</h2>
 
