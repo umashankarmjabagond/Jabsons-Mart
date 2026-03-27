@@ -15,10 +15,10 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-import logo from "@assets/images/logo_farmer_mart_final.png";
+import logo from "@assets/TradeHubFull.png";
 import { RootState } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
-import logosmalldevice from "@assets/images/image.jpg";
+import logosmalldevice from "@assets/TradeHubSmall.png";
 import { Button } from "@components/common/ui/Button";
 import { Input } from "@components/common/ui/Input";
 import {
@@ -262,7 +262,7 @@ const Navbar: FC<NavbarProps> = ({
   );
 
   return (
-    <nav className="w-full shadow border-b bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 px-4 sm:px-6 py-3 sticky top-0 z-50">
+    <nav className="w-full shadow border-b bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 px-4 sm:px-6 py-2 sticky top-0 z-50">
       {/* <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-green-100"> */}
       <div className="flex flex-col lg:flex-col items-start lg:items-center justify-between w-full">
         {/* MOBILE HEADER */}

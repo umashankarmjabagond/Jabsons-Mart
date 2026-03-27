@@ -51,59 +51,71 @@ export default function AddToCartPage() {
   );
 
   return (
-    <div className="p-4 md:p-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500">
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1 flex flex-col gap-4">
-          <div className="bg-white p-4 rounded shadow-sm flex items-center justify-between">
-            <div className="text-blue-600 border-b-2 border-blue-600 pb-2 font-semibold">
-              {t("CART.cartItems")}({cartItems.length})
+    <div className="h-full flex flex-col bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 p-2 md:p-6">
+      {/* SCROLLABLE CONTENT */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="flex flex-col lg:flex-row gap-6 min-h-full">
+          {/* LEFT */}
+          <div className="flex-1 flex flex-col gap-4">
+            <div className="bg-white px-2 py-1 rounded shadow-sm flex items-center justify-between">
+              <div className="text-blue-600 border-b-2 border-blue-600 font-semibold">
+                {t("CART.cartItems")}({cartItems.length})
+              </div>
             </div>
-          </div>
-          <DeliveryLocation />
-          <CartItemList
-            items={cartItems}
-            checkedItems={checkedItems}
-            onCheckboxChange={handleCheckboxChange}
-            onIncrement={(id) => dispatch(incrementQuantity(id))}
-            onDecrement={(id) => dispatch(decrementQuantity(id))}
-            onRemove={(id) => dispatch(removeFromCart(id))}
-          />
-          {cartItems.length > 0 && (
-            <div className="bg-white p-4 flex  justify-between items-center gap-4">
-              <Button
-                variant="addToCart"
-                size="lg"
-                className="flex-1 max-w-[150px] py-2"
-                onClick={() => navigate(-1)}
-              >
-                {t("CART.back")}
-              </Button>
 
-              <Button
-                variant="buyNow"
-                size="lg"
-                className={`flex-1 max-w-[180px] ${totalPrice === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
-                onClick={() =>
-                  navigate("/checkout", {
-                    state: {
-                      selectedItems: checkedCartItems,
-                      fromCart: true,
-                    },
-                  })
-                }
-                disabled={totalPrice === 0}
-              >
-                {t("CART.placeOrder")}
-              </Button>
-            </div>
-          )}
+            <DeliveryLocation />
+
+            <CartItemList
+              items={cartItems}
+              checkedItems={checkedItems}
+              onCheckboxChange={handleCheckboxChange}
+              onIncrement={(id) => dispatch(incrementQuantity(id))}
+              onDecrement={(id) => dispatch(decrementQuantity(id))}
+              onRemove={(id) => dispatch(removeFromCart(id))}
+            />
+
+            {/* ACTION BUTTONS */}
+            {cartItems.length > 0 && (
+              <div className="bg-white p-1 flex justify-between items-center gap-4 sticky bottom-0">
+                <Button
+                  variant="addToCart"
+                  size="md"
+                  className="flex-1 max-w-[150px]"
+                  onClick={() => navigate(-1)}
+                >
+                  {t("CART.back")}
+                </Button>
+
+                <Button
+                  variant="buyNow"
+                  size="sm"
+                  className={`flex-1 max-w-[180px] ${
+                    totalPrice === 0 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={() =>
+                    navigate("/checkout", {
+                      state: {
+                        selectedItems: checkedCartItems,
+                        fromCart: true,
+                      },
+                    })
+                  }
+                  disabled={totalPrice === 0}
+                >
+                  {t("CART.placeOrder")}
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT */}
+          <aside className="w-full lg:w-80 px-2">
+            <PriceDetails
+              itemCount={checkedItems.length}
+              totalPrice={totalPrice}
+            />
+          </aside>
         </div>
-        <aside className="w-full lg:w-80 mt-6 lg:mt-0">
-          <PriceDetails
-            itemCount={checkedItems.length}
-            totalPrice={totalPrice}
-          />
-        </aside>
       </div>
     </div>
   );

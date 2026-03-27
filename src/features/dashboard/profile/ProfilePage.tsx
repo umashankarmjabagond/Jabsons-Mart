@@ -11,8 +11,9 @@ const ProfilePage = () => {
       <ContactInfoCard />
       <CompanyInfoCard />
       <BankAccountDetailsCard />
-      <div className="h-4 bg-white w-full mt-4"></div>
-      <Footer />
+      <div className="mt-2 ">
+        <Footer />
+      </div>
     </div>
   );
 };
