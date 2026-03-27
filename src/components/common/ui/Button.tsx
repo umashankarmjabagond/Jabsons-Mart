@@ -14,7 +14,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const baseStyles =
       "inline-flex items-center justify-center font-small rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
@@ -32,9 +32,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       viewAll:
         "mt-4 bg-green-300 text-white px-8 ml-6 py-2 rounded hover:underline transition text-sm md:text-base",
       buyNow:
-        "flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded font-semibold flex items-center text-xs md:text-sm md:rounded rounded-md p-1  justify-center gap-2",
+        "flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 rounded font-semibold flex items-center text-xs md:text-sm md:rounded rounded-md justify-center gap-2",
       addToCart:
-        "flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 text-xs md:text-sm md:rounded rounded-md p-1  font-semibold flex items-center justify-center md:gap-2 gap-1",
+        "flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 text-xs md:text-sm md:rounded rounded-md  font-semibold flex items-center justify-center md:gap-2 gap-1",
       pillScroll: "px-4 py-2  text-xl transition text-center ",
       circle:
         "w-6 h-6 rounded-full flex items-center justify-center border border-gray-400 text-base",
@@ -60,7 +60,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant !== "pillScroll" && sizes[size],
 
           isLoading && "cursor-wait",
-          className
+          className,
         )}
         disabled={disabled || isLoading}
         ref={ref}
@@ -77,7 +77,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

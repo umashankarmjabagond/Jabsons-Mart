@@ -4,11 +4,16 @@ import AddToCartPage from "@/features/Cart/AddToCart";
 
 const CartLayout = () => {
   return (
-    <>
+    <div className="h-screen flex flex-col overflow-hidden">
       <Navbar />
-      <AddToCartPage />
+
+      {/* SCROLLABLE AREA */}
+      <div className="flex-1 overflow-hidden">
+        <AddToCartPage />
+      </div>
+
       <Footer />
-    </>
+    </div>
   );
 };
 
