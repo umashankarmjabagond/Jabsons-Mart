@@ -76,24 +76,27 @@ const SearchLayout: React.FC = () => {
           </aside>
 
           {/* Product list */}
-          <main ref={mainRef} className={CLASSNAMES.MAIN_CONTAINER}>
-            <ProductList
-              products={filteredProducts}
-              loading={loading}
-              error={error}
-            />
+          <main
+            ref={mainRef}
+            className={`${CLASSNAMES.MAIN_CONTAINER} flex flex-col`}
+          >
+            <div className="flex-1">
+              <ProductList
+                products={filteredProducts}
+                loading={loading}
+                error={error}
+              />
 
-            {/* Observer target */}
-            <div ref={productListEndRef} className="h-4" />
+              <div ref={productListEndRef} className="h-4" />
 
-            {/* Requirement form */}
-            {showForm && (
-              <div className="p-2 sm:p-4">
-                <RequirementForm />
-              </div>
-            )}
+              {showForm && (
+                <div className="p-2 sm:p-4">
+                  <RequirementForm />
+                </div>
+              )}
+            </div>
 
-            {/* Footer inside scrollable area */}
+            {/* Footer stays at bottom */}
             <Footer />
           </main>
         </div>

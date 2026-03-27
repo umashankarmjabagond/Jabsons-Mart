@@ -15,7 +15,7 @@ const HeroSection: React.FC<HeroProps> = () => {
   ];
 
   return (
-    <section className="w-full h-auto py-6 text-center bg-gradient-to-b from-white to-[#B3B7FF]">
+    <section className="w-full h-auto py-6 text-center">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 sm:mb-6">
         {HELP_PAGE_TEXT.TITLE}
       </h1>
