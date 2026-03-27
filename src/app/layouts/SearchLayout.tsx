@@ -59,7 +59,7 @@ const SearchLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen min-h-screen bg-gray-50 overflow-hidden">
+    <div className="flex flex-col h-screen min-h-screen bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100  overflow-hidden">
       <Navbar />
 
       <div className="flex-1 flex flex-col border border-gray-200 overflow-hidden">

@@ -16,7 +16,7 @@ const MoreForYou: React.FC = () => {
   }>;
 
   return (
-    <section className="py-4 bg-white border border-2 rounded-2xl mt-4">
+    <section className="py-4 bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100  border border-2 rounded-2xl mt-4">
       <div className="max-w-7xl mx-auto px-4">
         {/* HEADER */}
         <h2 className="text-3xl font-bold text-black-900 mb-6 text-left">

@@ -8,7 +8,8 @@ export const OBSERVER_OPTIONS = {
 };
 
 export const CLASSNAMES = {
-  LOCATION_SEARCH_CONTAINER: "sticky top-0 z-20 border-b bg-white p-3 sm:p-4",
+  LOCATION_SEARCH_CONTAINER:
+    "sticky top-0 z-20 border-b bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100  p-3 sm:p-4",
   FILTER_BUTTON: "text-white text-sm px-4 py-2 rounded-md shadow-md",
   FILTER_SIDEBAR:
     "md:w-1/4 lg:w-1/5 p-1 sm:p-1 border border-gray-200 rounded-2xl h-full overflow-hidden",

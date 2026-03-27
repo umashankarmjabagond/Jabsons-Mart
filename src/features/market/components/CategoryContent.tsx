@@ -33,7 +33,7 @@ const CategoryContent = ({
 
   return (
     <div className="max-w-7xl mx-auto space-y-4">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg px-6 py-4 shadow-md hover:scale-[1.01] transition">
+      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 text-white rounded-lg px-6 py-4 shadow-md hover:scale-[1.01] transition">
         <h1 className="text-lg md:text-xl font-semibold tracking-wide">
           {data?.mainCategory ?? "Loading…"}
         </h1>

@@ -143,7 +143,7 @@ export const SELLER_PAGE_TXT = {
   ICON6_TITLE: "Add Products/ Services",
   ICON6_DES:
     "Minimum 3 products/ services needed    for your free listing page.",
-  HEADING1_TXT: "Sell on IndiaMART",
+  HEADING1_TXT: "Sell on TradeHub for free",
   HEADING2_TXT: "Get a free listing in 3 simple steps:",
 };
 

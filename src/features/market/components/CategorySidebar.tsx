@@ -19,7 +19,7 @@ const CategorySidebar = ({
   return (
     <aside
       className={`
-        !bg-white shadow-lg
+       bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 shadow-lg
         transition-all duration-300
         z-20 border border-gray-300 shadow-lg
 
@@ -41,7 +41,7 @@ const CategorySidebar = ({
       </button>
 
       {/* CONTENT */}
-      <div className="h-full overflow-y-auto px-2 py-3 md:p-3">
+      <div className="h-full overflow-y-auto py-3 md:p-3">
         {isOpen ? (
           <div className=" p-2 h-auto rounded-lg">
             <h3 className="font-semibold mb-3 text-sm md:text-base">
@@ -56,8 +56,8 @@ const CategorySidebar = ({
                   title={cat.name}
                   className={`
                     cursor-pointer rounded-lg
-                    px-2 py-2 md:px-3
-                    text-sm md:text-base test-left
+                     py-2 md:px-3 w-full
+                    text-sm md:text-base test-left border border-2 border-white
 
                     truncate whitespace-nowrap
                     max-w-[180px] md:max-w-none

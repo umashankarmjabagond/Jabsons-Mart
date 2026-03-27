@@ -20,7 +20,7 @@ const CITY_DATA = [
 
 const TopCities = () => {
   return (
-    <section className="bg-white border border-2 text-white px-4 mt-4 rounded-2xl py-4">
+    <section className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100  border border-2 text-white px-4 mt-4 rounded-2xl py-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-black-900 text-left">
           Find Suppliers from Top Cities

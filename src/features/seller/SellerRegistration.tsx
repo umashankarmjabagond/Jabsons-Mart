@@ -4,93 +4,85 @@ import sellerGraph from "@/assets/images/seller_graph.png";
 import ZeroCost from "@/assets/images/seller_zerocost.png";
 import ManageBusiness from "@/assets/images/seller_manage_business.png";
 import { Country } from "@/types/authTypes";
+import sellergraph from "@/assets/images/seller_graph.png";
+import sellercost from "@/assets/images/seller_zerocost.png";
+import sellerbusiness from "@/assets/images/seller_manage_business.png";
+
 import {
   countries,
+  SELLER_PAGE_TXT,
   SELLER_REGIST_ICON_TXT,
   SELLER_REGISTER_TXT,
 } from "@/constants/textConstants";
 import { useNavigate } from "react-router-dom";
+import { IoIosCreate } from "react-icons/io";
+import { ImLocation2 } from "react-icons/im";
+import { FiBox } from "react-icons/fi";
 
 const SellerRegistration: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const [mobile, setMobile] = useState<string>("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(`Login with ${selectedCountry.code} ${mobile}`);
     navigate("/seller/business-details");
   };
-  return (
-    <div
-      className="flex flex-col bg-gray-100 md:flex-row items-center justify-center mt-2  h-full 
-px-8 md:px-12 lg:px-24 py-10 w-full  gap-10 lg:gap-16"
-    >
-      <div className="w-full md:w-1/2  flex justify-center">
-        <div className=" rounded-2xl  shadow-sm w-full sm:w-3/4 md:w-96 h-64 lg:h-full lg:w-full sm:h-80 md:h-88 ">
-          <img
-            src={sellerImg}
-            alt="Seller"
-            className="w-full h-full  lg:object-cover rounded-2xl"
-          />
-        </div>
-      </div>
 
-      <div className="w-full md:w-1/2 flex flex-col gap-6  text-center md:text-left">
-        <h2 className="text-md sm:text-2xl md:text-lg lg:text-3xl font-normal leading-snug">
-          <span className="text-black font-bold">
-            {SELLER_REGISTER_TXT.SELLER_HEADIND1}
-          </span>{" "}
-          {SELLER_REGISTER_TXT.SELLER_HEADING2}
-          <br className="hidden sm:block" /> {SELLER_REGISTER_TXT.SELLER_TEXT3}
-        </h2>
-        <p className="text-base lg:text-xl  sm:text-lg md:text-xl font-bold text-gray-700">
-          {SELLER_REGISTER_TXT.SELLER_REGISTER_TITLE}
-        </p>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row items-stretch rounded-lg shadow-md border border-blue-900
-             w-full sm:w-[90%] md:w-full lg:w-[420px] bg-white sm:mx-auto lg:mx-0 overflow-visible"
-        >
-          <div
-            className="relative flex-shrink-0 w-full sm:w-28 md:w-24 rounded-md
-               px-2 py-2 flex items-center justify-between gap-2 select-none cursor-pointer hover:bg-slate-100"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
+  return (
+    <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 px-2 py-4">
+      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center gap-10">
+        {/* LEFT IMAGE */}
+        <div className="w-full md:w-1/2 flex justify-center">
+          <div className="rounded-2xl overflow-hidden w-full max-w-md">
+            <img
+              src={sellerImg}
+              alt="Seller"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* RIGHT CONTENT */}
+        <div className="w-full md:w-1/2 flex flex-col gap-6 text-center md:text-left">
+          {/* HEADING */}
+          <h2 className="text-xl md:text-3xl font-semibold text-black leading-snug">
+            <span className="font-bold text-black">
+              {SELLER_REGISTER_TXT.SELLER_HEADIND1}
+            </span>{" "}
+            {SELLER_REGISTER_TXT.SELLER_HEADING2}
+            <br className="hidden sm:block" />
+            {SELLER_REGISTER_TXT.SELLER_TEXT3}
+          </h2>
+
+          <p className="text-lg font-semibold text-black">
+            {SELLER_REGISTER_TXT.SELLER_REGISTER_TITLE}
+          </p>
+
+          {/* LOGIN FORM */}
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center bg-white rounded-full shadow-md overflow-visible w-full max-w-md mx-auto md:mx-0 relative"
           >
-            <div className="flex items-center gap-2">
+            {/* COUNTRY */}
+            <div
+              className="flex items-center gap-2 px-3 py-3 cursor-pointer hover:bg-gray-100 rounded-l-full"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
               <img
                 src={selectedCountry.flag}
                 alt={selectedCountry.name}
                 className="w-5 h-5 rounded-sm"
               />
-              <span className="text-gray-800 font-semibold text-sm md:text-base">
+              <span className="text-sm font-medium">
                 {selectedCountry.code}
               </span>
             </div>
 
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                dropdownOpen ? "rotate-180" : "rotate-0"
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
+            {/* DROPDOWN */}
             {dropdownOpen && (
-              <ul
-                className="absolute left-0 top-[110%] w-48 bg-white border border-gray-200 
-                 rounded-md shadow-lg z-[5] max-h-60 overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
+              <ul className="absolute top-14 left-0 bg-white shadow-lg rounded-md w-48 z-50 max-h-60 overflow-y-auto border">
                 {countries.map((country) => (
                   <li
                     key={country.code}
@@ -100,98 +92,199 @@ px-8 md:px-12 lg:px-24 py-10 w-full  gap-10 lg:gap-16"
                       setDropdownOpen(false);
                     }}
                   >
-                    <img
-                      src={country.flag}
-                      alt={country.name}
-                      className="w-8 h-5 rounded-sm"
-                    />
-                    <span className="text-gray-800 text-sm md:text-base">
+                    <img src={country.flag} className="w-5 h-5 rounded-sm" />
+                    <span className="text-sm">
                       {country.name} ({country.code})
                     </span>
                   </li>
                 ))}
               </ul>
             )}
-          </div>
-          <input
-            type="tel"
-            maxLength={10}
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            placeholder="Enter 10 digit mobile No"
-            className="flex-1 min-w-36 px-3 py-3 text-gray-800 text-sm md:text-base focus:outline-none placeholder-gray-400
-               border-t sm:border-t-0 sm:border-l border-gray-200 box-border"
-            required
-          />
-          <button
-            type="submit"
-            className="flex-shrink-0 w-full sm:w-28 md:w-16 lg:w-28 bg-teal-600 hover:bg-teal-700 text-white font-semibold
-               px-3 py-3 text-sm md:text-base flex items-center justify-center gap-2
-               transition-all duration-200 hover:shadow-md active:scale-95 rounded-b-lg sm:rounded-b-none sm:rounded-r-md"
-          >
-            {SELLER_REGISTER_TXT.SELLER_LOGIN_BTN}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-8 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+
+            {/* INPUT */}
+            <input
+              type="tel"
+              maxLength={10}
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              placeholder="Enter mobile number"
+              className="flex-1 px-3 py-3 outline-none text-sm"
+              required
+            />
+
+            {/* BUTTON */}
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-teal-500 to-green-500 text-white px-6 py-3 font-semibold rounded-r-full hover:opacity-90 transition"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7l5 5-5 5M6 12h12"
-              />
-            </svg>
-          </button>
-        </form>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-20 mt-6 xl:px-4 place-items-center">
-          <div className="flex bg-white p-5  flex-col items-center md:items-start text-center md:text-left w-full sm:w-[180px] md:w-[200px]">
-            <div className="flex  justify-center lg:justify-center w-full mb-3 md:justify-start">
-              <img
-                src={sellerGraph}
-                alt="Grow Business"
-                className="w-10 sm:w-12 lg:w-14"
-              />
+              {SELLER_REGISTER_TXT.SELLER_LOGIN_BTN} →
+            </button>
+          </form>
+
+          {/* FEATURES */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {/* CARD 1 */}
+            <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition text-center">
+              <img src={sellerGraph} className="w-12 mx-auto mb-3" />
+              <h3 className="font-semibold text-black">
+                {SELLER_REGIST_ICON_TXT.ICON1_TITLE}
+              </h3>
+              <p className="text-sm text-black">
+                {SELLER_REGIST_ICON_TXT.ICON1_DES}
+              </p>
             </div>
-            <h3 className="font-bold text-gray-900 text-sm lg:w-full lg:text-center sm:text-base lg:text-base">
-              {SELLER_REGIST_ICON_TXT.ICON1_TITLE}
-            </h3>
-            <p className="text-gray-600 text-xs sm:text-sm lg:w-full lg:text-center lg:text-sm">
-              {SELLER_REGIST_ICON_TXT.ICON1_DES}
-            </p>
+
+            {/* CARD 2 */}
+            <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition text-center">
+              <img src={ZeroCost} className="w-12 mx-auto mb-3" />
+              <h3 className="font-semibold text-black">
+                {SELLER_REGIST_ICON_TXT.ICON2_TITLE}
+              </h3>
+              <p className="text-sm text-black">
+                {SELLER_REGIST_ICON_TXT.ICON2_DES1} <br />
+                {SELLER_REGIST_ICON_TXT.ICON2_DES2}
+              </p>
+            </div>
+
+            {/* CARD 3 */}
+            <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition text-center">
+              <img src={ManageBusiness} className="w-12 mx-auto mb-3" />
+              <h3 className="font-semibold text-black">
+                {SELLER_REGIST_ICON_TXT.ICON3_TITLE}
+              </h3>
+              <p className="text-sm text-black">
+                {SELLER_REGIST_ICON_TXT.ICON3_DES}
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col bg-white p-5  items-center md:items-start text-center md:text-left w-full sm:w-[180px] md:w-[200px] ">
-            <div className="flex justify-center lg:justify-center w-full mb-3 md:justify-start">
-              <img
-                src={ZeroCost}
-                alt="Zero Cost"
-                className="w-10 sm:w-12 lg:w-14"
-              />
+        </div>
+      </div>
+      <div className="p-4">
+        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-16 lg:gap-32 xl:gap-72">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-600 mb-2 md:mb-3 text-left">
+            {SELLER_PAGE_TXT.HEADING1_TXT}
+          </h2>
+          <h1 className="hidden sm:block text-lg sm:text-xl md:text-2xl font-semibold text-blue-600 mb-2 md:mb-3 text-left">
+            {SELLER_PAGE_TXT.HEADING2_TXT}
+          </h1>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 w-full  ">
+          <div className="w-full md:basis-1/3 bg-gray-50 h-auto md:h-72 flex flex-col items-stretch justify-between ">
+            <div className="flex items-start gap-3 p-5">
+              <div className="w-8 flex justify-start">
+                <img src={sellergraph} alt="" className="w-20 h-10 mt-2" />
+              </div>
+
+              <div className="flex flex-col  gap-2 ml-2 ">
+                <span className="text-lg font-medium text-blue-600 text-left">
+                  {SELLER_PAGE_TXT.ICON1_TITLE}
+                </span>
+                <span className="text-sm text-black-900  text-left">
+                  {SELLER_PAGE_TXT.ICON1_DES}
+                </span>
+              </div>
             </div>
-            <h3 className="font-bold text-gray-900 lg:w-full lg:text-center text-sm sm:text-base lg:text-base">
-              {SELLER_REGIST_ICON_TXT.ICON2_TITLE}
-            </h3>
-            <p className="text-gray-600 text-xs sm:text-sm lg:w-full flex-shrink-0 lg:text-center lg:text-sm">
-              {SELLER_REGIST_ICON_TXT.ICON2_DES1} <br />{" "}
-              {SELLER_REGIST_ICON_TXT.ICON2_DES2}
-            </p>
+
+            <div className="flex items-start gap-3 p-5">
+              <div className="w-8 flex justify-start">
+                <img src={sellercost} alt="" className="w-20 h-10 mt-2" />
+              </div>
+
+              <div className="flex flex-col  gap-2 ml-2 ">
+                <span className="text-lg font-medium text-blue-600 text-left">
+                  {SELLER_PAGE_TXT.ICON2_TITLE}
+                </span>
+                <span className="text-sm text-black-900  text-left">
+                  {SELLER_PAGE_TXT.ICON2_DES}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 p-5">
+              <div className="w-8 flex justify-start">
+                <img src={sellerbusiness} alt="" className="w-20 h-10 mt-2" />
+              </div>
+
+              <div className="flex flex-col  gap-2 ml-2 ">
+                <span className="text-lg font-medium text-blue-600 text-left">
+                  {SELLER_PAGE_TXT.ICON3_TITLE}
+                </span>
+                <span className="text-sm text-black-900  text-left">
+                  {SELLER_PAGE_TXT.ICON3_DES}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col bg-white items-center md:items-start text-center md:text-left lg:h-full md:py-5 md:px-3  lg:p-0 file: w-full sm:w-[180px] md:w-[200px]">
-            <div className="flex justify-center  lg:justify-center w-full lg:mt-5  mb-3 md:justify-start">
-              <img
-                src={ManageBusiness}
-                alt="Manage Business"
-                className="w-10 sm:w-12 lg:w-14"
-              />
+          <h1 className="sm:hidden text-lg sm:text-xl md:text-2xl font-semibold text-black-700 mb-2 md:mb-3 text-left">
+            {SELLER_PAGE_TXT.HEADING2_TXT}
+          </h1>
+          <div className="w-full md:basis-2/3 bg-gray-50 h-auto flex flex-col md:flex-row  bg-[url('src/assets/images/seller_page_bg.jpg')] bg-cover bg-center ">
+            <div className="flex-1 flex flex-col items-center justify-center p-5 gap-4  min-w-0">
+              <div className="w-10 flex justify-start relative">
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="relative flex items-center justify-center w-16 h-16 border-2 border-blue-600 rounded-full">
+                    <IoIosCreate className="w-8 h-8 text-blue-600" />
+
+                    <span className="absolute -top-1 -left-1 bg-blue-600 text-white text-xs font-bold rounded-full px-[5px] py-[1px]  ml-1">
+                      1
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col  gap-2  ">
+                <span className="text-lg font-medium text-blue-600 text-center">
+                  {SELLER_PAGE_TXT.ICON4_TITLE}
+                </span>
+                <span className="text-sm text-black-900  text-center">
+                  {SELLER_PAGE_TXT.ICON4_DES}
+                </span>
+              </div>
             </div>
-            <h3 className="font-semibold text-gray-900 text-sm sm:text-base lg:w-full lg:text-center lg:text-base">
-              {SELLER_REGIST_ICON_TXT.ICON3_TITLE}
-            </h3>
-            <p className="text-gray-600 text-xs sm:text-sm lg:w-full lg:text-center lg:text-sm">
-              {SELLER_REGIST_ICON_TXT.ICON3_DES}
-            </p>
+
+            <div className="flex-1 flex flex-col items-center justify-center p-5 gap-4 min-w-0">
+              <div className="w-10 flex justify-start   relative ">
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="relative flex items-center justify-center w-16 h-16 border-2 border-blue-600 rounded-full">
+                    <ImLocation2 className="w-8 h-8 text-blue-600" />
+
+                    <span className="absolute -top-1 -left-1 bg-blue-600 text-white text-xs font-bold rounded-full px-[5px] py-[1px] shadow ml-1">
+                      2
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col  gap-2  ">
+                <span className="text-lg font-medium text-blue-600 text-center">
+                  {SELLER_PAGE_TXT.ICON5_TITLE}
+                </span>
+                <span className="text-sm text-black-900  text-center">
+                  {SELLER_PAGE_TXT.ICON5_DES}
+                </span>
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col items-center justify-center gap-4 py-5 min-w-0">
+              <div className="w-14 flex justify-start  relative ">
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="relative flex items-center justify-center w-16 h-16 border-2 border-blue-600 rounded-full">
+                    <FiBox className="w-8 h-8 text-blue-600" />
+
+                    <span className="absolute -top-1 -left-1 bg-blue-600 text-white text-xs font-bold rounded-full px-[5px] py-[1px] shadow ml-1">
+                      3
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col  gap-2  ">
+                <span className="text-lg font-medium text-blue-600 text-center ">
+                  {SELLER_PAGE_TXT.ICON6_TITLE}
+                </span>
+                <span className="text-sm text-black-900 text-center  ">
+                  {SELLER_PAGE_TXT.ICON6_DES}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

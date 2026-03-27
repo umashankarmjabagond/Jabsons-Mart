@@ -23,15 +23,15 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
     return (
       <aside
         ref={ref}
-        className="w-74 sm:w-64 bg-white flex flex-col h-full border-l"
+        className="w-74 sm:w-64 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 flex flex-col h-full border-l"
         {...props}
       >
         <div className="p-2 flex flex-col items-center border-b border-gray-200">
-          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-black text-xl">
+          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl">
             {firstLatterOfName}
           </div>
-          <h2 className="mt-2 font-semibold text-black text-center">{name}</h2>
-          <p className="text-sm text-black">{mobile}</p>
+          <h2 className="mt-2 font-semibold text-white text-center">{name}</h2>
+          <p className="text-sm text-white">{mobile}</p>
         </div>
 
         <ul className="flex-1 mt-4">
@@ -40,10 +40,10 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `border-t-2 border-l-2 border-b-2 border-r-0 flex items-center px-6 py-3 mt-2 rounded-s-3xl text-black hover:bg-gray-100 transition-colors
+                  `border-t-2 border-l-2 border-b-2 border-r-0 flex items-center px-6 py-3 mt-2 rounded-s-3xl text-white hover:bg-gray-100 transition-colors
                   ${
                     isActive
-                      ? "bg-gray-200 font-bold rounded-s-3xl !text-black"
+                      ? "bg-white font-bold rounded-s-3xl !text-[#000000]"
                       : ""
                   }`
                 }
