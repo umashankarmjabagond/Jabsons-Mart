@@ -18,7 +18,7 @@ import {
 import logo from "@assets/TradeHubFull.png";
 import { RootState } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
-import logosmalldevice from "@assets/TradeHubSmall.png";
+import logosmalldevice from "@assets/TradehubSmall.png";
 import { Button } from "@components/common/ui/Button";
 import { Input } from "@components/common/ui/Input";
 import {
