@@ -31,7 +31,7 @@ export default function DeliveryLocation() {
       try {
         const parsed: Address[] = JSON.parse(storedAddresses);
         const valid = parsed.filter(
-          (addr) => addr?.name?.trim() && addr?.details?.trim()
+          (addr) => addr?.name?.trim() && addr?.details?.trim(),
         );
         if (valid.length) {
           setSavedAddresses(valid);
@@ -68,7 +68,7 @@ export default function DeliveryLocation() {
     if (pincode.trim().length === 6) {
       try {
         const res = await fetch(
-          `https://api.postalpincode.in/pincode/${pincode}`
+          `https://api.postalpincode.in/pincode/${pincode}`,
         );
         const data = await res.json();
 
@@ -86,7 +86,7 @@ export default function DeliveryLocation() {
           const updatedAddresses: Address[] = [
             { name: newAddress, details },
             ...savedAddresses.filter(
-              (addr) => addr?.name?.trim() && addr?.details?.trim()
+              (addr) => addr?.name?.trim() && addr?.details?.trim(),
             ),
           ];
 
@@ -95,7 +95,7 @@ export default function DeliveryLocation() {
           localStorage.setItem("deliveryLocation", newAddress);
           localStorage.setItem(
             "savedAddresses",
-            JSON.stringify(updatedAddresses)
+            JSON.stringify(updatedAddresses),
           );
 
           setPincode("");
@@ -118,7 +118,7 @@ export default function DeliveryLocation() {
           const { latitude, longitude } = pos.coords;
           try {
             const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`,
             );
             const data = await res.json();
             const addr = data.address;
@@ -139,7 +139,7 @@ export default function DeliveryLocation() {
             const updatedAddresses: Address[] = [
               { name: newAddress, details },
               ...savedAddresses.filter(
-                (addr) => addr?.name?.trim() && addr?.details?.trim()
+                (addr) => addr?.name?.trim() && addr?.details?.trim(),
               ),
             ];
 
@@ -148,7 +148,7 @@ export default function DeliveryLocation() {
             localStorage.setItem("deliveryLocation", newAddress);
             localStorage.setItem(
               "savedAddresses",
-              JSON.stringify(updatedAddresses)
+              JSON.stringify(updatedAddresses),
             );
 
             setIsOpen(false);
@@ -156,7 +156,7 @@ export default function DeliveryLocation() {
             alert(t("DELIVERY.unableFetch"));
           }
         },
-        () => alert(t("DELIVERY.locationAccessDenied"))
+        () => alert(t("DELIVERY.locationAccessDenied")),
       );
     } else {
       alert(t("DELIVERY.geolocationNotSupported"));
@@ -165,7 +165,7 @@ export default function DeliveryLocation() {
 
   return (
     <div>
-      <div className="flex justify-between items-center bg-white p-4 rounded shadow">
+      <div className="flex justify-between items-center bg-white px-2 py-1 rounded shadow">
         <div className="flex items-center gap-3">
           <span className="text-xs md:text-sm text-gray-700">
             {t("DELIVERY.deliverTo")}
