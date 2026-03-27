@@ -32,10 +32,7 @@ const CategoryCard = ({ group }: { group: CategoryGroup }) => {
       {/* Gradient Overlay (lighter now) */}
       <div
         className="
-          absolute inset-0
-          bg-gradient-to-br
-          from-black/70 via-black/30 to-black/70
-        "
+          absolute inset-0"
       />
 
       {/* Content */}
