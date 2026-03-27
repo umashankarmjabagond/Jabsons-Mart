@@ -9,11 +9,11 @@ import CheckoutLayout from "../../features/checkout/CheckoutLayout";
 import ProductDetailsLayout from "../layouts/ProductDetailsLayout";
 import PaymentLayout from "@/features/paymentpage/Mainpage";
 // import PaymentLayout from "../../features/paymentpage/PaymentOptions";
-import SellerLanding from "../pages/SellerLanding";
 import MarketLayout from "../layouts/MarketLayout";
 import MarketPage from "@/features/market/pages/MarketPage";
 import SellerNav from "@/features/seller/SellerNav";
 import ComingSoon from "@/components/common/ComingSoon ";
+import SellerLanding from "@/features/seller/SellerLanding";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";

@@ -378,7 +378,7 @@ const Navbar: FC<NavbarProps> = ({
             <Button
               disabled={product.length < 1}
               onClick={handleProductSearch}
-              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full"
+              className="px-4 py-2 hover:bg-green-600 text-white rounded-full"
             >
               {t("NAVBAR.GET_BEST_PRICE")}
             </Button>
