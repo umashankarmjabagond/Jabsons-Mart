@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import sellerImg from "@/assets/images/sellerImg.png";
 import sellerGraph from "@/assets/images/seller_graph.png";
 import ZeroCost from "@/assets/images/seller_zerocost.png";
 import ManageBusiness from "@/assets/images/seller_manage_business.png";
-import { Country } from "@/types/authTypes";
 import sellergraph from "@/assets/images/seller_graph.png";
 import sellercost from "@/assets/images/seller_zerocost.png";
 import sellerbusiness from "@/assets/images/seller_manage_business.png";
 
 import {
-  countries,
   SELLER_PAGE_TXT,
   SELLER_REGIST_ICON_TXT,
   SELLER_REGISTER_TXT,
@@ -20,15 +18,7 @@ import { ImLocation2 } from "react-icons/im";
 import { FiBox } from "react-icons/fi";
 
 const SellerRegistration: React.FC = () => {
-  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    navigate("/seller/business-details");
-  };
 
   return (
     <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 px-2 py-4">
@@ -56,70 +46,23 @@ const SellerRegistration: React.FC = () => {
             {SELLER_REGISTER_TXT.SELLER_TEXT3}
           </h2>
 
-          <p className="text-lg font-semibold text-black">
-            {SELLER_REGISTER_TXT.SELLER_REGISTER_TITLE}
-          </p>
-
           {/* LOGIN FORM */}
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-center bg-white rounded-full shadow-md overflow-visible w-full max-w-md mx-auto md:mx-0 relative"
-          >
-            {/* COUNTRY */}
-            <div
-              className="flex items-center gap-2 px-3 py-3 cursor-pointer hover:bg-gray-100 rounded-l-full"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <img
-                src={selectedCountry.flag}
-                alt={selectedCountry.name}
-                className="w-5 h-5 rounded-sm"
-              />
-              <span className="text-sm font-medium">
-                {selectedCountry.code}
-              </span>
-            </div>
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
+            <h1 className="text-3xl font-bold mb-4">
+              Start Selling on TradeHub 🚀
+            </h1>
 
-            {/* DROPDOWN */}
-            {dropdownOpen && (
-              <ul className="absolute top-14 left-0 bg-white shadow-lg rounded-md w-48 z-50 max-h-60 overflow-y-auto border">
-                {countries.map((country) => (
-                  <li
-                    key={country.code}
-                    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setSelectedCountry(country);
-                      setDropdownOpen(false);
-                    }}
-                  >
-                    <img src={country.flag} className="w-5 h-5 rounded-sm" />
-                    <span className="text-sm">
-                      {country.name} ({country.code})
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <p className="text-gray-600 mb-6">
+              Register your business and reach thousands of buyers.
+            </p>
 
-            {/* INPUT */}
-            <input
-              type="tel"
-              maxLength={10}
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              placeholder="Enter mobile number"
-              className="flex-1 px-3 py-3 outline-none text-sm"
-              required
-            />
-
-            {/* BUTTON */}
             <button
-              type="submit"
-              className="bg-gradient-to-r from-teal-500 to-green-500 text-white px-6 py-3 font-semibold rounded-r-full hover:opacity-90 transition"
+              onClick={() => navigate("/seller/business-details")}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
             >
-              {SELLER_REGISTER_TXT.SELLER_LOGIN_BTN} →
+              Start Selling →
             </button>
-          </form>
+          </div>
 
           {/* FEATURES */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">

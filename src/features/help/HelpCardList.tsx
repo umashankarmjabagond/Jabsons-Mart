@@ -63,7 +63,7 @@ const HelpCardList: React.FC = () => {
   ];
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-12">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
           {cards.map((card, index) => (
@@ -72,7 +72,7 @@ const HelpCardList: React.FC = () => {
         </div>
       </div>
       <div className="mt-5  flex justify-center ">
-        <LanguageSwitcher/>
+        <LanguageSwitcher />
       </div>
     </section>
   );
