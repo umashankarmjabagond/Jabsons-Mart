@@ -51,7 +51,7 @@ export default function CategoryLandingList() {
   }
 
   return (
-    <section className="bg-white border border-2 py-12 space-y-6 rounded-2xl">
+    <section className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100  border border-2 py-12 space-y-6 rounded-2xl">
       {data.map((main) => (
         <CategoryLandingSection key={main.id} mainCategory={main} />
       ))}

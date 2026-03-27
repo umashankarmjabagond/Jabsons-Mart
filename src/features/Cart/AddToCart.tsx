@@ -51,7 +51,7 @@ export default function AddToCartPage() {
   );
 
   return (
-    <div className="p-4 md:p-6 bg-gray-200">
+    <div className="p-4 md:p-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 flex flex-col gap-4">
           <div className="bg-white p-4 rounded shadow-sm flex items-center justify-between">

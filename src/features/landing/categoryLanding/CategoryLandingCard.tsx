@@ -68,10 +68,7 @@ export default function CategoryLandingCard({
       {/* GRADIENT OVERLAY (EXACT SAME AS MARKET CARD) */}
       <div
         className="
-          absolute inset-0
-          bg-gradient-to-br
-          from-black/70 via-black/30 to-black/70
-        "
+          absolute inset-0"
       />
 
       {/* GREEN STRIP */}

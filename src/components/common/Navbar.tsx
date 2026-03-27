@@ -262,7 +262,7 @@ const Navbar: FC<NavbarProps> = ({
   );
 
   return (
-    <nav className="w-full shadow border-b bg-blue-900 px-4 sm:px-6 py-3 sticky top-0 z-50">
+    <nav className="w-full shadow border-b bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 px-4 sm:px-6 py-3 sticky top-0 z-50">
       {/* <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-green-100"> */}
       <div className="flex flex-col lg:flex-col items-start lg:items-center justify-between w-full">
         {/* MOBILE HEADER */}
