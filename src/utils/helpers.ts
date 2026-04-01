@@ -1,3 +1,4 @@
+import { getUploadSignature } from "@/services/product.service";
 import { clsx, type ClassValue } from "clsx";
 
 export function cn(...inputs: ClassValue[]) {
@@ -29,4 +30,41 @@ export const slugify = (value?: string) => {
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+};
+
+export const uploadToCloudinary = async (file: File) => {
+  // 1️⃣ get signature
+  const { timestamp, signature, apiKey, cloudName, public_id } =
+    await getUploadSignature();
+  console.log("Upload signature response:", {
+    timestamp,
+    signature,
+    apiKey,
+    cloudName,
+    public_id,
+  });
+
+  // 2️⃣ upload
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", apiKey);
+  formData.append("timestamp", timestamp);
+  formData.append("signature", signature);
+  formData.append("public_id", public_id);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error?.message || "Upload failed");
+  }
+
+  return data.secure_url;
 };
