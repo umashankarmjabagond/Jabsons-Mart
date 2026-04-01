@@ -2,72 +2,48 @@ import React, { useEffect, useState } from "react";
 import { ImagePlus, X, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "@/store/slices/ProductSlice";
-import { useNavigate } from "react-router-dom";
+import { createProduct, searchProductsAPI } from "@/services/product.service";
+import SearchInput from "@/components/common/ui/SearchInput";
 
+/* ------------------ TYPES ------------------ */
 interface ImageType {
   url: string;
   isPrimary: boolean;
+  file: File; // ✅ FIX: MUST include file
 }
 
 interface Product {
   name: string;
-  mainCategoryId: string;
-  subCategoryId: string;
-  categoryId: string;
-  images: ImageType[];
-}
-
-interface Category {
-  id: string;
-  name: string;
-  parent_id?: string | null;
+  productId: string;
+  images: ImageType[]; // ✅ FIX
 }
 
 interface Props {
   onPrevious: () => void;
 }
 
+/* ------------------ MAIN COMPONENT ------------------ */
 const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const savedProducts = useSelector((state: any) => state.products.products);
 
   const [products, setProductsState] = useState<Product[]>([
-    {
-      name: "",
-      mainCategoryId: "",
-      subCategoryId: "",
-      categoryId: "",
-      images: [],
-    },
-    {
-      name: "",
-      mainCategoryId: "",
-      subCategoryId: "",
-      categoryId: "",
-      images: [],
-    },
-    {
-      name: "",
-      mainCategoryId: "",
-      subCategoryId: "",
-      categoryId: "",
-      images: [],
-    },
+    { name: "", productId: "", images: [] },
+    { name: "", productId: "", images: [] },
+    { name: "", productId: "", images: [] },
   ]);
 
   const [errors, setErrors] = useState<any>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [searchResults, setSearchResults] = useState<any>({});
+  const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
 
+  /* ------------------ LOAD STATE ------------------ */
   useEffect(() => {
-    if (savedProducts && savedProducts.length > 0) {
+    if (savedProducts?.length) {
       setProductsState(savedProducts);
     } else {
       const local = localStorage.getItem("sellerProducts");
-      if (local) {
-        setProductsState(JSON.parse(local));
-      }
+      if (local) setProductsState(JSON.parse(local));
     }
   }, [savedProducts]);
 
@@ -76,35 +52,49 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     localStorage.setItem("sellerProducts", JSON.stringify(products));
   }, [products]);
 
-  useEffect(() => {
-    setCategories([
-      { id: "1", name: "Apparel", parent_id: null },
-      { id: "2", name: "Accessories", parent_id: "1" },
-      { id: "3", name: "Gloves & Mittens", parent_id: "2" },
-    ]);
-  }, []);
-
-  const getMain = () => categories.filter((c) => !c.parent_id);
-  const getSub = (id: string) => categories.filter((c) => c.parent_id === id);
-  const getLeaf = (id: string) => categories.filter((c) => c.parent_id === id);
-
   const updateProduct = (i: number, updated: Product) => {
     const copy = [...products];
     copy[i] = updated;
     setProductsState(copy);
   };
 
+  /* ------------------ API CALL ------------------ */
+  const fetchProducts = async (query: string, index: number) => {
+    try {
+      setLoadingIndex(index);
+
+      const data = await searchProductsAPI(query);
+
+      setSearchResults((prev) => ({
+        ...prev,
+        [index]: data.data || [],
+      }));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingIndex(null);
+    }
+  };
+
+  /* ------------------ IMAGE HANDLING ------------------ */
   const handleImageUpload = (i: number, files: FileList | null) => {
     if (!files) return;
 
-    const imgs = Array.from(files).map((file, idx) => ({
+    const imgs: ImageType[] = Array.from(files).map((file, idx) => ({
       url: URL.createObjectURL(file),
+      file, // ✅ FIX: store real file
       isPrimary: idx === 0,
     }));
 
-    const copy = [...products];
-    copy[i].images = [...copy[i].images, ...imgs];
-    setProductsState(copy);
+    // ✅ FIX: safe state update (no mutation issue)
+    setProductsState((prev) => {
+      const copy = [...prev];
+      copy[i] = {
+        ...copy[i],
+        images: [...copy[i].images, ...imgs],
+      };
+      return copy;
+    });
   };
 
   const handleDrop = (e: React.DragEvent, i: number) => {
@@ -112,12 +102,12 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     handleImageUpload(i, e.dataTransfer.files);
   };
 
-  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
-
   const removeImage = (p: number, i: number) => {
-    const copy = [...products];
-    copy[p].images.splice(i, 1);
-    setProductsState(copy);
+    setProductsState((prev) => {
+      const copy = [...prev];
+      copy[p].images.splice(i, 1);
+      return copy;
+    });
   };
 
   const setPrimary = (p: number, i: number) => {
@@ -129,28 +119,15 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     setProductsState(copy);
   };
 
-  /* VALIDATION */
-  const validateForm = (forceValidate = false) => {
+  /* ------------------ VALIDATION ------------------ */
+  const validateForm = () => {
     const formatted: any = {};
     let hasValid = false;
 
     products.forEach((p, i) => {
-      const isTouched =
-        p.name ||
-        p.mainCategoryId ||
-        p.subCategoryId ||
-        p.categoryId ||
-        p.images.length;
-
-      // 🔥 FIX HERE
-      if (!isTouched && !forceValidate) return;
-
       const err: any = {};
 
-      if (!p.name.trim()) err.name = "Product name is required";
-      if (!p.mainCategoryId) err.mainCategoryId = "Select main category";
-      if (!p.subCategoryId) err.subCategoryId = "Select sub category";
-      if (!p.categoryId) err.categoryId = "Select final category";
+      if (!p.productId) err.name = "Please select product";
       if (!p.images.length) err.images = "At least one image required";
 
       if (Object.keys(err).length === 0) hasValid = true;
@@ -161,157 +138,70 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     return hasValid;
   };
 
-  const handleContinue = () => {
-    setIsSubmitted(true);
-
-    const isValid = validateForm(true);
-
+  /* ------------------ SUBMIT ------------------ */
+  const handleContinue = async () => {
+    const isValid = validateForm();
     if (!isValid) return;
 
-    const validProducts = products.filter(
-      (p) =>
-        p.name &&
-        p.mainCategoryId &&
-        p.subCategoryId &&
-        p.categoryId &&
-        p.images.length > 0,
-    );
+    try {
+      const validProducts = products.filter(
+        (p) => p.productId && p.images.length > 0,
+      );
 
-    console.log("FINAL 👉", validProducts);
+      for (const product of validProducts) {
+        const formData = new FormData();
 
-    // ✅ SUCCESS ALERT
-    alert("✅ Product added successfully!");
+        formData.append("categoryId", product.productId);
+        formData.append("name", product.name);
 
-    // ✅ CLEAR FORM
-    const emptyProducts = [
-      {
-        name: "",
-        mainCategoryId: "",
-        subCategoryId: "",
-        categoryId: "",
-        images: [],
-      },
-      {
-        name: "",
-        mainCategoryId: "",
-        subCategoryId: "",
-        categoryId: "",
-        images: [],
-      },
-      {
-        name: "",
-        mainCategoryId: "",
-        subCategoryId: "",
-        categoryId: "",
-        images: [],
-      },
-    ];
+        product.images.forEach((img) => {
+          console.log("FILE:", img.file);
 
-    setProductsState(emptyProducts);
-    dispatch(setProducts(emptyProducts));
-    localStorage.removeItem("sellerProducts");
+          if (img.file instanceof File) {
+            formData.append("images", img.file);
+          } else {
+            console.error("INVALID FILE:", img);
+          }
+        });
 
-    // ✅ OPTIONAL REDIRECT (choose one)
-    // window.location.href = "/market";
-    // OR if using react-router:
-    navigate("/market");
+        await createProduct(formData);
+      }
+
+      alert("✅ Products added successfully!");
+    } catch (error: any) {
+      console.error(error);
+      alert("❌ Failed");
+    }
   };
 
+  /* ------------------ UI ------------------ */
   return (
     <section className="flex flex-col md:flex-row gap-6 p-6">
       <div className="bg-white p-6 rounded-xl shadow w-full md:w-2/3">
         <div className="grid sm:grid-cols-3 gap-5">
           {products.map((p, i) => (
             <div key={i} className="space-y-2">
-              <input
-                value={p.name}
-                onChange={(e) =>
-                  updateProduct(i, { ...p, name: e.target.value })
-                }
-                className="border p-2 rounded w-full"
-                placeholder="Product Name"
+              <SearchInput
+                p={p}
+                i={i}
+                updateProduct={updateProduct}
+                fetchProducts={fetchProducts}
+                searchResults={searchResults}
+                loadingIndex={loadingIndex}
               />
+
               <p className="text-red-500 text-xs min-h-[16px]">
                 {errors[i]?.name || ""}
               </p>
 
-              <select
-                value={p.mainCategoryId}
-                onChange={(e) =>
-                  updateProduct(i, {
-                    ...p,
-                    mainCategoryId: e.target.value,
-                    subCategoryId: "",
-                    categoryId: "",
-                  })
-                }
-                className="border p-2 rounded w-full"
-              >
-                <option value="">Main Category</option>
-                {getMain().map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500 text-xs min-h-[16px]">
-                {errors[i]?.mainCategoryId || ""}
-              </p>
-
-              <select
-                disabled={!p.mainCategoryId}
-                value={p.subCategoryId}
-                onChange={(e) =>
-                  updateProduct(i, {
-                    ...p,
-                    subCategoryId: e.target.value,
-                    categoryId: "",
-                  })
-                }
-                className="border p-2 rounded w-full"
-              >
-                <option value="">Sub Category</option>
-                {getSub(p.mainCategoryId).map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500 text-xs min-h-[16px]">
-                {errors[i]?.subCategoryId || ""}
-              </p>
-
-              <select
-                disabled={!p.subCategoryId}
-                value={p.categoryId}
-                onChange={(e) =>
-                  updateProduct(i, { ...p, categoryId: e.target.value })
-                }
-                className="border p-2 rounded w-full"
-              >
-                <option value="">Final Category</option>
-                {getLeaf(p.subCategoryId).map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500 text-xs min-h-[16px]">
-                {errors[i]?.categoryId || ""}
-              </p>
-
+              {/* IMAGE UPLOAD (UNCHANGED UI) */}
               <label
                 onDrop={(e) => handleDrop(e, i)}
-                onDragOver={handleDragOver}
+                onDragOver={(e) => e.preventDefault()}
                 className="relative w-full h-28 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 cursor-pointer transition group"
               >
-                {/* ICON */}
-                <ImagePlus
-                  size={28}
-                  className="text-gray-400 group-hover:text-teal-600 transition"
-                />
+                <ImagePlus size={28} className="text-gray-400" />
 
-                {/* TEXT */}
                 <p className="text-xs text-gray-500 mt-1 text-center">
                   <span className="text-teal-600 font-medium">
                     Click to upload
@@ -319,10 +209,6 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                   or drag & drop
                 </p>
 
-                {/* SUB TEXT */}
-                <p className="text-[10px] text-gray-400">PNG, JPG (Max 5MB)</p>
-
-                {/* 🔥 IMPORTANT INPUT FIX */}
                 <input
                   type="file"
                   multiple
@@ -382,13 +268,13 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
       <div className="bg-white shadow-md rounded-xl p-6 w-full md:w-1/3">
         <h3 className="font-semibold mb-2">Profile</h3>
         <p>
-          <b>Name:</b> Guru
+          <b>Name:</b> Umashakar Jabagond
         </p>
         <p>
-          <b>Company:</b> tekpyramid
+          <b>Company:</b> Trade Hub
         </p>
         <p>
-          <b>Email:</b> guruprasath.vs14@gmail.com
+          <b>Email:</b> umashakarjabagond@gmail.com
         </p>
       </div>
     </section>
