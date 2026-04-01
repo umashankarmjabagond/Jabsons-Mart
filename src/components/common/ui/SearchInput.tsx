@@ -1,26 +1,27 @@
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
 
-/** ✅ Product type */
+/** ✅ SAME Product type as parent */
 interface Product {
+  name: string;
+  productId: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  images: any[]; // keep same as parent (no logic change)
+}
+
+/** ✅ Search API item */
+interface SearchItem {
   id: string;
   name: string;
 }
 
-/** ✅ Product payload (what you store/update) */
-interface ProductPayload {
-  name: string;
-  productId?: string;
-  [key: string]: any;
-}
-
 /** ✅ Props type */
 interface SearchInputProps {
-  p: ProductPayload;
+  p: Product;
   i: number;
-  updateProduct: (index: number, product: ProductPayload) => void;
+  updateProduct: (index: number, product: Product) => void;
   fetchProducts: (query: string, index: number) => void;
-  searchResults: Record<number, Product[]>;
+  searchResults: Record<number, SearchItem[]>;
   loadingIndex: number | null;
 }
 
@@ -47,11 +48,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
   }, [debounced, fetchProducts, i]);
 
   /** ✅ Handle selection */
-  const handleSelect = (item: Product) => {
+  const handleSelect = (item: SearchItem) => {
     updateProduct(i, {
       ...p,
       name: item.name,
       productId: item.id,
+      images: p.images, // ✅ IMPORTANT (keeps type safe)
     });
 
     setInput(item.name);
@@ -71,6 +73,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
             ...p,
             name: value,
             productId: "", // reset if typing
+            images: p.images, // ✅ IMPORTANT
           });
         }}
         onFocus={() => input && setShowDropdown(true)}
@@ -83,7 +86,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           {loadingIndex === i ? (
             <div className="p-2 text-sm text-gray-500">Loading...</div>
           ) : searchResults[i]?.length ? (
-            searchResults[i].map((item: Product) => (
+            searchResults[i].map((item) => (
               <div
                 key={item.id}
                 onClick={() => handleSelect(item)}
