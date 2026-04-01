@@ -6,16 +6,22 @@ import { createProduct, searchProductsAPI } from "@/services/product.service";
 import SearchInput from "@/components/common/ui/SearchInput";
 
 /* ------------------ TYPES ------------------ */
+
 interface ImageType {
   url: string;
   isPrimary: boolean;
-  file: File; // ✅ FIX: MUST include file
+  file: File;
 }
 
 interface Product {
   name: string;
   productId: string;
-  images: ImageType[]; // ✅ FIX
+  images: ImageType[];
+}
+
+interface SearchResultItem {
+  id: string;
+  name: string;
 }
 
 interface Props {
@@ -23,8 +29,10 @@ interface Props {
 }
 
 /* ------------------ MAIN COMPONENT ------------------ */
+
 const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
   const dispatch = useDispatch();
+
   const savedProducts = useSelector((state: any) => state.products.products);
 
   const [products, setProductsState] = useState<Product[]>([
@@ -33,41 +41,53 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     { name: "", productId: "", images: [] },
   ]);
 
-  const [errors, setErrors] = useState<any>({});
-  const [searchResults, setSearchResults] = useState<any>({});
+  const [errors, setErrors] = useState<
+    Record<number, { name?: string; images?: string }>
+  >({});
+  const [searchResults, setSearchResults] = useState<
+    Record<number, SearchResultItem[]>
+  >({});
   const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
 
   /* ------------------ LOAD STATE ------------------ */
+
   useEffect(() => {
     if (savedProducts?.length) {
       setProductsState(savedProducts);
     } else {
       const local = localStorage.getItem("sellerProducts");
-      if (local) setProductsState(JSON.parse(local));
+      if (local) {
+        setProductsState(JSON.parse(local) as Product[]);
+      }
     }
   }, [savedProducts]);
 
   useEffect(() => {
     dispatch(setProducts(products));
     localStorage.setItem("sellerProducts", JSON.stringify(products));
-  }, [products]);
+  }, [products, dispatch]);
+
+  /* ------------------ UPDATE PRODUCT ------------------ */
 
   const updateProduct = (i: number, updated: Product) => {
-    const copy = [...products];
-    copy[i] = updated;
-    setProductsState(copy);
+    setProductsState((prev: Product[]) => {
+      const copy = [...prev];
+      copy[i] = updated;
+      return copy;
+    });
   };
 
   /* ------------------ API CALL ------------------ */
+
   const fetchProducts = async (query: string, index: number) => {
     try {
       setLoadingIndex(index);
 
       const data = await searchProductsAPI(query);
 
-      setSearchResults((prev) => ({
+      setSearchResults((prev: Record<number, SearchResultItem[]>) => ({
         ...prev,
-        [index]: data.data || [],
+        [index]: data?.data || [],
       }));
     } catch (err) {
       console.error(err);
@@ -77,17 +97,17 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
   };
 
   /* ------------------ IMAGE HANDLING ------------------ */
+
   const handleImageUpload = (i: number, files: FileList | null) => {
     if (!files) return;
 
     const imgs: ImageType[] = Array.from(files).map((file, idx) => ({
       url: URL.createObjectURL(file),
-      file, // ✅ FIX: store real file
+      file,
       isPrimary: idx === 0,
     }));
 
-    // ✅ FIX: safe state update (no mutation issue)
-    setProductsState((prev) => {
+    setProductsState((prev: Product[]) => {
       const copy = [...prev];
       copy[i] = {
         ...copy[i],
@@ -97,35 +117,40 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     });
   };
 
-  const handleDrop = (e: React.DragEvent, i: number) => {
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>, i: number) => {
     e.preventDefault();
     handleImageUpload(i, e.dataTransfer.files);
   };
 
-  const removeImage = (p: number, i: number) => {
-    setProductsState((prev) => {
+  const removeImage = (pIndex: number, imgIndex: number) => {
+    setProductsState((prev: Product[]) => {
       const copy = [...prev];
-      copy[p].images.splice(i, 1);
+      copy[pIndex].images = copy[pIndex].images.filter(
+        (_, idx) => idx !== imgIndex,
+      );
       return copy;
     });
   };
 
-  const setPrimary = (p: number, i: number) => {
-    const copy = [...products];
-    copy[p].images = copy[p].images.map((img, idx) => ({
-      ...img,
-      isPrimary: idx === i,
-    }));
-    setProductsState(copy);
+  const setPrimary = (pIndex: number, imgIndex: number) => {
+    setProductsState((prev: Product[]) => {
+      const copy = [...prev];
+      copy[pIndex].images = copy[pIndex].images.map((img, idx) => ({
+        ...img,
+        isPrimary: idx === imgIndex,
+      }));
+      return copy;
+    });
   };
 
   /* ------------------ VALIDATION ------------------ */
-  const validateForm = () => {
-    const formatted: any = {};
+
+  const validateForm = (): boolean => {
+    const formatted: Record<number, { name?: string; images?: string }> = {};
     let hasValid = false;
 
     products.forEach((p, i) => {
-      const err: any = {};
+      const err: { name?: string; images?: string } = {};
 
       if (!p.productId) err.name = "Please select product";
       if (!p.images.length) err.images = "At least one image required";
@@ -139,6 +164,7 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
   };
 
   /* ------------------ SUBMIT ------------------ */
+
   const handleContinue = async () => {
     const isValid = validateForm();
     if (!isValid) return;
@@ -155,12 +181,8 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
         formData.append("name", product.name);
 
         product.images.forEach((img) => {
-          console.log("FILE:", img.file);
-
           if (img.file instanceof File) {
             formData.append("images", img.file);
-          } else {
-            console.error("INVALID FILE:", img);
           }
         });
 
@@ -168,13 +190,14 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
       }
 
       alert("✅ Products added successfully!");
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
       alert("❌ Failed");
     }
   };
 
   /* ------------------ UI ------------------ */
+
   return (
     <section className="flex flex-col md:flex-row gap-6 p-6">
       <div className="bg-white p-6 rounded-xl shadow w-full md:w-2/3">
@@ -194,11 +217,10 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                 {errors[i]?.name || ""}
               </p>
 
-              {/* IMAGE UPLOAD (UNCHANGED UI) */}
               <label
                 onDrop={(e) => handleDrop(e, i)}
                 onDragOver={(e) => e.preventDefault()}
-                className="relative w-full h-28 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 cursor-pointer transition group"
+                className="relative w-full h-28 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 cursor-pointer transition"
               >
                 <ImagePlus size={28} className="text-gray-400" />
 
@@ -212,7 +234,9 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => handleImageUpload(i, e.target.files)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleImageUpload(i, e.target.files)
+                  }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
               </label>
@@ -228,12 +252,14 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                       src={img.url}
                       className="h-16 w-full object-cover rounded"
                     />
+
                     <button
                       onClick={() => removeImage(i, idx)}
                       className="absolute top-1 right-1 bg-white p-1 rounded"
                     >
                       <X size={10} />
                     </button>
+
                     <button
                       onClick={() => setPrimary(i, idx)}
                       className="absolute bottom-1 left-1 bg-white p-1 rounded"
@@ -264,18 +290,6 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
             Finish →
           </button>
         </div>
-      </div>
-      <div className="bg-white shadow-md rounded-xl p-6 w-full md:w-1/3">
-        <h3 className="font-semibold mb-2">Profile</h3>
-        <p>
-          <b>Name:</b> Umashakar Jabagond
-        </p>
-        <p>
-          <b>Company:</b> Trade Hub
-        </p>
-        <p>
-          <b>Email:</b> umashakarjabagond@gmail.com
-        </p>
       </div>
     </section>
   );

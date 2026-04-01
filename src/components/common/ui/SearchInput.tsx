@@ -1,7 +1,30 @@
 import useDebounce from "@/hooks/useDebounce";
 import { useEffect, useState } from "react";
 
-const SearchInput = ({
+/** ✅ Product type */
+interface Product {
+  id: string;
+  name: string;
+}
+
+/** ✅ Product payload (what you store/update) */
+interface ProductPayload {
+  name: string;
+  productId?: string;
+  [key: string]: any;
+}
+
+/** ✅ Props type */
+interface SearchInputProps {
+  p: ProductPayload;
+  i: number;
+  updateProduct: (index: number, product: ProductPayload) => void;
+  fetchProducts: (query: string, index: number) => void;
+  searchResults: Record<number, Product[]>;
+  loadingIndex: number | null;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({
   p,
   i,
   updateProduct,
@@ -9,10 +32,11 @@ const SearchInput = ({
   searchResults,
   loadingIndex,
 }) => {
-  const [input, setInput] = useState(p.name || "");
+  const [input, setInput] = useState<string>(p.name || "");
   const debounced = useDebounce(input, 400);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
+  /** ✅ Fetch products when debounced input changes */
   useEffect(() => {
     if (debounced && debounced.length >= 2) {
       fetchProducts(debounced, i);
@@ -20,9 +44,10 @@ const SearchInput = ({
     } else {
       setShowDropdown(false);
     }
-  }, [debounced]);
+  }, [debounced, fetchProducts, i]);
 
-  const handleSelect = (item) => {
+  /** ✅ Handle selection */
+  const handleSelect = (item: Product) => {
     updateProduct(i, {
       ...p,
       name: item.name,
@@ -37,11 +62,14 @@ const SearchInput = ({
     <div className="relative">
       <input
         value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = e.target.value;
+
+          setInput(value);
+
           updateProduct(i, {
             ...p,
-            name: e.target.value,
+            name: value,
             productId: "", // reset if typing
           });
         }}
@@ -55,7 +83,7 @@ const SearchInput = ({
           {loadingIndex === i ? (
             <div className="p-2 text-sm text-gray-500">Loading...</div>
           ) : searchResults[i]?.length ? (
-            searchResults[i].map((item) => (
+            searchResults[i].map((item: Product) => (
               <div
                 key={item.id}
                 onClick={() => handleSelect(item)}
