@@ -9,7 +9,9 @@ import Pointer from "@/assets/images/Pointer.webp";
 
 import { Button } from "@/components/common/ui/Button";
 
-import { addToCart } from "@/redux/cartSlice";
+// ❌ REMOVE REDUX CART
+// import { addToCart } from "@/redux/cartSlice";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedItems, resetCheckout } from "@/redux/checkoutSlice";
 import { CardProduct } from "@/types/cartType";
@@ -20,13 +22,16 @@ import { ROUTES } from "@/constants/routeConstants";
 import type { Product } from "@/types/productTypes";
 import { fetchProductDetailsApi } from "@/services/product.service";
 
+// ✅ IMPORT NEW SERVICE
+import { addToCart as addToCartApi } from "@/services/cart.service";
+
 const ProductListView: React.FC = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [isFavorite, setIsFavorite] = useState(false); // ✅ NOW USED
+  const [isFavorite, setIsFavorite] = useState(false);
   const [showAllOffers, setShowAllOffers] = useState(false);
 
   const navigate = useNavigate();
@@ -34,22 +39,25 @@ const ProductListView: React.FC = () => {
 
   const sliderRef = useRef<Slider>(null);
 
+  // ❌ OPTIONAL: Redux cart not needed anymore
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const allProducts: Product[] = useSelector(
     (state: RootState) => state.products.allProducts,
   );
 
-  //  FETCH PRODUCT DETAILS
-
+  // ✅ FETCH PRODUCT DETAILS
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setProduct(null);
+
         const data = await fetchProductDetailsApi(id);
 
         setProduct({
           ...data,
-          itemName: data.name, //  mapping fix
+          itemName: data.name,
         });
       } catch (err) {
         console.error("Failed to fetch product", err);
@@ -61,15 +69,22 @@ const ProductListView: React.FC = () => {
     if (id) fetchData();
   }, [id]);
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="p-6 animate-pulse">
+        <div className="h-64 bg-gray-200 rounded mb-4"></div>
+        <div className="h-6 bg-gray-200 w-1/2 mb-2"></div>
+        <div className="h-6 bg-gray-200 w-1/3"></div>
+      </div>
+    );
+  }
 
   if (!product)
     return (
       <div className="p-6">{productText.PRODUCT_LIST_VIEW.NO_PRODUCT}</div>
     );
 
-  //  IMAGE HANDLING
-
+  // IMAGE HANDLING
   const images =
     product.images && product.images.length > 0
       ? product.images.map((img) => img.imageUrl)
@@ -77,10 +92,7 @@ const ProductListView: React.FC = () => {
         ? [product.imageUrl]
         : [];
 
-  console.log("images", images);
-
-  //  SIMILAR PRODUCTS
-
+  // SIMILAR PRODUCTS
   const similarProducts = allProducts.filter(
     (p) => p.category === product.category && p.id !== product.id,
   );
@@ -89,26 +101,24 @@ const ProductListView: React.FC = () => {
 
   const visibleOffers = showAllOffers ? TEXT.OFFERS : TEXT.OFFERS.slice(0, 3);
 
+  // ❌ OLD REDUX CHECK
   const isInCart = cartItems.some(
     (item) => item.id === product.id && item.sellerName === product.sellerName,
   );
 
-  //  HANDLERS
+  const handleAddToCart = async () => {
+    try {
+      await addToCartApi({
+        productId: product.id,
+        quantity: 1,
+      });
 
-  const handleAddToCart = () => {
-    const productToAdd = {
-      id: product.id,
-      itemName: product.itemName,
-      price: Number(product.price),
-      imageUrl: images[0] ?? "",
-      sellerName: product.sellerName ?? "Unknown Seller",
-      location: product.location ?? "",
-      category: product.category,
-      quantity: 1,
-    };
+      window.dispatchEvent(new Event("cartUpdated"));
 
-    dispatch(addToCart(productToAdd));
-    navigate("/addtocart");
+      navigate("/addtocart");
+    } catch (err) {
+      console.error("Add to cart failed", err);
+    }
   };
 
   const handleBuyNow = () => {
@@ -148,11 +158,9 @@ const ProductListView: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  //  UI (UNCHANGED)
-
   return (
     <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 min-h-screen">
-      {/* Top Bar */}
+      {/* TOP BAR */}
       <div className="sticky top-[82px] border-b border-gray-200 pt-2">
         <div className="flex items-center justify-between max-w-[1200px] mx-auto">
           <button
@@ -171,11 +179,7 @@ const ProductListView: React.FC = () => {
             <div className="border relative flex justify-center items-center w-full min-h-[320px]">
               {images.length > 0 ? (
                 <div className="w-full">
-                  <Slider
-                    ref={sliderRef}
-                    {...sliderSettings}
-                    className="w-full"
-                  >
+                  <Slider ref={sliderRef} {...sliderSettings}>
                     {images.map((img, idx) => (
                       <div key={idx}>
                         <div className="flex justify-center items-center w-full h-[300px]">
@@ -189,13 +193,11 @@ const ProductListView: React.FC = () => {
                   </Slider>
                 </div>
               ) : (
-                // 🔥 PLACEHOLDER (important)
                 <div className="flex items-center justify-center h-[300px] text-gray-400">
                   No Image Available
                 </div>
               )}
 
-              {/* Arrows only if images exist */}
               {images.length > 0 && (
                 <>
                   <button
@@ -214,7 +216,6 @@ const ProductListView: React.FC = () => {
                 </>
               )}
 
-              {/* Favorite stays */}
               <div
                 onClick={() => setIsFavorite(!isFavorite)}
                 className="absolute top-2 right-2 p-2 bg-white rounded-full cursor-pointer shadow"
@@ -230,7 +231,7 @@ const ProductListView: React.FC = () => {
               <Button
                 onClick={handleAddToCart}
                 variant="addToCart"
-                disabled={isInCart}
+                disabled={isInCart} // optional
               >
                 {isInCart ? "Added to Cart" : TEXT.ADD_TO_CART}
               </Button>
@@ -241,15 +242,11 @@ const ProductListView: React.FC = () => {
             </div>
           </div>
 
-          {/* INFO SECTION */}
+          {/* INFO */}
           <div className="lg:w-3/4">
             <h1 className="text-2xl font-bold">{product.itemName}</h1>
-
-            {/* <p className="mt-2 text-black">{product.description || ""}</p> */}
-
             <p className="mt-2 text-lg font-bold">₹{product.price}</p>
 
-            {/* OFFERS */}
             <div className="mt-4">
               <h2>{TEXT.AVAILABLE_OFFERS}</h2>
 

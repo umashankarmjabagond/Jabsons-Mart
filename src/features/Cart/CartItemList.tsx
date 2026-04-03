@@ -32,8 +32,9 @@ export default function CartItemList({
         items.map((item) => (
           <div
             key={item.cartId}
-            className="flex items-start bg-white p-2 md:p-4  shadow rounded gap-2 md:gap-4 "
+            className="flex items-start bg-white p-2 md:p-4 shadow rounded gap-2 md:gap-4"
           >
+            {/* CHECKBOX */}
             <div className="pt-1">
               <input
                 type="checkbox"
@@ -43,41 +44,47 @@ export default function CartItemList({
               />
             </div>
 
+            {/* IMAGE + QUANTITY */}
             <div className="flex flex-col">
               <img
                 src={item.imageUrl}
                 alt={item.itemName}
-                className="w-20 h-15 md:w-24 md:h-18  object-cover border bg-white"
+                className="w-20 h-15 md:w-24 md:h-18 object-cover border bg-white"
               />
+
               <div className="mt-2 flex items-center justify-center gap-2 text-gray-600">
                 <Button
                   variant="circle"
                   size="sm"
                   className="rounded-full p-1"
-                  onClick={() => onDecrement(item.cartId!)}
+                  onClick={() => onDecrement(item)} // 🔥 CHANGED
                 >
                   −
                 </Button>
+
                 <span className="px-2 text-base text-black-900">
                   {item.quantity}
                 </span>
+
                 <Button
                   variant="circle"
                   size="sm"
                   className="rounded-full p-1"
-                  onClick={() => onIncrement(item.cartId!)}
+                  onClick={() => onIncrement(item)} // 🔥 CHANGED
                 >
                   +
                 </Button>
               </div>
             </div>
 
+            {/* DETAILS */}
             <div className="flex-1 flex flex-col justify-between">
               <div className="flex justify-between mb-6">
                 <div className="text-left">
                   <h3 className="font-semibold text-xs md:text-sm">
                     {item.itemName}
                   </h3>
+
                   <p className="text-sm text-gray-500 mt-1">
                     {t("CART.seller")}
                     <span className="font-medium text-xs md:text-sm text-gray-700">
@@ -85,11 +92,13 @@ export default function CartItemList({
                     </span>
                   </p>
                 </div>
-                <p className="text-xs md:text-sm  text-gray-500">
+
+                <p className="text-xs md:text-sm text-gray-500">
                   {t("CART.deliveryBy")}
                 </p>
               </div>
 
+              {/* ACTIONS */}
               <div className="flex justify-between items-center pt-2">
                 <div className="flex gap-4">
                   <Button
@@ -100,16 +109,18 @@ export default function CartItemList({
                   >
                     {t("CART.saveForLater")}
                   </Button>
+
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     className="!text-black-900 px-2 text-xs md:text-sm"
-                    onClick={() => onRemove(item.cartId!)}
+                    onClick={() => onRemove(item.cartId!)} // ✅ SAME
                   >
                     {t("CART.remove")}
                   </Button>
                 </div>
+
                 <div className="text-lg font-bold">
                   ₹{item.price * item.quantity}
                 </div>
