@@ -495,7 +495,7 @@ export const mapApiProductToUiProduct = (apiProduct: ApiProduct): Product => {
     id: apiProduct.id,
     itemName: apiProduct.name,
     price: apiProduct.price,
-    imageUrl: apiProduct.image,
+    imageUrl: apiProduct.image_url,
     location: apiProduct.location,
     sellerName: apiProduct.seller_name,
     category: apiProduct.category,

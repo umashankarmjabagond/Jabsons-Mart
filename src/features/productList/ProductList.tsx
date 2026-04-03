@@ -10,6 +10,7 @@ const ProductList: React.FC<ProductListProps> = ({
   loading,
   error,
 }) => {
+  console.log("products in product list", products);
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -1,13 +1,7 @@
-import React, { useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
-import {
-  Heart,
-  ShoppingCart,
-  Zap,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import productText from "@/locales/en.json";
@@ -24,12 +18,17 @@ import { RootState } from "@/redux/store";
 import SimilarProducts from "./SimilarProducts";
 import { ROUTES } from "@/constants/routeConstants";
 import type { Product } from "@/types/productTypes";
+import { fetchProductDetailsApi } from "@/services/product.service";
 
 const ProductListView: React.FC = () => {
-  const { state } = useLocation();
-  const supplier = state?.supplier;
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { id } = useParams();
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [isFavorite, setIsFavorite] = useState(false); // ✅ NOW USED
   const [showAllOffers, setShowAllOffers] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,16 +40,85 @@ const ProductListView: React.FC = () => {
     (state: RootState) => state.products.allProducts,
   );
 
+  //  FETCH PRODUCT DETAILS
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchProductDetailsApi(id);
+
+        setProduct({
+          ...data,
+          itemName: data.name, //  mapping fix
+        });
+      } catch (err) {
+        console.error("Failed to fetch product", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchData();
+  }, [id]);
+
+  if (loading) return <div className="p-6">Loading...</div>;
+
+  if (!product)
+    return (
+      <div className="p-6">{productText.PRODUCT_LIST_VIEW.NO_PRODUCT}</div>
+    );
+
+  //  IMAGE HANDLING
+
+  const images =
+    product.images && product.images.length > 0
+      ? product.images.map((img) => img.imageUrl)
+      : product.imageUrl
+        ? [product.imageUrl]
+        : [];
+
+  console.log("images", images);
+
+  //  SIMILAR PRODUCTS
+
+  const similarProducts = allProducts.filter(
+    (p) => p.category === product.category && p.id !== product.id,
+  );
+
+  const TEXT = productText.PRODUCT_LIST_VIEW;
+
+  const visibleOffers = showAllOffers ? TEXT.OFFERS : TEXT.OFFERS.slice(0, 3);
+
+  const isInCart = cartItems.some(
+    (item) => item.id === product.id && item.sellerName === product.sellerName,
+  );
+
+  //  HANDLERS
+
+  const handleAddToCart = () => {
+    const productToAdd = {
+      id: product.id,
+      itemName: product.itemName,
+      price: Number(product.price),
+      imageUrl: images[0] ?? "",
+      sellerName: product.sellerName ?? "Unknown Seller",
+      location: product.location ?? "",
+      category: product.category,
+      quantity: 1,
+    };
+
+    dispatch(addToCart(productToAdd));
+    navigate("/addtocart");
+  };
+
   const handleBuyNow = () => {
     const buyNowItem: CardProduct = {
       id: product.id,
       itemName: product.itemName,
       price: Number(product.price),
-      imageUrl: Array.isArray(product.imageUrl)
-        ? product.imageUrl[0]
-        : (product.imageUrl ?? ""),
-      sellerName: supplier?.sellerName ?? "Unknown Seller",
-      location: supplier?.location ?? "",
+      imageUrl: images[0] ?? "",
+      sellerName: product.sellerName ?? "Unknown Seller",
+      location: product.location ?? "",
       quantity: 1,
     };
 
@@ -65,43 +133,6 @@ const ProductListView: React.FC = () => {
     });
   };
 
-  if (!supplier) {
-    return (
-      <div className="p-6">{productText.PRODUCT_LIST_VIEW.NO_PRODUCT}</div>
-    );
-  }
-
-  const similarProducts = allProducts.filter(
-    (p) => p.category === supplier.category && p.id !== supplier.id,
-  );
-
-  const product = supplier;
-  const TEXT = productText.PRODUCT_LIST_VIEW;
-  const visibleOffers = showAllOffers ? TEXT.OFFERS : TEXT.OFFERS.slice(0, 3);
-  const isInCart = cartItems.some(
-    (item) => item.id === product.id && item.sellerName === supplier.sellerName,
-  );
-
-  const handleAddToCart = () => {
-    const productToAdd = {
-      id: product.id,
-      itemName: product.itemName,
-      price: Number(product.price),
-      imageUrl: Array.isArray(product.imageUrl)
-        ? product.imageUrl[0]
-        : (product.imageUrl ?? ""), // 🔥 fallback
-      sellerName: supplier?.sellerName ?? "Unknown Seller", // 🔥 fallback
-      location: supplier?.location ?? "",
-      category: product.category,
-      quantity: 1,
-    };
-
-    console.log("Adding to cart:", productToAdd);
-
-    dispatch(addToCart(productToAdd));
-    navigate("/addtocart");
-  };
-
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -112,22 +143,21 @@ const ProductListView: React.FC = () => {
     autoplay: false,
     pauseOnHover: true,
   };
-  const images = Array.isArray(product.imageUrl)
-    ? product.imageUrl
-    : [product.imageUrl];
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  //  UI (UNCHANGED)
+
   return (
-    <div className="bg-gray-200  min-h-screen">
-      {/* Sticky topbar with back and title */}
-      <div className="sticky top-[82px] bg-gray-200 border-b border-gray-200 pt-2">
+    <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 min-h-screen">
+      {/* Top Bar */}
+      <div className="sticky top-[82px] border-b border-gray-200 pt-2">
         <div className="flex items-center justify-between max-w-[1200px] mx-auto">
           <button
             onClick={() => navigate(ROUTES.SEARCH_PAGE)}
-            className="text-green-700 text-sm font-medium hover:underline inline-flex items-center"
+            className="text-green-700 text-sm font-medium hover:underline"
           >
             ← Back to Products
           </button>
@@ -136,121 +166,110 @@ const ProductListView: React.FC = () => {
 
       <div className="p-4">
         <div className="flex flex-col lg:flex-row bg-white shadow-md p-6 gap-6 text-left">
-          <div className="lg:w-2/4 flex flex-col justify-start lg:sticky lg:top-6 lg:self-start">
-            <div className="border relative flex justify-center items-center">
-              <Slider ref={sliderRef} {...sliderSettings} className="w-full">
-                {images.map((img: string, idx: number) => (
-                  <div
-                    key={idx}
-                    className="flex justify-center items-center w-full lg:h-[300px]"
+          {/* IMAGE SECTION */}
+          <div className="lg:w-2/4 flex flex-col">
+            <div className="border relative flex justify-center items-center w-full min-h-[320px]">
+              {images.length > 0 ? (
+                <div className="w-full">
+                  <Slider
+                    ref={sliderRef}
+                    {...sliderSettings}
+                    className="w-full"
                   >
-                    <div className="flex justify-center items-center w-full h-full">
-                      <img
-                        src={img}
-                        alt={`${product.itemName} ${idx + 1}`}
-                        className="w-full md:max-w-[350px] md:h-[300px] max-w-[200px] h-[200px] object-contain"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </Slider>
+                    {images.map((img, idx) => (
+                      <div key={idx}>
+                        <div className="flex justify-center items-center w-full h-[300px]">
+                          <img
+                            src={img}
+                            className="max-w-[350px] max-h-[100%] object-contain"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </Slider>
+                </div>
+              ) : (
+                // 🔥 PLACEHOLDER (important)
+                <div className="flex items-center justify-center h-[300px] text-gray-400">
+                  No Image Available
+                </div>
+              )}
 
-              <button
-                onClick={() => sliderRef.current?.slickPrev()}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-100 p-2 rounded-full shadow-lg z-10"
-              >
-                <ChevronLeft className="w-2 h-2 md:w-5 md:h-5" />
-              </button>
+              {/* Arrows only if images exist */}
+              {images.length > 0 && (
+                <>
+                  <button
+                    onClick={() => sliderRef.current?.slickPrev()}
+                    className="absolute left-2 top-1/2 bg-gray-100 p-2 rounded-full"
+                  >
+                    <ChevronLeft />
+                  </button>
 
-              <button
-                onClick={() => sliderRef.current?.slickNext()}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-100 p-2 rounded-full shadow-lg z-10"
-              >
-                <ChevronRight className="w-2 h-2 md:w-5 md:h-5" />
-              </button>
+                  <button
+                    onClick={() => sliderRef.current?.slickNext()}
+                    className="absolute right-2 top-1/2 bg-gray-100 p-2 rounded-full"
+                  >
+                    <ChevronRight />
+                  </button>
+                </>
+              )}
 
+              {/* Favorite stays */}
               <div
                 onClick={() => setIsFavorite(!isFavorite)}
-                className="absolute md:top-2 top-1 right-2 p-1 sm:p-2 rounded-full bg-white border-2 border-gray-100 shadow-xl cursor-pointer"
+                className="absolute top-2 right-2 p-2 bg-white rounded-full cursor-pointer shadow"
               >
                 <Heart
-                  className="w-4 h-4 sm:w-4 sm:h-4"
-                  color={isFavorite ? "red" : "lightgray"}
-                  fill={isFavorite ? "red" : "lightgray"}
+                  color={isFavorite ? "red" : "gray"}
+                  fill={isFavorite ? "red" : "none"}
                 />
               </div>
             </div>
 
             <div className="mt-6 flex gap-4">
               <Button
-                onClick={() => handleAddToCart()}
+                onClick={handleAddToCart}
                 variant="addToCart"
-                leftIcon={<ShoppingCart size={20} />}
                 disabled={isInCart}
               >
                 {isInCart ? "Added to Cart" : TEXT.ADD_TO_CART}
               </Button>
-              <Button
-                variant="buyNow"
-                leftIcon={<Zap size={20} />}
-                onClick={handleBuyNow}
-              >
+
+              <Button onClick={handleBuyNow} variant="buyNow">
                 {TEXT.BUY_NOW}
               </Button>
             </div>
           </div>
 
+          {/* INFO SECTION */}
           <div className="lg:w-3/4">
             <h1 className="text-2xl font-bold">{product.itemName}</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="bg-green-600 text-white px-2 py-0.5 md:text-sm text-xs w-[70px] h-[30px] rounded text-center flex justify-center items-center">
-                {supplier.rating} ★
-              </span>
-              <span className="text-gray-800 text-sm">
-                {supplier.sellerName} • {supplier.location}
-              </span>
-            </div>
-            <div className="mt-3">
-              <span className="md:text-3xl text-2xl font-bold text-black">
-                ₹{product.price}
-              </span>
-              <span className="ml-2 text-black line-through">
-                ₹{Number(product.price) * 2}
-              </span>
-              <span className="ml-2 text-green-600 font-medium">46% off</span>
-            </div>
-            <p className="mt-2 text-black text-sm">
-              {product.quantity} • {TEXT.VERIFIED}{" "}
-              {supplier.verified ? TEXT.YES : TEXT.NO}
-            </p>
-            <p className="mt-2 text-black text-sm">{TEXT.SECURE_DELIVERY}</p>
-            <p className="mt-2 text-black text-sm">
-              {TEXT.PAY_EXTRA} {product.price + 100}
-            </p>
+
+            {/* <p className="mt-2 text-black">{product.description || ""}</p> */}
+
+            <p className="mt-2 text-lg font-bold">₹{product.price}</p>
+
+            {/* OFFERS */}
             <div className="mt-4">
-              <h2 className="font-medium">{TEXT.AVAILABLE_OFFERS}</h2>
-              <div className="mt-1 space-y-2">
-                {visibleOffers.map((offer, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-start gap-2 text-sm text-gray-700"
-                  >
-                    <img src={Pointer} alt="offer" className="w-4 h-4 mt-0.5" />
-                    <span>{offer}</span>
-                  </div>
-                ))}
-              </div>
+              <h2>{TEXT.AVAILABLE_OFFERS}</h2>
+
+              {visibleOffers.map((offer, idx) => (
+                <div key={idx} className="flex gap-2">
+                  <img src={Pointer} className="w-4 h-4" />
+                  <span>{offer}</span>
+                </div>
+              ))}
+
               <button
                 onClick={() => setShowAllOffers(!showAllOffers)}
-                className="mt-2 text-blue-600 text-sm font-medium hover:underline"
+                className="text-blue-600"
               >
-                {showAllOffers
-                  ? TEXT.SHOW_LESS
-                  : `Show More (${TEXT.OFFERS.length - 3})`}
+                {showAllOffers ? TEXT.SHOW_LESS : "Show More"}
               </button>
             </div>
           </div>
         </div>
+
         <SimilarProducts
           products={similarProducts}
           currentProductName={product.itemName}
@@ -259,8 +278,7 @@ const ProductListView: React.FC = () => {
 
       <button
         onClick={handleScrollToTop}
-        className="fixed bottom-8 right-8 z-50 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 focus:outline-none"
-        aria-label="Scroll to top"
+        className="fixed bottom-8 right-8 bg-green-600 text-white px-4 py-2 rounded-full"
       >
         ↑ Top
       </button>
