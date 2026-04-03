@@ -30,3 +30,12 @@ export const searchProductsAPI = async (query: string) => {
     throw err.response ? err.response.data : { message: err.message };
   }
 };
+
+export const fetchProductDetailsApi = async (id: string | undefined) => {
+  try {
+    const response = await API.get(`/products/productDetails${id}`);
+    return response.data;
+  } catch (err: any) {
+    throw err.response ? err.response.data : { message: err.message };
+  }
+};

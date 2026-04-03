@@ -25,7 +25,7 @@ const SimilarProducts: React.FC<SimilarProductsProps> = ({
 
   return (
     <div className="mt-8 bg-white p-4 rounded-2xl border border-gray-200">
-      <h2 className="text-xl font-semibold mb-4">Similar Products</h2>
+      <h2 className="text-lg font-bold mb-4 text-start">Similar Products</h2>
       <div
         className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
         style={{ gridAutoRows: "1fr" }}
@@ -38,11 +38,7 @@ const SimilarProducts: React.FC<SimilarProductsProps> = ({
               key={`${product.itemName ?? "no-name"}-${
                 product.sellerName ?? "no-seller"
               }`}
-              onClick={() =>
-                navigate(`/product/${product.id}`, {
-                  state: { supplier: product },
-                })
-              }
+              onClick={() => navigate(`/product/${product.id}`)}
               className="bg-white rounded-xl shadow hover:shadow-md transition-all border border-gray-200 flex flex-col h-full p-2 sm:p-2 cursor-pointer w-full"
             >
               <div className="relative h-30 sm:h-30 md:h-36 w-full bg-gray-100 rounded-lg overflow-hidden">
