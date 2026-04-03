@@ -24,6 +24,7 @@ export interface Product {
   price?: number | string;
   quantity?: number;
   imageUrl?: string;
+  images?: { imageUrl: string; isPrimary?: boolean }[];
   location?: string;
   sellerName?: string;
   verified?: boolean;
@@ -69,7 +70,7 @@ export type Section = {
 export interface ApiProduct {
   id: number;
   name: string;
-  image: string;
+  image_url: string;
   price: string;
   category: string;
   seller_name?: string;

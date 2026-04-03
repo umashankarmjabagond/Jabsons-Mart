@@ -7,7 +7,7 @@ export interface PriceDetailsProps {
 }
 
 export interface CardProduct {
-  id: string;
+  id: string | number | undefined;
   cartId?: string;
   itemName: string;
   price: number;
