@@ -16,7 +16,6 @@ import {
 } from "react-icons/fa";
 
 import logo from "@assets/TradeHubFull.png";
-import { RootState } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
 import logosmalldevice from "@assets/TradehubSmall.png";
 import { Button } from "@components/common/ui/Button";
@@ -27,7 +26,6 @@ import {
   NavOption,
 } from "@/types/navbarTypes";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { getCart } from "@/services/cart.service";
 
 const NavIconButton: FC<NavIconButtonProps> = ({
