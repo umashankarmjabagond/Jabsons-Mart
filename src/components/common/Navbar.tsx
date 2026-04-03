@@ -28,6 +28,7 @@ import {
 } from "@/types/navbarTypes";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { getCart } from "@/services/cart.service";
 
 const NavIconButton: FC<NavIconButtonProps> = ({
   icon,
@@ -74,6 +75,7 @@ const Navbar: FC<NavbarProps> = ({
   const [signinOpen, setSigninOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [product, setProduct] = useState("");
+  const [cartCount, setCartCount] = useState(0);
 
   const desktopDropdownRef = useRef<HTMLDivElement | null>(null);
   const mobileDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -115,6 +117,36 @@ const Navbar: FC<NavbarProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const data = await getCart();
+        setCartCount(data.length);
+      } catch (err) {
+        console.error("Failed to fetch cart count", err);
+      }
+    };
+
+    fetchCartCount();
+  }, []);
+
+  useEffect(() => {
+    const handleCartUpdate = async () => {
+      try {
+        const data = await getCart();
+        setCartCount(data.length);
+      } catch (err) {
+        console.error("Cart update failed", err);
+      }
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, []);
+
   const handleSelect = (value: string) => {
     setSelectedValue(value);
     // Persist globally so it reflects on all pages
@@ -150,8 +182,8 @@ const Navbar: FC<NavbarProps> = ({
     }
   };
 
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const cartCount = cartItems.length;
+  // const cartItems = useSelector((state: RootState) => state.cart.items);
+  // const cartCount = cartItems.length;
 
   const getNavIcon = (value: NavOption["value"]) => {
     switch (value) {
