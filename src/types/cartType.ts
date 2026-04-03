@@ -21,8 +21,8 @@ export interface CartItemListProps {
   items: CardProduct[];
   checkedItems: string[];
   onCheckboxChange: (cartId: string) => void;
-  onIncrement: (cartId: string) => void;
-  onDecrement: (cartId: string) => void;
+  onIncrement: (item: any) => void;
+  onDecrement: (item: any) => void;
   onRemove: (cartId: string) => void;
 }
 
