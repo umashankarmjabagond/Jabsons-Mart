@@ -67,6 +67,10 @@ input[type="number"] {
 
 .animate-marquee {
   display: inline-flex;
-  min-width: 200%; /* 🔥 KEY FIX */
+  min-width: 200%;
   animation: marquee 30s linear infinite;
+}
+
+html {
+  scrollbar-gutter: stable;
 }

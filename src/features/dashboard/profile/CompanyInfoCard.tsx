@@ -1,202 +1,293 @@
 import { MdBusiness, MdEdit, MdLanguage } from "react-icons/md";
-import Modal from "@/components/common/modal/Modal";
-import { Button } from "@/components/common/ui/Button";
-import { Input } from "@/components/common/ui/Input";
-import { useState, useEffect } from "react";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuPanelTop } from "react-icons/lu";
-import { getCompanies, updateCompany } from "@services/profile";
-import { PROFILE_PAGE_TXT } from "@constants/textConstants";
 import { FaFacebook } from "react-icons/fa";
 import { AiFillGoogleCircle, AiOutlineLink } from "react-icons/ai";
 import { FaSquareInstagram } from "react-icons/fa6";
 
-export const CompanyInfoCard = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import { useState, useEffect } from "react";
+import { Button } from "@/components/common/ui/Button";
+import Modal from "@/components/common/modal/Modal";
+import { Input } from "@/components/common/ui/Input";
+import { getCompanies, updateCompany } from "@/services/profile";
 
-  const [formData, setFormData] = useState({
-    companyName: "",
-    companyType: "",
-    gstNumber: "",
-    companyAddress: "",
+interface CompanyProfile {
+  company_name: string;
+  gstin: string;
+  website: string;
+  pan: string;
+  facebook: string;
+  instagram: string;
+  google_business: string;
+}
+
+/* ---------------- FIELDS ---------------- */
+const companyFields = [
+  {
+    key: "company_name",
+    label: "Company Name",
+    requiredIndicator: true,
+    placeholder: "Enter company name",
+  },
+  {
+    key: "gstin",
+    label: "GSTIN",
+    requiredIndicator: true,
+    placeholder: "Enter GSTIN",
+  },
+  {
+    key: "company_website",
+    label: "Company Website",
+    placeholder: "Enter website",
+    requiredIndicator: false,
+  },
+  {
+    key: "pan",
+    label: "PAN",
+    requiredIndicator: true,
+    placeholder: "Enter PAN",
+  },
+  {
+    key: "facebook_link",
+    label: "Facebook Link",
+    placeholder: "Enter Facebook link",
+    requiredIndicator: false,
+  },
+  {
+    key: "instagram_link",
+    label: "Instagram Link",
+    placeholder: "Enter Instagram link",
+    requiredIndicator: false,
+  },
+  {
+    key: "google_business_link",
+    label: "Google Business Link",
+    full: true,
+    placeholder: "Enter Google link",
+    requiredIndicator: false,
+  },
+];
+
+export const CompanyInfoCard = () => {
+  const [company, setCompany] = useState<CompanyProfile>({
+    company_name: "",
+    gstin: "",
+    website: "",
     pan: "",
     facebook: "",
     instagram: "",
-    googleBusiness: "",
+    google_business: "",
   });
 
-  const fetchCompanyData = async () => {
-    try {
-      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      const userId = storedUser?.user?.id;
+  const [formData, setFormData] = useState(company);
+  const [modalErrors, setModalErrors] = useState<any>({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
-      if (!userId) return;
-
-      const res = await getCompanies(userId);
-      if (res && res.company) {
-        const company = res.company;
-        setFormData({
-          companyName: company.companyName || "",
-          companyType: company.companyType || "",
-          gstNumber: company.gstNumber || "",
-          companyAddress: company.address || "",
-          pan: company.pan || "",
-          facebook: company.facebook || "",
-          instagram: company.instagram || "",
-          googleBusiness: company.googleBusiness || "",
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching company data:", error);
-    }
-  };
-
+  /* ---------------- FETCH ---------------- */
   useEffect(() => {
-    fetchCompanyData();
+    fetchCompany();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleUpdate = async () => {
+  const fetchCompany = async () => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      const userId = storedUser?.user?.id;
-      if (!userId) return;
+      const data = await getCompanies();
 
-      const payload = {
-        id: userId,
-        companyName: formData.companyName,
-        companyType: formData.companyType,
-        gstNumber: formData.gstNumber,
-        address: formData.companyAddress,
-        pan: formData.pan,
-        facebook: formData.facebook,
-        instagram: formData.instagram,
-        googleBusiness: formData.googleBusiness,
+      const mapped = {
+        company_name: data.company_name || "",
+        gstin: data.gstin || "",
+        website: data.website || "",
+        pan: data.pan || "",
+        facebook: data.facebook || "",
+        instagram: data.instagram || "",
+        google_business: data.google_business || "",
       };
 
-      await updateCompany(payload);
-      await fetchCompanyData();
-      setIsOpen(false);
-    } catch (error) {
-      console.error("Failed to update company info:", error);
+      setCompany(mapped);
+      setFormData(mapped);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
+  /* ---------------- CHANGE ---------------- */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setModalErrors((prev: any) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  /* ---------------- VALIDATION ---------------- */
+  const validateForm = () => {
+    const errors: any = {};
+
+    if (!formData.company_name)
+      errors.company_name = "Company name is required";
+    if (!formData.gstin) errors.gstin = "GSTIN is required";
+    if (!formData.pan) errors.pan = "PAN is required";
+
+    return errors;
+  };
+
+  /* ---------------- UPDATE ---------------- */
+  const handleUpdate = async () => {
+    const errors = validateForm();
+    setModalErrors(errors);
+
+    if (Object.keys(errors).length > 0) return;
+
+    try {
+      setUpdating(true);
+      await updateCompany(formData);
+
+      setCompany((prev) => ({
+        ...prev,
+        ...formData,
+      }));
+
+      setIsOpen(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        Loading company info...
+      </div>
+    );
+  }
+
   return (
-    <div className="relative  border bg-white rounded-lg shadow-md px-3 py-4 mt-4">
+    <div className="relative border bg-white rounded-lg shadow-md px-3 py-4 mt-4">
+      {/* HEADER */}
       <div className="flex justify-between items-center border-b pb-3 mb-4">
         <h2 className="text-lg font-semibold text-black p-2">
-          {PROFILE_PAGE_TXT.COMPANY_INFO}
+          Company Information
         </h2>
+
         <div
-          // onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpen(true)}
           className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
         >
           <MdEdit />
-          {PROFILE_PAGE_TXT.EDIT_BTN}
+          Edit
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row flex-wrap justify-start gap-8 sm:gap-12 lg:gap-18">
-        <div className="flex flex-col items-start space-y-6 sm:space-y-8 p-2 sm:p-4 md:p-5">
+      {/* CONTENT */}
+      <div className="grid sm:grid-cols-2 gap-y-6 gap-x-12">
+        {/* LEFT */}
+        <div className="flex flex-col items-start space-y-6 sm:space-y-8 ">
+          {/* Company Name */}
           <div className="flex items-start gap-3">
-            <MdBusiness className="w-8 h-8 text-green-500" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-semibold text-black">
-                {PROFILE_PAGE_TXT.COMPANY_NAME}
-              </span>
-              <span className="text-sm text-black">{formData.companyName}</span>
+            <MdBusiness className="w-8 h-6 text-green-500" />
+            <div>
+              <p className="text-sm text-gray-500 text-start">Company Name</p>
+              <p className="font-semibold text-start">
+                {" "}
+                {company.company_name}
+              </p>
             </div>
           </div>
 
+          {/* GST */}
           <div className="flex items-start gap-3">
-            <IoNewspaperOutline className="w-8 h-8 text-blue-400" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-semibold text-black">
-                {PROFILE_PAGE_TXT.GST}
-              </span>
-              <span className="text-sm text-black">{formData.gstNumber}</span>
+            <IoNewspaperOutline className="w-8 h-6 text-blue-400" />
+            <div>
+              <p className="text-sm text-gray-500 text-start">GSTIN</p>
+              <p className="font-semibold text-start"> {company.gstin}</p>
             </div>
           </div>
 
+          {/* SOCIAL LINKS (EXACT OLD UI) */}
           <div className="flex items-start gap-3">
-            <AiOutlineLink className="w-6 h-6 text-blue-500" />
-            <div className="flex flex-col items-start">
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 mt-2">
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FaFacebook className="text-blue-950 w-5 h-5" />
-                  </a>
-                  <span className="text-sm text-black">
-                    {PROFILE_PAGE_TXT.FB}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FaSquareInstagram className="text-pink-500 w-5 h-5" />
-                  </a>
-                  <span className="text-sm text-black">
-                    {PROFILE_PAGE_TXT.IG}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://google.com/business"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <AiFillGoogleCircle className="text-blue-800 w-5 h-5" />
-                  </a>
-                  <span className="text-sm text-black">
-                    {PROFILE_PAGE_TXT.GL_BUSINESS}
-                  </span>
-                </div>
+            <AiOutlineLink className="w-6 h-6 text-blue-500 item-center" />
+
+            <div className="flex flex-wrap items-center gap-6">
+              <div className="flex items-center gap-2">
+                <a
+                  href={company.facebook || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => !company.facebook && e.preventDefault()}
+                >
+                  <FaFacebook className="text-blue-950 w-5 h-5" />
+                </a>
+                <span className="text-sm text-black">FB</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <a
+                  href={company.instagram || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => !company.instagram && e.preventDefault()}
+                >
+                  <FaSquareInstagram className="text-pink-500 w-5 h-5" />
+                </a>
+                <span className="text-sm text-black">IG</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <a
+                  href={company.google_business || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) =>
+                    !company.google_business && e.preventDefault()
+                  }
+                >
+                  <AiFillGoogleCircle className="text-blue-800 w-5 h-5" />
+                </a>
+                <span className="text-sm text-black">Google</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-start space-y-10 p-5">
+        {/* RIGHT */}
+        <div className="flex flex-col items-start space-y-10">
+          {/* Website */}
           <div className="flex items-start gap-3">
-            <MdLanguage className="w-7 h-8 text-blue-500" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-semibold text-black">
-                {PROFILE_PAGE_TXT.WEBSITE}
-              </span>
-              <span className="text-sm text-black text-left">
-                {formData.companyAddress}
-              </span>
+            <MdLanguage className="w-6 h-6 text-blue-500" />
+            <div>
+              <p className="text-sm text-gray-500 text-start">Website</p>
+              <p className="font-semibold">{company.website}</p>
             </div>
           </div>
 
+          {/* PAN */}
           <div className="flex items-start gap-3">
             <LuPanelTop className="w-6 h-6 text-green-400" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-semibold text-black">
-                {PROFILE_PAGE_TXT.PAN}
-              </span>
-              <span className="text-sm text-black">{formData.pan}</span>
+            <div>
+              <p className="text-sm text-gray-500 text-start">PAN</p>
+              <p className="font-semibold">{company.pan}</p>
             </div>
           </div>
         </div>
       </div>
 
+      {/* MODAL */}
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         title="Edit Company Info"
-        showClose={true}
+        showClose
         footer={
           <>
             <Button
@@ -206,76 +297,38 @@ export const CompanyInfoCard = () => {
             >
               Cancel
             </Button>
-            <Button onClick={handleUpdate} className="w-full m-auto">
-              Update
+            <Button
+              onClick={handleUpdate}
+              className="w-full"
+              disabled={updating}
+            >
+              {updating ? "Updating..." : "Update"}
             </Button>
           </>
         }
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-          <Input
-            label={PROFILE_PAGE_TXT.COMPANY_NAME}
-            name="companyName"
-            placeholder={PROFILE_PAGE_TXT.COMPANY_NAME}
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.companyName}
-            onChange={handleChange}
-          />
-          <Input
-            label={PROFILE_PAGE_TXT.GST}
-            name="gstNumber"
-            placeholder={PROFILE_PAGE_TXT.GST}
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.gstNumber}
-            onChange={handleChange}
-          />
-          <Input
-            label={PROFILE_PAGE_TXT.WEBSITE}
-            name="companyAddress"
-            placeholder={PROFILE_PAGE_TXT.WEBSITE}
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.companyAddress}
-            onChange={handleChange}
-          />
-          <Input
-            label={PROFILE_PAGE_TXT.PAN}
-            name="pan"
-            placeholder={PROFILE_PAGE_TXT.PAN}
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.pan}
-            onChange={handleChange}
-          />
-          <Input
-            label="Facebook Link"
-            name="facebook"
-            placeholder="Enter Facebook link"
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.facebook}
-            onChange={handleChange}
-          />
-          <Input
-            label="Instagram Link"
-            name="instagram"
-            placeholder="Enter Instagram link"
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.instagram}
-            onChange={handleChange}
-          />
-          <Input
-            label="Google Business Link"
-            name="googleBusiness"
-            placeholder="Enter Google link"
-            requiredIndicator={false}
-            className="px-4 py-2"
-            value={formData.googleBusiness}
-            onChange={handleChange}
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-h-[170px]">
+          {companyFields.map(
+            ({ key, label, full, requiredIndicator, placeholder }) => (
+              <div
+                key={key}
+                className={`flex flex-col ${full ? "sm:col-span-2" : ""}`}
+              >
+                <Input
+                  requiredIndicator={requiredIndicator}
+                  placeholder={placeholder}
+                  label={label}
+                  name={key}
+                  value={formData[key as keyof typeof formData]}
+                  onChange={handleChange}
+                  className={`px-4 py-2 ${modalErrors[key] ? "border-red-500" : ""}`}
+                />
+                <p className="text-red-500 text-sm min-h-[1.25rem]">
+                  {modalErrors[key] || ""}
+                </p>
+              </div>
+            ),
+          )}
         </div>
       </Modal>
     </div>
