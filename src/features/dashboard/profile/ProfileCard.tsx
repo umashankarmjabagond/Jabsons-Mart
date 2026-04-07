@@ -5,101 +5,99 @@ import { CiLocationOn } from "react-icons/ci";
 import { LuCalendarCheck } from "react-icons/lu";
 import { RiStarSmileLine } from "react-icons/ri";
 import { ProfileCardProps } from "@/types/profileTypes";
+import { getUserProfile } from "@/services/profile";
 // import { getUserProfile } from "@/services/profile";
-
-const mockProfile: ProfileCardProps = {
-  name: "Umashankar Muragyappa Jabagond",
-  location: "Hyderabad, India",
-  memberSince: "2020-01-01T00:00:00Z",
-  rating: "4.5",
-  address: "Hyderabad, India",
-  createdAt: "2020-01-01T00:00:00Z",
-};
 
 const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   const { t } = useTranslation();
 
   const [profile, setProfile] = useState<ProfileCardProps | null>(null);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setProfile(mockProfile);
+    fetchProfile();
   }, []);
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-  //       const userId = storedUser?.user?.id;
 
-  //       if (!userId) {
-  //         setError(t("PROFILE.USER_ID_REQUIRED"));
-  //         setLoading(false);
-  //         return;
-  //       }
+  const fetchProfile = async () => {
+    try {
+      const data = await getUserProfile();
+      setProfile({
+        name: data.name,
+        address: data.address || "",
+        location: `${data.city || ""}, ${data.country || ""}`,
+        rating: data.rating || 0,
+        createdAt: data.created_at,
+        memberSince: data.created_at,
+        profilePic: data.profile_pic,
+      });
+    } catch (error) {
+      console.error("Profile fetch error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  //       const data = await getUserProfile(userId);
-  //       setProfile(data.user);
-  //     } catch (err: any) {
-  //       setError(
-  //         err.response?.data?.message ||
-  //           err.message ||
-  //           t("PROFILE.FAILED_FETCH"),
-  //       );
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchProfile();
-  // }, [t]);
-
-  // if (loading) return <p>{t("PROFILE.LOADING_PROFILE")}...</p>;
-  // if (error)
-  //   return (
-  //     <p className="text-red-500">
-  //       {t("PROFILE.ERROR")}: {error}
-  //     </p>
-  //   );
+  if (loading) {
+    return (
+      <div className="p-6 bg-white rounded-lg shadow-md">
+        Loading profile...
+      </div>
+    );
+  }
 
   const {
     name = "",
-    createdAt = "N/A",
+    createdAt = "",
     rating = 0,
-    address = "N/A",
+    address = "",
+    profilePic,
   } = profile || {};
 
-  const memberSince = new Date(createdAt).toLocaleDateString();
+  const memberSince = createdAt
+    ? new Date(createdAt).toLocaleDateString()
+    : "N/A";
 
   return (
     <div className="relative flex flex-col md:flex-row flex-wrap items-center md:items-center justify-center md:justify-between bg-white border rounded-lg shadow-md p-4 sm:p-6 md:p-8 gap-6 w-full text-center md:text-left">
-      <div className="flex flex-col sm:flex-row items-center md:items-center justify-center md:justify-start text-center md:text-left gap-4">
-        <IoPersonCircleSharp className="w-24 h-24 text-black" />
+      {/* LEFT SECTION */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* PROFILE IMAGE */}
+        {profilePic ? (
+          <img
+            src={profilePic}
+            alt="profile"
+            className="w-24 h-24 rounded-full object-cover"
+          />
+        ) : (
+          <IoPersonCircleSharp className="w-24 h-24 text-black" />
+        )}
+
         <div className="flex flex-col">
           <p className="text-lg font-semibold text-black">{name}</p>
+
           <div className="flex items-center justify-center md:justify-start gap-2 text-black mt-1">
-            <CiLocationOn className="w-7 h-6" />
-            <div className="flex items-center gap-2 text-black mt-1">
-              <span>{address}</span>
-            </div>
+            <CiLocationOn className="w-6 h-6" />
+            <span>{address}</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 flex-wrap">
-        <LuCalendarCheck className="w-8 h-8 text-green-300" />
+      {/* MEMBER SINCE */}
+      <div className="flex items-center gap-3">
+        <LuCalendarCheck className="w-8 h-8 text-green-400" />
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-black">
             {t("PROFILE.MEMBER")}
           </span>
-          <span className="text-left font-bold">{memberSince}</span>
+          <span className="font-bold">{memberSince}</span>
         </div>
       </div>
 
-      <div className="flex flex-col items-center md:items-start justify-center text-center md:text-left gap-4 md:mr-10">
-        <div className="flex items-center gap-2 flex-wrap">
-          <RiStarSmileLine className="w-8 h-8 text-blue-300" />
-          <span>{rating}</span>
+      {/* RATING */}
+      <div className="flex flex-col items-center md:items-start gap-2 md:mr-10">
+        <div className="flex items-center gap-2">
+          <RiStarSmileLine className="w-8 h-8 text-blue-400" />
+          <span className="font-semibold">{rating}</span>
         </div>
       </div>
     </div>
