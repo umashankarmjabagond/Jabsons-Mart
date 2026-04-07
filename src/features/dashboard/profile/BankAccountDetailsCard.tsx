@@ -1,4 +1,4 @@
-import { useState, useEffect, JSX } from "react";
+import { useState, useEffect } from "react";
 import { BsBank2 } from "react-icons/bs";
 import { VscCodeOss } from "react-icons/vsc";
 import { MdEdit, MdOutlineAccountBox, MdSwitchAccount } from "react-icons/md";

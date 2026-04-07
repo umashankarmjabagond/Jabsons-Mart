@@ -156,7 +156,7 @@ export const ContactInfoCard: React.FC = () => {
         address: formData.address,
       };
 
-      const res = await editUserProfile(payload);
+      // const res = await editUserProfile(payload);
 
       setUser((prev) => ({
         ...prev,

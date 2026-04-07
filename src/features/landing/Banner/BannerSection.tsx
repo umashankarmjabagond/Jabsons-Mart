@@ -69,7 +69,7 @@ const BannerSection = () => {
           <Formik
             initialValues={{ product: "", mobile: "" }}
             validationSchema={validationSchema}
-            onSubmit={(values, { resetForm }) => {
+            onSubmit={(_, { resetForm }) => {
               alert(
                 `Thank you.
 We have received your enquiry , our team will contact you very soon.`,
