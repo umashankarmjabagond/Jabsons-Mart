@@ -36,7 +36,7 @@ const companyFields = [
     placeholder: "Enter GSTIN",
   },
   {
-    key: "company_website",
+    key: "website",
     label: "Company Website",
     placeholder: "Enter website",
     requiredIndicator: false,
@@ -48,19 +48,19 @@ const companyFields = [
     placeholder: "Enter PAN",
   },
   {
-    key: "facebook_link",
+    key: "facebook",
     label: "Facebook Link",
     placeholder: "Enter Facebook link",
     requiredIndicator: false,
   },
   {
-    key: "instagram_link",
+    key: "instagram",
     label: "Instagram Link",
     placeholder: "Enter Instagram link",
     requiredIndicator: false,
   },
   {
-    key: "google_business_link",
+    key: "google_business",
     label: "Google Business Link",
     full: true,
     placeholder: "Enter Google link",
@@ -149,15 +149,24 @@ export const CompanyInfoCard = () => {
 
     try {
       setUpdating(true);
-      await updateCompany(formData);
 
-      setCompany((prev) => ({
-        ...prev,
-        ...formData,
-      }));
+      const payload = {
+        company_name: formData.company_name.trim(),
+        gstin: formData.gstin.trim(),
+        website: formData.website?.trim() || null,
+        pan: formData.pan.trim(),
+        facebook: formData.facebook?.trim() || null,
+        instagram: formData.instagram?.trim() || null,
+        google_business: formData.google_business?.trim() || null,
+      };
+
+      const res = await updateCompany(payload);
+
+      setCompany(res); // ✅ TRUST BACKEND
+      setFormData(res);
 
       setIsOpen(false);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     } finally {
       setUpdating(false);

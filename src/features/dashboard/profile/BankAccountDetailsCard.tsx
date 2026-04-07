@@ -133,16 +133,24 @@ export const BankAccountDetailsCard: React.FC = () => {
 
       if (Object.keys(errors).length) return;
 
-      const loginStr = localStorage.getItem("user");
-      if (!loginStr) throw new Error("Login response not found");
+      const payload = {
+        ifsc_code: modalFormData.ifscCode?.trim(),
+        account_number: modalFormData.accountNumber?.trim(),
+        bank_name: modalFormData.bankName?.trim(),
+        account_holder_name: modalFormData.accountHolderName?.trim(),
+      };
 
-      const loginObj = JSON.parse(loginStr);
-      const userId = loginObj.user?.id;
-      if (!userId) throw new Error("User ID not found");
+      const res = await editBank(payload);
 
-      await editBank({ id: userId, ...modalFormData });
+      // ✅ TRUST BACKEND RESPONSE
+      const mapped = {
+        bankName: res?.bank_name || "",
+        accountNumber: res?.account_number || "",
+        ifscCode: res?.ifsc_code || "",
+        accountHolderName: res?.account_holder_name || "",
+      };
 
-      setFormData(modalFormData);
+      setFormData(mapped);
       setIsOpen(false);
     } catch (err: any) {
       console.error(err);
@@ -168,6 +176,8 @@ export const BankAccountDetailsCard: React.FC = () => {
       </div>
     );
   }
+
+  const isDirty = JSON.stringify(formData) !== JSON.stringify(modalFormData);
 
   return (
     <div className="relative border bg-white rounded-lg shadow-md px-3 py-4 mt-4">
@@ -248,7 +258,11 @@ export const BankAccountDetailsCard: React.FC = () => {
             >
               {PROFILE_PAGE_TXT.CANCEL}
             </Button>
-            <Button onClick={handleUpdate} className="w-full">
+            <Button
+              disabled={!isDirty || loading}
+              onClick={handleUpdate}
+              className="w-full"
+            >
               {PROFILE_PAGE_TXT.UPDATE}
             </Button>
           </>

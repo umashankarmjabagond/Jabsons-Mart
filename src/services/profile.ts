@@ -38,6 +38,15 @@ export const updateCompany = async (data: any) => {
   }
 };
 
+export const updateBank = async (data: any) => {
+  try {
+    const response = await API.put("/user/edit-bank", data);
+    return response.data;
+  } catch (err: any) {
+    throw err.response ? err.response.data : { message: err.message };
+  }
+};
+
 export const editUserProfile = async (data: any) => {
   try {
     const response = await API.put("/user/edit-profile", data);

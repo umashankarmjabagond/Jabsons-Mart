@@ -6,8 +6,9 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/common/ui/Button";
 import Modal from "@/components/common/modal/Modal";
 import { Input } from "@/components/common/ui/Input";
-import { getUserProfile } from "@/services/profile";
+import { editUserProfile, getUserProfile } from "@/services/profile";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 interface UserProfile {
   id: string;
@@ -100,7 +101,6 @@ export const ContactInfoCard: React.FC = () => {
     }
   };
 
-  /* ---------------- INPUT CHANGE ---------------- */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -115,7 +115,6 @@ export const ContactInfoCard: React.FC = () => {
     }));
   };
 
-  /* ---------------- VALIDATION ---------------- */
   const validateForm = () => {
     const errors: any = {};
 
@@ -138,7 +137,8 @@ export const ContactInfoCard: React.FC = () => {
     return errors;
   };
 
-  /* ---------------- UPDATE ---------------- */
+  const isDirty = JSON.stringify(user) !== JSON.stringify(formData);
+
   const handleUpdate = async () => {
     const errors = validateForm();
     setModalErrors(errors);
@@ -156,16 +156,30 @@ export const ContactInfoCard: React.FC = () => {
         address: formData.address,
       };
 
-      // const res = await editUserProfile(payload);
+      // ✅ CALL API
+      const res = await editUserProfile(payload);
 
-      setUser((prev) => ({
-        ...prev,
-        ...payload,
-      }));
+      // ✅ TRUST BACKEND RESPONSE (not local payload)
+      const updatedUser: UserProfile = {
+        ...user,
+        ...res, // assuming API returns updated fields
+      };
+
+      setUser(updatedUser);
+      setFormData(updatedUser);
 
       setIsOpen(false);
-    } catch (err) {
+
+      // ✅ (optional) toast success
+      toast.success("Profile updated successfully");
+    } catch (err: any) {
       console.error("Update error:", err);
+
+      if (err?.response?.data?.errors) {
+        setModalErrors(err.response.data.errors);
+      }
+
+      toast.error("Failed to update profile");
     } finally {
       setUpdating(false);
     }
@@ -263,7 +277,7 @@ export const ContactInfoCard: React.FC = () => {
             <Button
               onClick={handleUpdate}
               className="w-full"
-              disabled={updating}
+              disabled={updating || !isDirty}
             >
               {updating ? "Updating..." : "Update"}
             </Button>
