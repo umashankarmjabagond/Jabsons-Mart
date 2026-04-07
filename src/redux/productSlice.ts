@@ -134,6 +134,15 @@ const productSlice = createSlice({
       state.filters = {};
       state.filteredProducts = state.allProducts;
     },
+    setProducts: (state, action: PayloadAction<Product[]>) => {
+      state.allProducts = action.payload;
+      state.filteredProducts = action.payload;
+    },
+
+    clearProducts: (state) => {
+      state.allProducts = [];
+      state.filteredProducts = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -161,5 +170,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { setFilter, clearFilters } = productSlice.actions;
+export const { setFilter, clearFilters, setProducts, clearProducts } =
+  productSlice.actions;
 export default productSlice.reducer;

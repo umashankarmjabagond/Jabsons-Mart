@@ -28,6 +28,10 @@ import {
 import { useTranslation } from "react-i18next";
 import { getCart } from "@/services/cart.service";
 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { setProfile } from "@/redux/userSlice";
+
 const NavIconButton: FC<NavIconButtonProps> = ({
   icon,
   label,
@@ -61,6 +65,8 @@ const Navbar: FC<NavbarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const profile = useSelector((state: RootState) => state.user.profile);
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState<{ name: string } | null>(null);
   const [selectedValue, setSelectedValue] = useState<string>(
@@ -239,6 +245,7 @@ const Navbar: FC<NavbarProps> = ({
           label: "Logout",
           onClick: () => {
             localStorage.removeItem("user");
+            dispatch(setProfile(null));
             setUser(null);
             navigate("/");
           },
@@ -444,7 +451,15 @@ const Navbar: FC<NavbarProps> = ({
                 onMouseLeave={() => setSigninOpen(false)}
               >
                 <button className="flex flex-col items-center justify-center space-y-1 px-3 pt-1 text-white hover:text-green-400 transition-colors duration-200 rounded-full">
-                  <FaUser className="text-lg" />
+                  {profile?.profilePic ? (
+                    <img
+                      src={profile.profilePic}
+                      alt="profile"
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <FaUser className="text-lg" />
+                  )}
                   <span className="text-sm ">
                     {user ? "Profile" : t("NAVBAR.SIGN_IN")}
                   </span>
@@ -545,7 +560,15 @@ const Navbar: FC<NavbarProps> = ({
                     onClick={() => setSigninOpen((s) => !s)}
                     className="flex flex-col items-center text-xs hover:text-green-400"
                   >
-                    <FaUser className="text-lg" />
+                    {profile?.profilePic ? (
+                      <img
+                        src={profile.profilePic}
+                        alt="profile"
+                        className="w-6 h-6 rounded-full object-cover"
+                      />
+                    ) : (
+                      <FaUser className="text-lg" />
+                    )}
                     <span>{user ? user.name : t("NAVBAR.SIGN_IN")}</span>
                   </button>
                   {signinOpen && renderSigninDropdown()}

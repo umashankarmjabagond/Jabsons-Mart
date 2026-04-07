@@ -5,14 +5,14 @@ import { CiLocationOn } from "react-icons/ci";
 import { LuCalendarCheck } from "react-icons/lu";
 import { RiStarSmileLine } from "react-icons/ri";
 import { ProfileCardProps } from "@/types/profileTypes";
-import { getUserProfile } from "@/services/profile";
-// import { getUserProfile } from "@/services/profile";
+import { getUserProfile, uploadProfileImage } from "@/services/profile";
 
 const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
   const { t } = useTranslation();
 
   const [profile, setProfile] = useState<ProfileCardProps | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false); // ✅ NEW
 
   useEffect(() => {
     fetchProfile();
@@ -35,6 +35,45 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ✅ HANDLE IMAGE UPLOAD
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      // optional validation
+      if (!file.type.startsWith("image/")) {
+        alert("Only images allowed");
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Max 2MB allowed");
+        return;
+      }
+
+      setUploading(true);
+
+      const res = await uploadProfileImage(file);
+
+      // ✅ update UI only after success
+      setProfile((prev: any) => ({
+        ...prev,
+        profilePic: res.profile_pic,
+      }));
+    } catch (err) {
+      console.error("Image upload error:", err);
+    } finally {
+      setUploading(false);
+      e.target.value = ""; // reset input
+    }
+  };
+
+  // ✅ TRIGGER FILE INPUT
+  const triggerFileInput = () => {
+    document.getElementById("profileUpload")?.click();
   };
 
   if (loading) {
@@ -62,15 +101,26 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
       {/* LEFT SECTION */}
       <div className="flex flex-col sm:flex-row items-center gap-4">
         {/* PROFILE IMAGE */}
-        {profilePic ? (
-          <img
-            src={profilePic}
-            alt="profile"
-            className="w-24 h-24 rounded-full object-cover"
-          />
-        ) : (
-          <IoPersonCircleSharp className="w-24 h-24 text-black" />
-        )}
+        <div onClick={triggerFileInput} className="cursor-pointer">
+          {profilePic ? (
+            <img
+              src={profilePic}
+              alt="profile"
+              className="w-24 h-24 rounded-full object-cover"
+            />
+          ) : (
+            <IoPersonCircleSharp className="w-24 h-24 text-black" />
+          )}
+        </div>
+
+        {/* hidden input */}
+        <input
+          id="profileUpload"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageChange}
+        />
 
         <div className="flex flex-col">
           <p className="text-lg font-semibold text-black">{name}</p>
@@ -79,6 +129,11 @@ const ProfileCard: React.FC<Partial<ProfileCardProps>> = () => {
             <CiLocationOn className="w-6 h-6" />
             <span>{address}</span>
           </div>
+
+          {/* uploading text (no UI change, just below text) */}
+          {uploading && (
+            <span className="text-sm text-blue-500 mt-1">Uploading...</span>
+          )}
         </div>
       </div>
 
