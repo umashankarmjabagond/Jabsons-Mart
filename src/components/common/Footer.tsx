@@ -1,138 +1,116 @@
-import {
-  Apple,
-  Facebook,
-  Github,
-  Linkedin,
-  Smartphone,
-  Twitter,
-} from "lucide-react";
+import { Apple, Facebook, Linkedin, Smartphone, Twitter } from "lucide-react";
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 const Footer: React.FC = () => {
-  const { t } = useTranslation();
-
-  const aboutUs = t("FOOTER.aboutUs", { returnObjects: true }) as string[];
-  const jobCareers = t("FOOTER.jobCareers", {
-    returnObjects: true,
-  }) as string[];
-  const buyToolkit = t("FOOTER.buyToolkit", {
-    returnObjects: true,
-  }) as string[];
-  const accountingSolutions = t("FOOTER.accountingSolutions", {
-    returnObjects: true,
-  }) as string[];
-  const supplierToolkit = t("FOOTER.supplierToolkit", {
-    returnObjects: true,
-  }) as string[];
-
   return (
-    <div className="w-[100%] bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 pb-2 text-white">
-      <div className="flex justify-between flex-col sm:flex-row px-10 py-2 items-center">
-        <span className="text-xl text-white">
-          {t("FOOTER.footerHeaderText")}
-        </span>
-        <div className="flex gap-1 sm:gap-4 text-sm flex-col sm:flex-row">
-          <div className="flex gap-2 items-center">
-            <span>{t("FOOTER.goMobile")}</span>
-            <div className="flex text-white">
-              <span className="text-white h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
-                <Apple color="white" size={22} />
-              </span>
-              <span className="h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
-                <Github color="white" size={22} />
-              </span>
-              <span className="h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
-                <Smartphone color="white" size={22} />
-              </span>
-            </div>
-          </div>
+    <div className="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white">
+      {/* TOP BAR */}
+      <div className="border-b border-white/20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-2 flex justify-between flex-col sm:flex-row items-start sm:items-center gap-3">
+          <span className="text-lg font-semibold text-left">
+            Grow your business with Trade Hub
+          </span>
 
-          <div className="flex gap-2 items-center text-white">
-            <span>{t("FOOTER.followUsOn")}</span>
-            <div className="flex gap-2">
-              <span className="h-8 w-8 flex items-center justify-center bg-blue-950 rounded-full cursor-pointer">
-                <Facebook color="white" size={22} />
-              </span>
-              <span className="h-8 w-8 flex items-center justify-center bg-blue-950 rounded-full cursor-pointer">
-                <Twitter color="white" size={22} />
-              </span>
-              <span className="h-8 w-8 flex items-center justify-center bg-blue-950 rounded-full cursor-pointer">
-                <Linkedin color="white" size={22} />
-              </span>
+          <div className="flex gap-6 text-sm flex-col sm:flex-row items-start sm:items-center">
+            {/* MOBILE */}
+            <div className="flex gap-2 items-center">
+              <span>Get our app:</span>
+              <div className="flex">
+                <span className="h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
+                  <Apple size={20} />
+                </span>
+                <span className="h-8 w-8 flex items-center justify-center rounded-full cursor-pointer">
+                  <Smartphone size={20} />
+                </span>
+              </div>
+            </div>
+
+            {/* SOCIAL */}
+            <div className="flex gap-2 items-center">
+              <span>Follow us:</span>
+              <div className="flex gap-2">
+                <span className="h-8 w-8 flex items-center justify-center bg-blue-900 rounded-full cursor-pointer">
+                  <Facebook size={18} />
+                </span>
+                <span className="h-8 w-8 flex items-center justify-center bg-blue-900 rounded-full cursor-pointer">
+                  <Twitter size={18} />
+                </span>
+                <span className="h-8 w-8 flex items-center justify-center bg-blue-900 rounded-full cursor-pointer">
+                  <Linkedin size={18} />
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between flex-col gap-4 sm:gap-0 sm:flex-row px-10 py-2 text-white text-sm text-left border-b-2">
-        <div>
-          {aboutUs.map((val, ind) => (
-            <div key={ind}>
-              <p className="cursor-pointer text-white">{val}</p>
-            </div>
-          ))}
-        </div>
-        <div>
-          {jobCareers.map((val, ind) => (
-            <div key={ind}>
-              <p className="cursor-pointer text-white">{val}</p>
-            </div>
-          ))}
-        </div>
-        <div>
-          {buyToolkit.map((val, ind) => (
-            <div key={ind}>
-              <p
-                className={
-                  ind === 0
-                    ? "text-xl text-black cursor-pointer text-white"
-                    : "text-sm cursor-pointer"
-                }
-              >
-                {val}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div>
-          {accountingSolutions.map((val, ind) => (
-            <div key={ind}>
-              <p
-                className={
-                  ind === 0
-                    ? "text-xl text-black cursor-pointer text-white"
-                    : "text-sm cursor-pointer"
-                }
-              >
-                {val}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div>
-          {supplierToolkit.map((val, ind) => (
-            <div key={ind}>
-              <p
-                className={
-                  ind === 0
-                    ? "text-xl text-black cursor-pointer text-white"
-                    : "text-sm cursor-pointer text-white"
-                }
-              >
-                {val}
-              </p>
-            </div>
-          ))}
+      {/* MAIN FOOTER */}
+      <div className="border-b border-white/20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-2 grid grid-cols-2 md:grid-cols-5 gap-8 items-start text-sm">
+          <FooterColumn
+            title="Trade Hub"
+            items={["About Us", "Our Mission", "Success Stories", "Contact Us"]}
+          />
+
+          <FooterColumn
+            title="For Sellers"
+            items={[
+              "Start Selling",
+              "Seller Dashboard",
+              "Leads & Inquiries",
+              "Pricing Plans",
+            ]}
+          />
+
+          <FooterColumn
+            title="For Buyers"
+            items={[
+              "Search Products",
+              "Request Quotes (RFQ)",
+              "Explore Suppliers",
+              "Saved Products",
+            ]}
+          />
+
+          <FooterColumn
+            title="Resources"
+            items={["Blog", "Market Insights", "Help Center", "FAQs"]}
+          />
+
+          <FooterColumn
+            title="Business Tools"
+            items={[
+              "Inventory Management",
+              "Lead Management",
+              "Analytics Dashboard",
+              "Export Opportunities",
+            ]}
+          />
         </div>
       </div>
 
-      <div className="text-white flex justify-between flex-col sm:flex-row gap-4 sm:gap-0 text-sm pt-2 px-8">
-        <p>{t("FOOTER.copyRight")}</p>
-        <p className="pointer cursor-pointer text-white">
-          {t("FOOTER.termsUse")}
+      {/* BOTTOM */}
+      <div>
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-2 flex justify-between flex-col sm:flex-row gap-3 items-start sm:items-center text-sm">
+          <p>© 2026 Trade Hub. All rights reserved.</p>
+          <p className="cursor-pointer hover:underline">
+            Terms of Use • Privacy Policy
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FooterColumn = ({ title, items }: { title: string; items: string[] }) => {
+  return (
+    <div className="flex flex-col items-start text-left gap-2">
+      <h3 className="font-semibold text-base mb-2">{title}</h3>
+      {items.map((item, index) => (
+        <p key={index} className="cursor-pointer hover:underline text-sm">
+          {item}
         </p>
-      </div>
+      ))}
     </div>
   );
 };

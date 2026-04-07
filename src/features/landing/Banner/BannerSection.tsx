@@ -16,62 +16,64 @@ const BannerSection = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">
-      {/* MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* FARMER STORY */}
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-green-100">
           <span className="inline-block mb-4 px-4 py-1 bg-green-400 text-black-900 rounded-full text-sm">
-            🌾 Farmer Story
+            🌐 Trade Hub Network
           </span>
 
           <h1 className="text-4xl font-bold text-black-900 leading-tight">
-            Real Farmers.
+            Real Suppliers.
             <br />
-            Real Produce.
+            Real Products.
             <br />
-            Direct to You.
+            Direct Trade.
           </h1>
 
           <p className="mt-4 text-black-900 text-lg max-w-xl">
-            Farmer Mart connects verified farmers directly with businesses,
-            exporters, and bulk buyers — without middlemen.
+            Trade Hub connects verified suppliers, farmers, and manufacturers
+            directly with businesses, exporters, and bulk buyers — eliminating
+            middlemen and enabling smarter trade.
           </p>
 
-          {/* STORY CARDS */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <StoryCard
               icon={<Leaf />}
-              title="Fresh from Farms"
-              desc="Direct sourcing from verified farmers"
+              title="Direct Sourcing"
+              desc="Connect with suppliers, farmers & manufacturers"
             />
             <StoryCard
               icon={<ShieldCheck />}
-              title="Verified Sellers"
-              desc="Quality and trust ensured"
+              title="Verified Network"
+              desc="Trusted sellers with quality assurance"
             />
             <StoryCard
               icon={<TrendingUp />}
-              title="Fair Pricing"
-              desc="Better margins for farmers & buyers"
+              title="Smart Pricing"
+              desc="Better deals through transparent trading"
             />
           </div>
         </div>
 
-        {/* BUYER ACTION PANEL */}
-
-        <div className=" relative bg-black-900 rounded-3xl p-8 shadow-2xl border border-white/10  ">
-          <h3 className="text-xl font-semibold mb-2 text-white">
-            Get Price from Farmers
+        <div className="relative bg-black-900 rounded-3xl p-8 shadow-2xl border border-white/10">
+          {/* TITLE */}
+          <h3 className="text-xl font-semibold mb-2 text-green-500">
+            Request a Quote (RFQ)
           </h3>
-          <p className="text-white mb-6 text-sm">
-            Tell us what you need. We’ll connect you directly.
+
+          <p className="text-green-500 mb-6 text-sm">
+            Tell us your requirement. We’ll connect you with the right sellers
+            instantly.
           </p>
 
           <Formik
             initialValues={{ product: "", mobile: "" }}
             validationSchema={validationSchema}
             onSubmit={(values, { resetForm }) => {
-              alert(JSON.stringify(values, null, 2));
+              alert(
+                `Thank you.
+We have received your enquiry , our team will contact you very soon.`,
+              );
               resetForm();
             }}
           >
@@ -80,7 +82,7 @@ const BannerSection = () => {
                 <div className="text-red-500">
                   <Field
                     name="product"
-                    placeholder="Product name (eg. Onions, Rice)"
+                    placeholder="Product (e.g. Rice, Steel, Vegetables)"
                     className="w-full px-4 py-3 rounded-xl text-black-900"
                   />
                   <ErrorMessage
@@ -111,11 +113,12 @@ const BannerSection = () => {
                   type="submit"
                   className="w-full bg-green-300 hover:!bg-green-400 text-green-700 font-semibold rounded-xl py-3"
                 >
-                  Connect to Farmers
+                  Connect to Sellers
                 </Button>
               </Form>
             )}
           </Formik>
+
           <br />
           <div className="text-green-500">
             <h2 className="font-bold">Other ways to reach us</h2>
@@ -123,9 +126,7 @@ const BannerSection = () => {
             <p>
               Email –{" "}
               <a
-                href="https://wa.me/919823191415?text=Hello%20I%20want%20to%20connect%20with%20you"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:umashankarjabagond@gmail.com"
                 className="underline hover:text-green-600"
               >
                 umashankarjabagond@gmail.com
@@ -133,7 +134,7 @@ const BannerSection = () => {
             </p>
 
             <p>
-              Call on{" "}
+              Call / WhatsApp –{" "}
               <a
                 href="https://wa.me/919823191415"
                 target="_blank"
@@ -147,20 +148,17 @@ const BannerSection = () => {
         </div>
       </div>
 
-      {/* TRUST STRIP */}
       <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <TrustMetric value="10,000+" label="Verified Farmers" />
-        <TrustMetric value="1M+" label="Tons Traded" />
-        <TrustMetric value="500+" label="Cities Covered" />
-        <TrustMetric value="98%" label="Buyer Satisfaction" />
+        <TrustMetric value="10,000+" label="Verified Suppliers" />
+        <TrustMetric value="1M+" label="Orders Facilitated" />
+        <TrustMetric value="500+" label="Cities & Regions" />
+        <TrustMetric value="98%" label="Client Satisfaction" />
       </div>
     </section>
   );
 };
 
 export default BannerSection;
-
-/* ----------------- SUB COMPONENTS ----------------- */
 
 const StoryCard = ({
   icon,
@@ -171,10 +169,10 @@ const StoryCard = ({
   title: string;
   desc: string;
 }) => (
-  <div className="p-4 rounded-2xl bg-green-50 text-center">
+  <div className="p-4 rounded-2xl bg-green-100 text-center">
     <div className="flex justify-center mb-2 text-green-700">{icon}</div>
-    <p className="font-semibold">{title}</p>
-    <p className="text-sm text-gray-600 mt-1">{desc}</p>
+    <p className="font-semibold text-green-700">{title}</p>
+    <p className="text-sm text-gray-600 mt-1 text-green-700">{desc}</p>
   </div>
 );
 

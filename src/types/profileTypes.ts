@@ -5,6 +5,7 @@ export interface ProfileCardProps {
   rating: string;
   createdAt: string;
   address: string;
+  profilePic?: string;
 }
 
 export interface ContactInfoProps {
