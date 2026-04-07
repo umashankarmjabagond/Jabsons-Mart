@@ -1,3 +1,84 @@
+// import React from "react";
+// import { NavLink, useNavigate } from "react-router-dom";
+// import { SidebarData } from "@/types/sideBar";
+// import { Button } from "./ui/Button";
+// import { useTranslation } from "react-i18next";
+// import i18n from "@/i18n";
+
+// const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
+//   ({ name, mobile, menuItem, help, imageIcon, ...props }, ref) => {
+//     const firstLatterOfName = name?.split("")[0];
+
+//     const navigate = useNavigate();
+
+//     const { t } = useTranslation();
+
+//     const handleLogout = () => {
+//       localStorage.removeItem("user");
+//       localStorage.removeItem("i18nextLng");
+//       i18n.changeLanguage("en");
+//       navigate("/");
+//     };
+
+//     return (
+//       <aside
+//         ref={ref}
+//         className="w-74 sm:w-64 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 flex flex-col h-full border-l"
+//         {...props}
+//       >
+//         <div className="p-2 flex flex-col items-center border-b border-gray-200">
+//           <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl">
+//             {firstLatterOfName}
+//           </div>
+//           <h2 className="mt-2 font-semibold text-white text-center">{name}</h2>
+//           <p className="text-sm text-white">{mobile}</p>
+//         </div>
+
+//         <ul className="flex-1 mt-4">
+//           {menuItem.map((item) => (
+//             <li key={item.name}>
+//               <NavLink
+//                 to={item.path}
+//                 className={({ isActive }) =>
+//                   `border-t-2 border-l-2 border-b-2 border-r-0 flex items-center px-6 py-3 mt-2 rounded-s-3xl text-white hover:bg-gray-100 transition-colors
+//                   ${
+//                     isActive
+//                       ? "bg-white font-bold rounded-s-3xl !text-[#000000]"
+//                       : ""
+//                   }`
+//                 }
+//               >
+//                 <span className="mr-3">{item.icon}</span>
+//                 {item.name}
+//               </NavLink>
+//             </li>
+//           ))}
+//         </ul>
+
+//         <div className="p-4 border-t border-gray-200 text-sm items-center justify-between text-black">
+//           <Button className="!bg-blue-900 w-full" onClick={handleLogout}>
+//             {t("LOGOUT")}
+//           </Button>
+//           <div className="flex gap-4 mt-2">
+//             <span>{help}</span>
+//             <a
+//               href={`https://wa.me/91${mobile}`}
+//               target="_blank"
+//               rel="noopener noreferrer"
+//             >
+//               <img src={imageIcon} alt="WhatsApp" className="w-6 h-6" />
+//             </a>
+//           </div>
+//         </div>
+//       </aside>
+//     );
+//   },
+// );
+
+// Sidebar.displayName = "Sidebar";
+
+// export default Sidebar;
+
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { SidebarData } from "@/types/sideBar";
@@ -5,18 +86,32 @@ import { Button } from "./ui/Button";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { setProfile } from "@/redux/userSlice";
+
 const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
-  ({ name, mobile, menuItem, help, imageIcon, ...props }, ref) => {
-    const firstLatterOfName = name?.split("")[0];
-
+  ({ menuItem, help, imageIcon, ...props }, ref) => {
     const navigate = useNavigate();
-
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    // ✅ Get profile from Redux
+    const profile = useSelector((state: RootState) => state.user.profile);
+
+    const firstLetterOfName = profile?.name?.charAt(0)?.toUpperCase();
 
     const handleLogout = () => {
       localStorage.removeItem("user");
       localStorage.removeItem("i18nextLng");
+
+      // ✅ Clear Redux state
+      dispatch(setProfile(null));
+
+      // ✅ Reset language
       i18n.changeLanguage("en");
+
+      // ✅ Navigate
       navigate("/");
     };
 
@@ -26,14 +121,28 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
         className="w-74 sm:w-64 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 flex flex-col h-full border-l"
         {...props}
       >
+        {/* ✅ PROFILE SECTION */}
         <div className="p-2 flex flex-col items-center border-b border-gray-200">
-          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl">
-            {firstLatterOfName}
+          <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl overflow-hidden">
+            {profile?.profilePic ? (
+              <img
+                src={profile.profilePic}
+                alt="profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              firstLetterOfName || "U"
+            )}
           </div>
-          <h2 className="mt-2 font-semibold text-white text-center">{name}</h2>
-          <p className="text-sm text-white">{mobile}</p>
+
+          <h2 className="mt-2 font-semibold text-white text-center">
+            {profile?.name || "User"}
+          </h2>
+
+          <p className="text-sm text-white">{profile?.mobile || ""}</p>
         </div>
 
+        {/* ✅ MENU */}
         <ul className="flex-1 mt-4">
           {menuItem.map((item) => (
             <li key={item.name}>
@@ -55,14 +164,16 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarData>(
           ))}
         </ul>
 
+        {/* ✅ FOOTER */}
         <div className="p-4 border-t border-gray-200 text-sm items-center justify-between text-black">
           <Button className="!bg-blue-900 w-full" onClick={handleLogout}>
             {t("LOGOUT")}
           </Button>
+
           <div className="flex gap-4 mt-2">
             <span>{help}</span>
             <a
-              href={`https://wa.me/91${mobile}`}
+              href={`https://wa.me/91${profile?.mobile}`}
               target="_blank"
               rel="noopener noreferrer"
             >

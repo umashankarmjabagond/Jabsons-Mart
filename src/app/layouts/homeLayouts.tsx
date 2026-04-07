@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/common/Sidebar";
 import {
@@ -14,15 +14,16 @@ import { menuItem } from "@/types/sideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBarOpen, toggleSideBarClose } from "@/redux/dashBoardSlice";
 import { useTranslation } from "react-i18next";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import Navbar from "@/components/common/Navbar";
 import { FaQuestionCircle } from "react-icons/fa";
+import { fetchUserProfile } from "@/redux/userSlice";
 
 const HomeLayout: React.FC = () => {
   const toggle = useSelector((state: RootState) => state.toggle);
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const menuItems: menuItem[] = [
     { name: t("menu.dashboard"), icon: <Home size={20} />, path: "/dashboard" },
@@ -47,6 +48,10 @@ const HomeLayout: React.FC = () => {
 
   const userStr = localStorage.getItem("user");
   const user = userStr ? JSON.parse(userStr) : null;
+
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, []);
 
   return (
     <>

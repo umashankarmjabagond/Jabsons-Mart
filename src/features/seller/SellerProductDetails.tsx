@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { ImagePlus, X, Star } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "@/store/slices/ProductSlice";
+import { useNavigate } from "react-router-dom";
 import { createProduct, searchProductsAPI } from "@/services/product.service";
 import SearchInput from "@/components/common/ui/SearchInput";
 
@@ -16,7 +15,7 @@ interface ImageType {
 interface Product {
   name: string;
   productId: string;
-  images: ImageType[]; // ✅ FIXED (was any[])
+  images: ImageType[];
 }
 
 interface SearchResultItem {
@@ -31,15 +30,15 @@ interface Props {
 /* ------------------ MAIN COMPONENT ------------------ */
 
 const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
-  const dispatch = useDispatch();
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const savedProducts = useSelector((state: any) => state.products.products);
+  const navigate = useNavigate(); // ✅ for redirect
 
-  const [products, setProductsState] = useState<Product[]>([
+  const initialProducts: Product[] = [
     { name: "", productId: "", images: [] },
     { name: "", productId: "", images: [] },
     { name: "", productId: "", images: [] },
-  ]);
+  ];
+
+  const [products, setProductsState] = useState<Product[]>(initialProducts);
 
   const [errors, setErrors] = useState<
     Record<number, { name?: string; images?: string }>
@@ -51,24 +50,6 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
 
   const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
 
-  /* ------------------ LOAD STATE ------------------ */
-
-  useEffect(() => {
-    if (savedProducts?.length) {
-      setProductsState(savedProducts);
-    } else {
-      const local = localStorage.getItem("sellerProducts");
-      if (local) {
-        setProductsState(JSON.parse(local) as Product[]);
-      }
-    }
-  }, [savedProducts]);
-
-  useEffect(() => {
-    dispatch(setProducts(products));
-    localStorage.setItem("sellerProducts", JSON.stringify(products));
-  }, [products, dispatch]);
-
   /* ------------------ UPDATE PRODUCT ------------------ */
 
   const updateProduct = (i: number, updated: Product) => {
@@ -79,7 +60,7 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
     });
   };
 
-  /* ------------------ FIXED API CALL (NO LOOP) ------------------ */
+  /* ------------------ SEARCH ------------------ */
 
   const fetchProducts = useCallback(async (query: string, index: number) => {
     try {
@@ -191,10 +172,17 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
         await createProduct(formData);
       }
 
+      // ✅ SUCCESS
       alert("✅ Products added successfully!");
+
+      // ✅ RESET STATE
+      setProductsState(initialProducts);
+
+      // ✅ REDIRECT TO PROFILE
+      navigate("/profile");
     } catch (error) {
       console.error(error);
-      alert("❌ Failed");
+      alert("Failed");
     }
   };
 
@@ -219,7 +207,6 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                 {errors[i]?.name || ""}
               </p>
 
-              {/* ✅ YOUR ORIGINAL DESIGN (UNCHANGED) */}
               <label
                 onDrop={(e) => handleDrop(e, i)}
                 onDragOver={(e) => e.preventDefault()}
@@ -237,9 +224,7 @@ const SellerProductDetails: React.FC<Props> = ({ onPrevious }) => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleImageUpload(i, e.target.files)
-                  }
+                  onChange={(e) => handleImageUpload(i, e.target.files)}
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
               </label>
