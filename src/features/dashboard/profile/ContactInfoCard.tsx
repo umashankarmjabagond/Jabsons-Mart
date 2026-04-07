@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/common/ui/Button";
 import Modal from "@/components/common/modal/Modal";
 import { Input } from "@/components/common/ui/Input";
-import { editUserProfile, getUserProfile } from "@/services/profile";
+import { getUserProfile } from "@/services/profile";
 import { useTranslation } from "react-i18next";
 
 interface UserProfile {
