@@ -55,3 +55,20 @@ export const editUserProfile = async (data: any) => {
     throw err.response ? err.response.data : { message: err.message };
   }
 };
+
+export const uploadProfileImage = async (file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await API.post("/upload/profile-image", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return res.data;
+  } catch (err: any) {
+    throw err.response ? err.response.data : { message: err.message };
+  }
+};
