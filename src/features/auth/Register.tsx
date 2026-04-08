@@ -27,7 +27,6 @@ const Register: React.FC = () => {
     phone: "",
     email: "",
     role: "",
-    gstNumber: "",
     password: "",
     confirmPassword: "",
     about: "",
@@ -43,7 +42,7 @@ const Register: React.FC = () => {
     try {
       // Map phone → contact and remove confirmPassword
       const { phone, ...rest } = values;
-      const payload = { ...rest, contact: phone };
+      const payload = { ...rest, mobile: phone };
 
       // Call backend API
       await registerUser(payload);
@@ -187,7 +186,7 @@ const Register: React.FC = () => {
               }
             />
 
-            {values.role === "vendor" && (
+            {/* {values.role === "vendor" && (
               <Input
                 label={t("AUTH.GST_LABEL")}
                 placeholder={t("AUTH.GST_PLACEHOLDER")}
@@ -202,7 +201,7 @@ const Register: React.FC = () => {
                     : ""
                 }
               />
-            )}
+            )} */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input

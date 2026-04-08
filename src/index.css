@@ -74,3 +74,19 @@ input[type="number"] {
 html {
   scrollbar-gutter: stable;
 }
+
+.recharts-wrapper * {
+  outline: none !important;
+}
+
+.recharts-wrapper svg {
+  outline: none !important;
+}
+
+.recharts-surface {
+  outline: none !important;
+}
+
+.recharts-sector {
+  outline: none !important;
+}
