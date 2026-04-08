@@ -10,17 +10,31 @@ import { useEffect, useState } from "react";
 import { getTrend } from "@/services/profile";
 
 const EnquiryTrend = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTrend().then(setData);
+    getTrend()
+      .then((res) => setData(res || []))
+      .catch(() => setData([]))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-md h-[250px]">
+    <div className="bg-white p-4 rounded-xl shadow-md h-[250px] flex flex-col">
       <h2 className="font-bold mb-2">Enquiry Trend</h2>
-      {!data.length ? (
-        <p className="text-gray-400 mt-20">No data available</p>
+
+      {loading ? (
+        <div className="flex-1 flex items-center justify-center text-gray-400">
+          Loading trend...
+        </div>
+      ) : data.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center text-black">
+          <p className="text-sm font-semibold">No data available</p>
+          <p className="text-xs">
+            Enquiries will appear here once users interact
+          </p>
+        </div>
       ) : (
         <ResponsiveContainer width="100%" height="100%">
           <LineChart

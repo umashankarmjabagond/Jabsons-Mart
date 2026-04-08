@@ -10,7 +10,7 @@ function Dashboard() {
   return (
     <>
       <DashboardStats />
-      <div className="grid md:grid-cols-2 gap-4 max-w-7xl mx-auto mt-6">
+      <div className="grid md:grid-cols-2 gap-4 max-w-7xl mx-auto mt-6 px-3">
         <EnquiryTrend />
         <CategoryChart />
       </div>
