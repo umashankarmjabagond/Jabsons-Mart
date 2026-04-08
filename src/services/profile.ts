@@ -72,3 +72,30 @@ export const uploadProfileImage = async (file: File) => {
     throw err.response ? err.response.data : { message: err.message };
   }
 };
+
+//dashboard
+
+export const getStats = async () => {
+  const res = await API.get("/user/stats");
+  return res.data;
+};
+
+export const getTrend = async () => {
+  const res = await API.get("/user/enquiry-trend");
+  return res.data;
+};
+
+export const getCategory = async () => {
+  const res = await API.get("/user/category-interest");
+  return res.data;
+};
+
+export const getRecent = async () => {
+  const res = await API.get("/user/recent-views");
+  return res.data;
+};
+
+export const getRecommendations = async () => {
+  const res = await API.get("/user/recommendations");
+  return res.data;
+};
