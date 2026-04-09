@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin, Phone } from "lucide-react";
 import { formatCurrency } from "@/utils/helpers";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { ProductListProps, Product } from "@/types/productTypes";
 import { MESSAGES, BUTTON_TEXTS } from "@/constants/searchpagelayout";
+import Modal from "@/components/common/modal/Modal";
+import { Button } from "@/components/common/ui/Button";
+import { sendEnquiry } from "@/services/product.service";
 
 const ProductList: React.FC<ProductListProps> = ({
   products,
   loading,
   error,
 }) => {
-  console.log("products in product list", products);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,6 +20,14 @@ const ProductList: React.FC<ProductListProps> = ({
   const searchParams = new URLSearchParams(location.search);
   const productParam = searchParams.get("product");
   const categoryParam = searchParams.get("category");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null,
+  );
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<{ message?: string }>({});
+  const [loadingEnquiry, setLoadingEnquiry] = useState(false);
 
   // Helper: highlight searched product text
   const highlightText = (text: string, highlight?: string | null) => {
@@ -70,6 +80,39 @@ const ProductList: React.FC<ProductListProps> = ({
         </p>
       </div>
     );
+
+  const validate = () => {
+    const newErrors: any = {};
+
+    if (!message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (message.length < 10) {
+      newErrors.message = "Message should be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSendEnquiry = async () => {
+    if (!validate()) return;
+
+    try {
+      setLoadingEnquiry(true);
+
+      if (!selectedProductId) return;
+
+      await sendEnquiry(selectedProductId, message);
+      alert("Enquiry sent successfully. you will get the quote very soon");
+
+      setIsModalOpen(false);
+      setMessage("");
+    } catch (err) {
+      alert("Failed to send enquiry");
+    } finally {
+      setLoadingEnquiry(false);
+    }
+  };
 
   return (
     <div>
@@ -175,7 +218,17 @@ const ProductList: React.FC<ProductListProps> = ({
                     </div>
                   </div>
 
-                  <button className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-semibold py-1 rounded-md mt-1">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProductId(String(product.id));
+                      setIsModalOpen(true);
+                      setMessage(
+                        "I am interested in this product. Please share details.",
+                      );
+                    }}
+                    className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-semibold py-1 rounded-md mt-1"
+                  >
                     {BUTTON_TEXTS.CONTACT_SUPPLIER}
                   </button>
                 </div>
@@ -217,6 +270,48 @@ const ProductList: React.FC<ProductListProps> = ({
           })}
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Send Enquiry"
+        showClose
+        footer={
+          <>
+            <Button
+              onClick={() => setIsModalOpen(false)}
+              className="w-full"
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              onClick={handleSendEnquiry}
+              className="w-full"
+              disabled={loadingEnquiry}
+            >
+              {loadingEnquiry ? "Sending..." : "Send Enquiry"}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-2 min-h-[150px]">
+          <label className="text-sm font-semibold">Message</label>
+
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className={`border rounded-md p-2 ${
+              errors.message ? "border-red-500" : ""
+            }`}
+            placeholder="Type your requirement..."
+          />
+
+          <p className="text-red-500 text-sm min-h-[1.25rem]">
+            {errors.message || ""}
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 };

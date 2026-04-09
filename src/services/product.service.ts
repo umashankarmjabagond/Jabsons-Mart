@@ -12,7 +12,6 @@ export const createProduct = async (formData: FormData) => {
 export const getUploadSignature = async () => {
   try {
     const response = await API.get("/upload/signature");
-    console.log("Received upload signature:", response.data);
     return response.data;
   } catch (err: any) {
     throw err.response ? err.response.data : { message: err.message };
@@ -37,5 +36,38 @@ export const fetchProductDetailsApi = async (id: string | undefined) => {
     return response.data;
   } catch (err: any) {
     throw err.response ? err.response.data : { message: err.message };
+  }
+};
+
+export const trackProductView = async (productId: string) => {
+  try {
+    await API.post("/user/track-view", {
+      product_id: productId,
+    });
+  } catch (err) {
+    console.error("Track view failed", err);
+  }
+};
+export const trackSearch = async (searchText: string) => {
+  try {
+    await API.post("/user/track-search", {
+      query: searchText,
+    });
+  } catch (err) {
+    console.error("search track failed", err);
+  }
+};
+
+export const sendEnquiry = async (productId: string, message: string) => {
+  try {
+    const res = await API.post("/user/add-enquiry", {
+      product_id: productId,
+      message,
+    });
+
+    return res.data;
+  } catch (err: any) {
+    console.error("Enquiry failed", err);
+    throw err.response ? err.response.data : err;
   }
 };

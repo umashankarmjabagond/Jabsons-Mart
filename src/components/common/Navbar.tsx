@@ -31,6 +31,7 @@ import { getCart } from "@/services/cart.service";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setProfile } from "@/redux/userSlice";
+import { trackSearch } from "@/services/product.service";
 
 const NavIconButton: FC<NavIconButtonProps> = ({
   icon,
@@ -175,7 +176,8 @@ const Navbar: FC<NavbarProps> = ({
     else setNotFoundMessage(`${searchText} not found`);
   };
 
-  const handleProductSearch = () => {
+  const handleProductSearch = async () => {
+    await trackSearch(product);
     if (product.trim()) {
       navigate(`/products?product=${encodeURIComponent(product)}`);
       // navigate(

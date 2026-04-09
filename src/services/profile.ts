@@ -12,7 +12,6 @@ export const getUserProfile = async () => {
 export const getCompanies = async () => {
   try {
     const response = await API.post("/user/get-companies");
-    console.log("response.data", response.data);
     return response.data;
   } catch (err: any) {
     throw err.response ? err.response.data : { message: err.message };
@@ -22,7 +21,6 @@ export const getCompanies = async () => {
 export const getBanks = async () => {
   try {
     const response = await API.post("/user/get-banks");
-    console.log("response.data", response.data);
     return response.data;
   } catch (err: any) {
     throw err.response ? err.response.data : { message: err.message };

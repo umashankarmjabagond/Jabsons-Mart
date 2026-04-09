@@ -37,17 +37,19 @@ const RecentViews = () => {
           </button>
         </div>
       ) : (
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide p-4 bg-white rounded-2xl ">
+        <div className="flex flex-wrap gap-4 p-4 bg-white rounded-2xl">
           {data.map((item) => (
             <div
               key={item.id}
               onClick={() => navigate(`/product/${item.id}`)}
               className="
-                min-w-[180px]
-                bg-white rounded-xl shadow 
-                hover:shadow-md hover:scale-105 
-                transition cursor-pointer p-2 border border-2
-              "
+            basis-[calc(50%-8px)] 
+            sm:basis-[calc(33.33%-10px)] 
+            md:basis-[calc(25%-12px)] 
+            bg-white rounded-xl shadow 
+            hover:shadow-md hover:scale-105 
+            transition cursor-pointer p-2 border border-2
+            "
             >
               <div className="h-28 w-full bg-gray-100 rounded-lg overflow-hidden">
                 {item.image_url ? (
