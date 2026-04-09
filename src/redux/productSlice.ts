@@ -38,13 +38,9 @@ export const fetchProducts = createAsyncThunk<
 
     const response = await fetchProductsApi(safeParams);
 
-    console.log("response in thunk api call", response);
-
     const mappedProducts: Product[] = response.data.map((item: ApiProduct) =>
       mapApiProductToUiProduct(item),
     );
-
-    console.log("mappedProducts in thunk api call", mappedProducts);
 
     return mappedProducts;
   } catch (error: any) {
