@@ -33,18 +33,11 @@ export const slugify = (value?: string) => {
 };
 
 export const uploadToCloudinary = async (file: File) => {
-  // 1️⃣ get signature
+  // 1️ get signature
   const { timestamp, signature, apiKey, cloudName, public_id } =
     await getUploadSignature();
-  console.log("Upload signature response:", {
-    timestamp,
-    signature,
-    apiKey,
-    cloudName,
-    public_id,
-  });
 
-  // 2️⃣ upload
+  // upload
   const formData = new FormData();
   formData.append("file", file);
   formData.append("api_key", apiKey);

@@ -20,8 +20,6 @@ const SearchLayout: React.FC = () => {
     (state: RootState) => state.products,
   );
 
-  console.log("filteredProducts from store in search layout", filteredProducts);
-
   const [showForm, setShowForm] = useState(false);
   const productListEndRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);

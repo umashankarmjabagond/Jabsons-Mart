@@ -9,9 +9,6 @@ import Pointer from "@/assets/images/Pointer.webp";
 
 import { Button } from "@/components/common/ui/Button";
 
-// ❌ REMOVE REDUX CART
-// import { addToCart } from "@/redux/cartSlice";
-
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedItems, resetCheckout } from "@/redux/checkoutSlice";
 import { CardProduct } from "@/types/cartType";
@@ -20,9 +17,10 @@ import { RootState } from "@/redux/store";
 import SimilarProducts from "./SimilarProducts";
 import { ROUTES } from "@/constants/routeConstants";
 import type { Product } from "@/types/productTypes";
-import { fetchProductDetailsApi } from "@/services/product.service";
-
-// ✅ IMPORT NEW SERVICE
+import {
+  fetchProductDetailsApi,
+  trackProductView,
+} from "@/services/product.service";
 import { addToCart as addToCartApi } from "@/services/cart.service";
 
 const ProductListView: React.FC = () => {
@@ -39,14 +37,12 @@ const ProductListView: React.FC = () => {
 
   const sliderRef = useRef<Slider>(null);
 
-  // ❌ OPTIONAL: Redux cart not needed anymore
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const allProducts: Product[] = useSelector(
     (state: RootState) => state.products.allProducts,
   );
 
-  // ✅ FETCH PRODUCT DETAILS
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,6 +63,12 @@ const ProductListView: React.FC = () => {
     };
 
     if (id) fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      trackProductView(id);
+    }
   }, [id]);
 
   if (loading) {
@@ -101,7 +103,6 @@ const ProductListView: React.FC = () => {
 
   const visibleOffers = showAllOffers ? TEXT.OFFERS : TEXT.OFFERS.slice(0, 3);
 
-  // ❌ OLD REDUX CHECK
   const isInCart = cartItems.some(
     (item) => item.id === product.id && item.sellerName === product.sellerName,
   );
