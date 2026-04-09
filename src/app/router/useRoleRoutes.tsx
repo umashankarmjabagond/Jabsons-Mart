@@ -14,68 +14,74 @@ import MarketPage from "@/features/market/pages/MarketPage";
 import SellerNav from "@/features/seller/SellerNav";
 import ComingSoon from "@/components/common/ComingSoon ";
 import SellerLanding from "@/features/seller/SellerLanding";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const useRoleRoutes = (): RouteObject[] => {
   const role = "user";
   if (role === "user") {
     return [
       {
-        element: <HomeLayout />,
-        children: UserRoutes,
-      },
-      {
-        path: ROUTES.MARKET,
-        element: <MarketLayout />,
+        element: <ProtectedRoute />,
         children: [
           {
-            index: true,
-            element: <MarketPage />,
+            element: <HomeLayout />,
+            children: UserRoutes,
+          },
+          {
+            path: ROUTES.MARKET,
+            element: <MarketLayout />,
+            children: [
+              {
+                index: true,
+                element: <MarketPage />,
+              },
+            ],
+          },
+          {
+            element: <SearchLayout />,
+            path: ROUTES.SEARCH_PAGE,
+          },
+          {
+            element: <Help />,
+            path: ROUTES.HELP_PAGE,
+          },
+          {
+            element: <ProductDetailsLayout />,
+            path: ROUTES.PRODUCT_DETAILS_PAGE,
+          },
+          {
+            element: <CartLayout />,
+            path: ROUTES.ADD_TO_CART,
+          },
+          {
+            element: <CheckoutLayout />,
+            path: ROUTES.CHECKOUT,
+          },
+          {
+            element: <SellerLanding />,
+            path: ROUTES.SELLER_PAGE,
+          },
+          {
+            element: <PaymentLayout />,
+            path: ROUTES.PAYMENT_PAGE,
+          },
+          {
+            element: <SellerNav />,
+            path: "/seller/business-details",
+          },
+          {
+            element: <ComingSoon />,
+            path: "/get-quote",
+          },
+          {
+            element: <ComingSoon />,
+            path: "/why-trust",
+          },
+          {
+            element: <ComingSoon />,
+            path: "/top-export-countries",
           },
         ],
-      },
-      {
-        element: <SearchLayout />,
-        path: ROUTES.SEARCH_PAGE,
-      },
-      {
-        element: <Help />,
-        path: ROUTES.HELP_PAGE,
-      },
-      {
-        element: <ProductDetailsLayout />,
-        path: ROUTES.PRODUCT_DETAILS_PAGE,
-      },
-      {
-        element: <CartLayout />,
-        path: ROUTES.ADD_TO_CART,
-      },
-      {
-        element: <CheckoutLayout />,
-        path: ROUTES.CHECKOUT,
-      },
-      {
-        element: <SellerLanding />,
-        path: ROUTES.SELLER_PAGE,
-      },
-      {
-        element: <PaymentLayout />,
-        path: ROUTES.PAYMENT_PAGE,
-      },
-      {
-        element: <SellerNav />,
-        path: "/seller/business-details",
-      },
-      {
-        element: <ComingSoon />,
-        path: "/get-quote",
-      },
-      {
-        element: <ComingSoon />,
-        path: "/why-trust",
-      },
-      {
-        element: <ComingSoon />,
-        path: "/top-export-countries",
       },
     ];
   }
